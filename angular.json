@@ -24,10 +24,17 @@
               {
                 "glob": "**/*",
                 "input": "public"
-              }
+              },
+              "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+              "node_modules/@iconscout/unicons/css/line.css",
+              "node_modules/@fortawesome/fontawesome-free/css/all.min.css"
+            ],
+            "scripts": [
+              "src/assets/js/popper/popper.min.js",
+              "src/assets/js/bootstrap/bootstrap.min.js"
             ]
           },
           "configurations": {

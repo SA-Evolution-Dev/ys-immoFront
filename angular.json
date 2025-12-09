@@ -34,7 +34,8 @@
             ],
             "scripts": [
               "src/assets/js/popper/popper.min.js",
-              "src/assets/js/bootstrap/bootstrap.min.js"
+              "src/assets/js/bootstrap/bootstrap.min.js",
+              "src/assets/js/initialization.js"
             ]
           },
           "configurations": {

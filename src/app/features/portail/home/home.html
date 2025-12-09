@@ -1,1 +1,560 @@
-<p>home works!</p>
+<div class="ecommerce-homepage pt-5 mb-9">
+
+    <section class="pt-5 px-xl-3 position-relative" style="background-image: url('assets/img/bg/bg_search_immo.png');
+        background-size: cover; background-position: center; background-repeat: no-repeat;">
+        <div class="container px-xl-0 px-xxl-3 position-relative">
+            <div class="row justify-content-center">
+                <div class="col-12 col-lg-10">
+                    <!-- <div class="text-center mb-5">
+                    <h1 class="display-5 fw-bold mb-2" style="color: white; letter-spacing: -1px;">Biens en location</h1>
+                    <p  style="color: white;" class="fs-5 mb-0 text-secondary">N'hésitez pas à nous contacter si vous ne trouvez pas de biens
+                        correspondants à vos critères.
+                    </p>
+                    </div> -->
+                    <div class="d-flex justify-content-center">
+                        <form class="bg-white p-4 p-md-5 w-100"
+                            style="max-width: 900px; border: 1px solid #e0e0e0; border-radius: 8px;">
+                            <!-- Ligne principale -->
+                            <div class="row g-3 align-items-end">
+                                <!-- Type d'offre -->
+                                <div class="col-12 col-md-6 col-lg">
+                                    <label class="form-label fw-semibold text-secondary mb-2">Type d'offre</label>
+                                    <select class="form-select"
+                                        style="border: 1px solid #c7c7c7; border-radius: 4px; background: #fff; font-weight: 500; padding: 10px 12px;">
+                                        <option selected>Location</option>
+                                        <option>Vente</option>
+                                    </select>
+                                </div>
+                                <!-- Type de bien -->
+                                <div class="col-12 col-md-6 col-lg">
+                                    <label class="form-label fw-semibold text-secondary mb-2">Type de bien</label>
+                                    <select class="form-select"
+                                        style="border: 1px solid #c7c7c7; border-radius: 4px; background: #fff; font-weight: 500; padding: 10px 12px;">
+                                        <option selected>Appartement</option>
+                                        <option>Maison</option>
+                                        <option>Bureau</option>
+                                        <option>Garage</option>
+                                    </select>
+                                </div>
+                                <!-- Loyer max -->
+                                <div class="col-12 col-md-6 col-lg">
+                                    <label class="form-label fw-semibold text-secondary mb-2">Loyer max</label>
+                                    <input type="number" class="form-control" placeholder="Ex: 500000 FCFA"
+                                        style="border: 1px solid #c7c7c7; border-radius: 4px; background: #fff; font-weight: 500; padding: 10px 12px;">
+                                </div>
+                                <!-- Surface min -->
+                                <div class="col-12 col-md-6 col-lg">
+                                    <label class="form-label fw-semibold text-secondary mb-2">Surface min</label>
+                                    <input type="number" class="form-control" placeholder="Ex: 80 m²"
+                                        style="border: 1px solid #c7c7c7; border-radius: 4px; background: #fff; font-weight: 500; padding: 10px 12px;">
+                                </div>
+                                <!-- Boutons -->
+                                <div class="col-12 col-md-auto d-flex gap-2 align-items-end">
+                                    <button id="toggleBtn" class="btn d-flex align-items-center justify-content-center"
+                                        type="button" data-bs-toggle="collapse" data-bs-target="#advancedFields"
+                                        aria-expanded="false" aria-controls="advancedFields"
+                                        style="background: #fff; color: #23211f; border: 1px solid #c7c7c7; border-radius: 4px; width: 44px; height: 44px; font-size: 20px; box-shadow: none;">
+                                        <span class="fa fa-plus"></span>
+                                    </button>
+                                    <button type="submit" class="btn fw-semibold px-4"
+                                        style="background: #B54349; color: #fff; border-radius: 4px; height: 44px; font-weight: 600; border: none;">
+                                        <i class="fa fa-search me-2"></i> Rechercher
+                                    </button>
+                                </div>
+                            </div>
+                            <!-- Filtres avancés -->
+                            <div class="collapse mt-4" id="advancedFields">
+                                <div class="pt-4" style="border-top: 1px solid #e0e0e0;">
+                                    <div class="row g-3">
+                                        <div class="col-12 col-md-4">
+                                            <label class="form-label fw-semibold text-secondary mb-2">Nombre de
+                                                pièces</label>
+                                            <input type="number" class="form-control" placeholder="Ex: 3"
+                                                style="border: 1px solid #c7c7c7; border-radius: 4px; background: #fff; padding: 10px 12px;">
+                                        </div>
+                                        <div class="col-12 col-md-4">
+                                            <label class="form-label fw-semibold text-secondary mb-2">Meublé</label>
+                                            <select class="form-select"
+                                                style="border: 1px solid #c7c7c7; border-radius: 4px; background: #fff; padding: 10px 12px;">
+                                                <option selected>Indifférent</option>
+                                                <option>Oui</option>
+                                                <option>Non</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-12 col-md-4">
+                                            <label class="form-label fw-semibold text-secondary mb-2">Ascenseur</label>
+                                            <select class="form-select"
+                                                style="border: 1px solid #c7c7c7; border-radius: 4px; background: #fff; padding: 10px 12px;">
+                                                <option selected>Indifférent</option>
+                                                <option>Oui</option>
+                                                <option>Non</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-12 col-md-4">
+                                            <label class="form-label fw-semibold text-secondary mb-2">Parking</label>
+                                            <select class="form-select"
+                                                style="border: 1px solid #c7c7c7; border-radius: 4px; background: #fff; padding: 10px 12px;">
+                                                <option selected>Indifférent</option>
+                                                <option>Oui</option>
+                                                <option>Non</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-12 col-md-4">
+                                            <label class="form-label fw-semibold text-secondary mb-2">Piscine</label>
+                                            <select class="form-select"
+                                                style="border: 1px solid #c7c7c7; border-radius: 4px; background: #fff; padding: 10px 12px;">
+                                                <option selected>Indifférent</option>
+                                                <option>Oui</option>
+                                                <option>Non</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-12 col-md-4">
+                                            <label class="form-label fw-semibold text-secondary mb-2">Balcon /
+                                                Terrasse</label>
+                                            <select class="form-select"
+                                                style="border: 1px solid #c7c7c7; border-radius: 4px; background: #fff; padding: 10px 12px;">
+                                                <option selected>Indifférent</option>
+                                                <option>Oui</option>
+                                                <option>Non</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="d-flex justify-content-center gap-4 flex-wrap py-5">
+        <!-- CARD 1 -->
+        <div class="rounded-4 shadow card-blue text-white d-flex card-custom p-4" style="width: 560px; height: 250px;">
+
+            <div class="d-flex flex-column justify-content-center pe-3" style="flex: 1;">
+                <p class="fw-semibold text-uppercase small mb-1 opacity-75">Apporteur d'affaires</p>
+                <h5 class="fw-bold text-white mb-3">Un proche souhaite vendre son bien immobilier ?</h5>
+
+                <p class="small mb-4 opacity-75">
+                    Mettez-le en relation avec l’un de nos conseillers et recevez 10 % d’apport d’affaires
+                    sur ses honoraires !
+                </p>
+
+                <a href="#" class="btn btn-orange fw-semibold px-4 py-2 rounded-pill">
+                    Mettre en relation →
+                </a>
+            </div>
+
+            <div class="card-img-wrapper rounded-3 overflow-hidden">
+                <img src="assets/img/bg/real-estate-01.jpg" alt="">
+            </div>
+        </div>
+
+        <!-- CARD 2 -->
+        <div class="rounded-4 shadow card-orange-light d-flex card-custom p-4" style="width: 560px; height: 250px;">
+
+            <div class="d-flex flex-column justify-content-center pe-3" style="flex: 1;">
+                <p class="fw-semibold text-uppercase small mb-1" style="color:#7D4F40;">Notre réseau immobilier </p>
+                <h5 class="fw-bold mb-3" style="color:#2A1F1B;">La réussite de votre projet ne tient qu'à un clic.</h5>
+
+                <p class="small mb-4" style="color:#6F6F6F;">
+                    Nos 1 800 conseillers OptimHome vous accompagnent sur vos projets immobiliers.
+                </p>
+
+                <a href="#" class="btn btn-orange fw-semibold px-4 py-2 rounded-pill">
+                    Trouver un conseiller →
+                </a>
+            </div>
+
+            <div class="card-img-wrapper rounded-3 overflow-hidden">
+                <img src="assets/img/bg/real-estate-02.jpg" alt="">
+            </div>
+        </div>
+    </section>
+
+    <section class="py-0">
+        <div class="container-small">
+            <div class="scrollbar">
+                <div class="d-flex justify-content-between">
+                    <a class="icon-nav-item" href="#!">
+                        <div class="icon-container mb-2 bg-warning-subtle" data-bs-theme="light"><span
+                                class="fs-4 uil uil-star text-warning"></span></div>
+                        <p class="nav-label">Deals</p>
+                    </a>
+                    <a class="icon-nav-item" href="#!">
+                        <div class="icon-container mb-2" data-bs-theme="undefined"><span
+                                class="fs-4 uil uil-shopping-bag"></span></div>
+                        <p class="nav-label">Grocery</p>
+                    </a>
+                    <a class="icon-nav-item" href="#!">
+                        <div class="icon-container mb-2" data-bs-theme="undefined"><span
+                                class="fs-4 uil uil-watch-alt"></span></div>
+                        <p class="nav-label">Fashion</p>
+                    </a>
+                    <a class="icon-nav-item" href="#!">
+                        <div class="icon-container mb-2" data-bs-theme="undefined"><span
+                                class="fs-4 uil uil-mobile-android"></span></div>
+                        <p class="nav-label">Mobile</p>
+                    </a>
+                    <a class="icon-nav-item" href="#!">
+                        <div class="icon-container mb-2" data-bs-theme="undefined"><span
+                                class="fs-4 uil uil-monitor"></span></div>
+                        <p class="nav-label">Electronics</p>
+                    </a>
+                    <a class="icon-nav-item" href="#!">
+                        <div class="icon-container mb-2" data-bs-theme="undefined"><span
+                                class="fs-4 uil uil-estate"></span></div>
+                        <p class="nav-label">Home</p>
+                    </a>
+                    <a class="icon-nav-item" href="#!">
+                        <div class="icon-container mb-2" data-bs-theme="undefined"><span
+                                class="fs-4 uil uil-lamp"></span></div>
+                        <p class="nav-label">Dining</p>
+                    </a>
+                    <a class="icon-nav-item" href="#!">
+                        <div class="icon-container mb-2" data-bs-theme="undefined"><span
+                                class="fs-4 uil uil-gift"></span></div>
+                        <p class="nav-label">Gifts</p>
+                    </a>
+                    <a class="icon-nav-item" href="#!">
+                        <div class="icon-container mb-2" data-bs-theme="undefined"><span
+                                class="fs-4 uil uil-wrench"></span></div>
+                        <p class="nav-label">Tools</p>
+                    </a>
+                    <a class="icon-nav-item" href="#!">
+                        <div class="icon-container mb-2" data-bs-theme="undefined"><span
+                                class="fs-4 uil uil-plane-departure"></span></div>
+                        <p class="nav-label">Travel</p>
+                    </a>
+                    <a class="icon-nav-item" href="#!">
+                        <div class="icon-container mb-2" data-bs-theme="undefined"><span
+                                class="fs-4 uil uil-palette"></span></div>
+                        <p class="nav-label">Others</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+
+
+
+    <section class="py-0 px-xl-3">
+        <div class="container px-xl-0 px-xxl-3">
+            <div class="my-4">
+                <div class="d-flex flex-between-center mb-3">
+                    <h3>Top Electronics</h3>
+                    <a class="fw-bold d-none d-md-block" href="#!">Explore more<span
+                            class="fas fa-chevron-right fs-9 ms-1"></span></a>
+                </div>
+
+                <div>
+                    <swiper-container space-between="spaceBetween" centered-slides="true" space-between="15"
+                        navigation="true" [slides-per-view]="3" [pagination]="{ hideOnClick: true }"
+                        autoplay='{"delay": 3000, "disableOnInteraction": false}' [breakpoints]="{
+                            '0': { slidesPerView: 1 },
+                            '768': { slidesPerView: 2 },
+                            '1024': { slidesPerView: 5 },
+                            '1400': { slidesPerView: 5 },
+                            '1600': { slidesPerView: 6 }
+                        }" (swiperprogress)="onProgress($any($event))" (swiperslidechange)="onSlideChange()">
+
+                        <swiper-slide>
+                            <div class="property-card">
+                                <div class="card-image-wrapper">
+                                <img src="https://images.unsplash.com/photo-1613977257363-707ba9348227?w=800" alt="Modern House"
+                                    class="card-image">
+                                <span class="card-badge-top">House</span>
+                                <div class="card-rating">
+                                    <span class="star">★</span>
+                                    <span>4.5</span>
+                                </div>
+                                <div class="card-badge-bottom">
+                                    <i class="fas fa-certificate"></i>
+                                    POPULAR
+                                </div>
+                                </div>
+
+                                <div class="card-body">
+                                <div class="card-header">
+                                    <h3 class="card-title">Grand Field, MN</h3>
+                                    <div class="verified-badge">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Verified</span>
+                                    </div>
+                                </div>
+
+                                <div class="card-location">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <span>Grand Galaxy Park 2, West Java</span>
+                                </div>
+
+                                <div class="card-features">
+                                    <div class="feature-item">
+                                    <i class="fas fa-bed"></i>
+                                    <span>3 Beds</span>
+                                    </div>
+                                    <div class="feature-item">
+                                    <i class="fas fa-bath"></i>
+                                    <span>2 Bath</span>
+                                    </div>
+                                    <div class="feature-item">
+                                    <i class="fas fa-wifi"></i>
+                                    <span>WiFi</span>
+                                    </div>
+                                </div>
+
+                                <div class="card-footer">
+                                    <div class="card-price">
+                                    <span class="price-amount">$1,200</span>
+                                    <span class="price-period">/ per Month</span>
+                                    </div>
+                                    <button class="btn-details">View Details</button>
+                                </div>
+                                </div>
+                            </div>
+                        </swiper-slide>
+
+                        <swiper-slide>
+                            <div class="property-card">
+                                <div class="card-image-wrapper">
+                                <img src="https://images.unsplash.com/photo-1613977257363-707ba9348227?w=800" alt="Modern House"
+                                    class="card-image">
+                                <span class="card-badge-top">House</span>
+                                <div class="card-rating">
+                                    <span class="star">★</span>
+                                    <span>4.5</span>
+                                </div>
+                                <div class="card-badge-bottom">
+                                    <i class="fas fa-certificate"></i>
+                                    POPULAR
+                                </div>
+                                </div>
+
+                                <div class="card-body">
+                                <div class="card-header">
+                                    <h3 class="card-title">Grand Field, MN</h3>
+                                    <div class="verified-badge">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Verified</span>
+                                    </div>
+                                </div>
+
+                                <div class="card-location">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <span>Grand Galaxy Park 2, West Java</span>
+                                </div>
+
+                                <div class="card-features">
+                                    <div class="feature-item">
+                                    <i class="fas fa-bed"></i>
+                                    <span>3 Beds</span>
+                                    </div>
+                                    <div class="feature-item">
+                                    <i class="fas fa-bath"></i>
+                                    <span>2 Bath</span>
+                                    </div>
+                                    <div class="feature-item">
+                                    <i class="fas fa-wifi"></i>
+                                    <span>WiFi</span>
+                                    </div>
+                                </div>
+
+                                <div class="card-footer">
+                                    <div class="card-price">
+                                    <span class="price-amount">$1,200</span>
+                                    <span class="price-period">/ per Month</span>
+                                    </div>
+                                    <button class="btn-details">View Details</button>
+                                </div>
+                                </div>
+                            </div>
+                        </swiper-slide>
+
+                        <swiper-slide>
+                            <div class="property-card">
+                                <div class="card-image-wrapper">
+                                <img src="https://images.unsplash.com/photo-1613977257363-707ba9348227?w=800" alt="Modern House"
+                                    class="card-image">
+                                <span class="card-badge-top">House</span>
+                                <div class="card-rating">
+                                    <span class="star">★</span>
+                                    <span>4.5</span>
+                                </div>
+                                <div class="card-badge-bottom">
+                                    <i class="fas fa-certificate"></i>
+                                    POPULAR
+                                </div>
+                                </div>
+
+                                <div class="card-body">
+                                <div class="card-header">
+                                    <h3 class="card-title">Grand Field, MN</h3>
+                                    <div class="verified-badge">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Verified</span>
+                                    </div>
+                                </div>
+
+                                <div class="card-location">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <span>Grand Galaxy Park 2, West Java</span>
+                                </div>
+
+                                <div class="card-features">
+                                    <div class="feature-item">
+                                    <i class="fas fa-bed"></i>
+                                    <span>3 Beds</span>
+                                    </div>
+                                    <div class="feature-item">
+                                    <i class="fas fa-bath"></i>
+                                    <span>2 Bath</span>
+                                    </div>
+                                    <div class="feature-item">
+                                    <i class="fas fa-wifi"></i>
+                                    <span>WiFi</span>
+                                    </div>
+                                </div>
+
+                                <div class="card-footer">
+                                    <div class="card-price">
+                                    <span class="price-amount">$1,200</span>
+                                    <span class="price-period">/ per Month</span>
+                                    </div>
+                                    <button class="btn-details">View Details</button>
+                                </div>
+                                </div>
+                            </div>
+                        </swiper-slide>
+
+                        <swiper-slide>
+                            <div class="property-card">
+                                <div class="card-image-wrapper">
+                                <img src="https://images.unsplash.com/photo-1613977257363-707ba9348227?w=800" alt="Modern House"
+                                    class="card-image">
+                                <span class="card-badge-top">House</span>
+                                <div class="card-rating">
+                                    <span class="star">★</span>
+                                    <span>4.5</span>
+                                </div>
+                                <div class="card-badge-bottom">
+                                    <i class="fas fa-certificate"></i>
+                                    POPULAR
+                                </div>
+                                </div>
+
+                                <div class="card-body">
+                                <div class="card-header">
+                                    <h3 class="card-title">Grand Field, MN</h3>
+                                    <div class="verified-badge">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Verified</span>
+                                    </div>
+                                </div>
+
+                                <div class="card-location">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <span>Grand Galaxy Park 2, West Java</span>
+                                </div>
+
+                                <div class="card-features">
+                                    <div class="feature-item">
+                                    <i class="fas fa-bed"></i>
+                                    <span>3 Beds</span>
+                                    </div>
+                                    <div class="feature-item">
+                                    <i class="fas fa-bath"></i>
+                                    <span>2 Bath</span>
+                                    </div>
+                                    <div class="feature-item">
+                                    <i class="fas fa-wifi"></i>
+                                    <span>WiFi</span>
+                                    </div>
+                                </div>
+
+                                <div class="card-footer">
+                                    <div class="card-price">
+                                    <span class="price-amount">$1200000</span>
+                                    <span class="price-period">/ per Month</span>
+                                    </div>
+                                    <button class="btn-details">View Details</button>
+                                </div>
+                                </div>
+                            </div>
+                        </swiper-slide>
+
+                        <swiper-slide>
+                            <div class="property-card">
+                                <div class="card-image-wrapper">
+                                <img src="https://images.unsplash.com/photo-1613977257363-707ba9348227?w=800" alt="Modern House"
+                                    class="card-image">
+                                <span class="card-badge-top">House</span>
+                                <div class="card-rating">
+                                    <span class="star">★</span>
+                                    <span>4.5</span>
+                                </div>
+                                <div class="card-badge-bottom">
+                                    <i class="fas fa-certificate"></i>
+                                    POPULAR
+                                </div>
+                                </div>
+
+                                <div class="card-body">
+                                <div class="card-header">
+                                    <h3 class="card-title">Grand Field, MN</h3>
+                                    <div class="verified-badge">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Verified</span>
+                                    </div>
+                                </div>
+
+                                <div class="card-location">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <span>Grand Galaxy Park 2, West Java</span>
+                                </div>
+
+                                <div class="card-features">
+                                    <div class="feature-item">
+                                    <i class="fas fa-bed"></i>
+                                    <span>3 Beds</span>
+                                    </div>
+                                    <div class="feature-item">
+                                    <i class="fas fa-bath"></i>
+                                    <span>2 Bath</span>
+                                    </div>
+                                    <div class="feature-item">
+                                    <i class="fas fa-wifi"></i>
+                                    <span>WiFi</span>
+                                    </div>
+                                </div>
+
+                                <div class="card-footer">
+                                    <div class="card-price">
+                                    <span class="price-amount">$1,200</span>
+                                    <span class="price-period">/ per Month</span>
+                                    </div>
+                                    <button class="btn-details">View Details</button>
+                                </div>
+                                </div>
+                            </div>
+                        </swiper-slide>
+
+                    </swiper-container>
+                </div>
+
+                <a class="fw-bold d-md-none" href="#!">Explore more<span
+                        class="fas fa-chevron-right fs-9 ms-1"></span></a>
+            </div>
+        </div>
+    </section>
+
+
+
+
+
+
+
+</div>

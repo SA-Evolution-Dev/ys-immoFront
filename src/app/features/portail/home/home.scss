@@ -1,0 +1,251 @@
+/* Couleurs fidèles au visuel */
+.card-blue {
+    background-color: #1E2446;
+}
+
+.card-orange-light {
+    background-color: #FCEDE6;
+}
+
+.btn-orange {
+    background-color: #F36B2A;
+    color: #fff;
+}
+
+.btn-orange:hover {
+    background-color: #d85f24;
+    color: #fff;
+}
+
+/* Images desktop */
+.card-img-wrapper {
+    flex: 1;
+    height: 100%;
+}
+
+.card-img-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Responsive mobile */
+@media (max-width: 768px) {
+    .card-custom {
+        flex-direction: column;
+        height: auto !important;
+        width: 100% !important;
+        /* permet d'être fluide */
+        margin: 0 16px !important;
+        /* MARGE LATERALE */
+    }
+
+    /* MASQUER LES IMAGES SUR MOBILE */
+    .card-img-wrapper {
+        display: none !important;
+    }
+}
+
+// **** property-card
+.property-card {
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    width: 100%;
+    max-width: 260px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.property-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+}
+
+.card-image-wrapper {
+    position: relative;
+    height: 150px;
+    overflow: hidden;
+}
+
+.card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.card-badge-top {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: rgba(255, 243, 205, 0.95);
+    color: #6c5019;
+    padding: 3px 10px;
+    border-radius: 14px;
+    font-size: 11px;
+    font-weight: 500;
+}
+
+.card-rating {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    padding: 3px 8px;
+    border-radius: 14px;
+    font-size: 11px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+}
+
+.card-rating .star {
+    color: #ffc107;
+    font-size: 12px;
+}
+
+.card-badge-bottom {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    color: #fff;
+    padding: 6px 14px;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    border-top-right-radius: 6px;
+}
+
+.card-body {
+    padding: 14px;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 6px;
+    gap: 8px;
+}
+
+.card-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin: 0;
+    line-height: 1.2;
+}
+
+.verified-badge {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    color: #10b981;
+    font-size: 11px;
+    font-weight: 600;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.verified-badge i {
+    font-size: 12px;
+}
+
+.card-location {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: #6b7280;
+    font-size: 11px;
+    margin-bottom: 12px;
+}
+
+.card-location i {
+    font-size: 11px;
+    flex-shrink: 0;
+}
+
+.card-features {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-top: 1px solid #e5e7eb;
+    border-bottom: 1px solid #e5e7eb;
+    margin-bottom: 12px;
+}
+
+.feature-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    color: #374151;
+    font-size: 11px;
+    font-weight: 500;
+}
+
+.feature-item i {
+    font-size: 14px;
+    color: #6b7280;
+}
+
+.card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+}
+
+.card-price {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.price-amount {
+    font-size: 20px;
+    font-weight: 700;
+    color: #1a1a1a;
+    line-height: 1;
+}
+
+.price-period {
+    font-size: 10px;
+    color: #6b7280;
+    font-weight: 400;
+}
+
+.btn-details {
+    background: #fff;
+    color: #dc2626;
+    border: 2px solid #dc2626;
+    padding: 6px 12px;
+    border-radius: 16px;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.btn-details:hover {
+    background: #dc2626;
+    color: #fff;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+    .property-card {
+        max-width: 100%;
+    }
+}
+
+// **** property-card

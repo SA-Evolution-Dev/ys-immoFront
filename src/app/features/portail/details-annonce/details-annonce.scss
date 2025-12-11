@@ -1,0 +1,124 @@
+/* Ajustements personnalisés pour correspondre au design */
+
+:root {
+    --phoenix-primary: #FF6B35;
+    --phoenix-purple: #7C3AED;
+}
+
+/* Badge violet personnalisé */
+.badge.bg-purple {
+    background-color: var(--phoenix-purple) !important;
+}
+
+/* Badge Agence/Particulier personnalisés */
+.badge-phoenix-info {
+    background-color: #3B82F6 !important;
+    color: white !important;
+}
+
+.badge-phoenix-success {
+    background-color: #10B981 !important;
+    color: white !important;
+}
+
+/* Couleur primaire orange */
+.text-primary,
+.btn-phoenix-primary {
+    color: var(--phoenix-primary) !important;
+}
+
+.btn-phoenix-primary {
+    background-color: var(--phoenix-primary) !important;
+    border-color: var(--phoenix-primary) !important;
+    color: white !important;
+}
+
+.btn-phoenix-primary:hover {
+    background-color: #E55A28 !important;
+    border-color: #E55A28 !important;
+}
+
+/* Navigation carousel personnalisée */
+.property-main-image {
+    position: relative;
+}
+
+.carousel-control {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(255, 255, 255, 0.9);
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 3;
+}
+
+.carousel-control:hover {
+    background-color: white;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.carousel-control-prev {
+    left: 20px;
+}
+
+.carousel-control-next {
+    right: 20px;
+}
+
+/* Badges overlay */
+.property-badges {
+    z-index: 2;
+}
+
+/* Hover effect sur miniatures */
+.property-thumbnail img {
+    transition: transform 0.3s ease;
+}
+
+.property-thumbnail:hover img {
+    transform: scale(1.05);
+}
+
+/* Étoiles rating */
+.stars i {
+    font-size: 12px;
+}
+
+/* Date de publication style */
+.fs-9 .fa-clock {
+    font-size: 11px;
+    opacity: 0.7;
+}
+
+/* Responsive adjustments */
+@media (max-width: 991px) {
+    .property-main-image img {
+        height: 350px !important;
+    }
+    
+    .card-body .d-flex.justify-content-between {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .d-flex.align-items-baseline.justify-content-between {
+        flex-direction: column;
+        align-items: flex-start !important;
+        gap: 0.5rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .property-main-image img {
+        height: 250px !important;
+    }
+    
+    .property-thumbnail img {
+        height: 80px !important;
+    }
+}

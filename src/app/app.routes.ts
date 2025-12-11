@@ -15,6 +15,11 @@ export const routes: Routes = [
                 loadComponent: () => import('./features/portail/home/home').then(m => m.Home),
                 title: 'Accueil'
             },
+            {
+                path: 'details-annonce',
+                loadComponent: () => import('./features/portail/details-annonce/details-annonce').then(m => m.DetailsAnnonce),
+                title: 'Accueil'
+            },
             // {
             //     path: 'annonces',
             //     children: [

@@ -1,6 +1,6 @@
-<div class="ecommerce-homepage pt-5 mb-9">
+<div class="ecommerce-homepage mb-2">
 
-    <section class="pt-5 px-xl-3 position-relative" style="background-image: url('assets/img/bg/bg_search_immo.png');
+    <section class="px-xl-3 position-relative" style="background-image: url('assets/img/bg/search/4.jpg');
         background-size: cover; background-position: center; background-repeat: no-repeat;">
         <div class="container px-xl-0 px-xxl-3 position-relative">
             <div class="row justify-content-center">
@@ -14,103 +14,102 @@
                     <div class="d-flex justify-content-center">
                         <form class="bg-white p-4 p-md-5 w-100"
                             style="max-width: 900px; border: 1px solid #e0e0e0; border-radius: 8px;">
-                            <!-- Ligne principale -->
+*
                             <div class="row g-3 align-items-end">
                                 <!-- Type d'offre -->
                                 <div class="col-12 col-md-6 col-lg">
-                                    <label class="form-label fw-semibold text-secondary mb-2">Type d'offre</label>
-                                    <select class="form-select"
-                                        style="border: 1px solid #c7c7c7; border-radius: 4px; background: #fff; font-weight: 500; padding: 10px 12px;">
-                                        <option selected>Location</option>
-                                        <option>Vente</option>
+                                    <label class="form-label fw-semibold text-secondary mb-2">
+                                        <i class="uil uil-file-contract"></i> Type d'offre
+                                    </label>
+                                    <select class="form-select mb-1" aria-label="category">
+                                        <option value=""></option>
+                                        <option value="women-cloth">Location</option>
+                                        <option value="kid-cloth">Vente</option>
                                     </select>
                                 </div>
                                 <!-- Type de bien -->
                                 <div class="col-12 col-md-6 col-lg">
-                                    <label class="form-label fw-semibold text-secondary mb-2">Type de bien</label>
-                                    <select class="form-select"
-                                        style="border: 1px solid #c7c7c7; border-radius: 4px; background: #fff; font-weight: 500; padding: 10px 12px;">
-                                        <option selected>Appartement</option>
+                                    <label class="form-label fw-semibold text-secondary mb-2">
+                                        <i class="uil uil-house-user"></i> Type de bien
+                                    </label>
+                                    <select class="form-select mb-1" aria-label="category">
+                                        <option></option>
                                         <option>Maison</option>
                                         <option>Bureau</option>
                                         <option>Garage</option>
                                     </select>
                                 </div>
-                                <!-- Loyer max -->
+                                <!-- Type de bien -->
                                 <div class="col-12 col-md-6 col-lg">
-                                    <label class="form-label fw-semibold text-secondary mb-2">Loyer max</label>
-                                    <input type="number" class="form-control" placeholder="Ex: 500000 FCFA"
-                                        style="border: 1px solid #c7c7c7; border-radius: 4px; background: #fff; font-weight: 500; padding: 10px 12px;">
+                                    <label class="form-label fw-semibold text-secondary mb-2">
+                                        <i class="uil uil-location-point"></i> Localisation
+                                    </label>
+                                    <select class="form-select mb-1" aria-label="category">
+                                        <option></option>
+                                        <option>Cocody</option>
+                                        <option>Yopougon</option>
+                                        <option>Treichville</option>
+                                    </select>
                                 </div>
-                                <!-- Surface min -->
+                                <!-- Nombre de piece -->
                                 <div class="col-12 col-md-6 col-lg">
-                                    <label class="form-label fw-semibold text-secondary mb-2">Surface min</label>
-                                    <input type="number" class="form-control" placeholder="Ex: 80 m²"
-                                        style="border: 1px solid #c7c7c7; border-radius: 4px; background: #fff; font-weight: 500; padding: 10px 12px;">
+                                    <label class="form-label fw-semibold text-secondary mb-2">
+                                        <i class="il uil-layer-group"></i> Nombre de pièces
+                                    </label>
+                                    <select class="form-select mb-1" aria-label="category">
+                                        <option></option>
+                                        <option>Studio</option>
+                                        <option>1 Pièce</option>
+                                        <option>2 Pièces</option>
+                                        <option>3 Pièces</option>
+                                        <option>4 Pièces et plus</option>
+                                    </select>
                                 </div>
                                 <!-- Boutons -->
                                 <div class="col-12 col-md-auto d-flex gap-2 align-items-end">
-                                    <button id="toggleBtn" class="btn d-flex align-items-center justify-content-center"
-                                        type="button" data-bs-toggle="collapse" data-bs-target="#advancedFields"
-                                        aria-expanded="false" aria-controls="advancedFields"
-                                        style="background: #fff; color: #23211f; border: 1px solid #c7c7c7; border-radius: 4px; width: 44px; height: 44px; font-size: 20px; box-shadow: none;">
-                                        <span class="fa fa-plus"></span>
+                                    <button id="toggleBtn" class="btn d-flex align-items-center justify-content-center" type="button"
+                                        data-bs-toggle="collapse" data-bs-target="#advancedFields" aria-expanded="false"
+                                        aria-controls="advancedFields"
+                                        style="background: #fff; color: #23211f; border: 1px solid #c7c7c7; border-radius: 4px; width: 50px; height: 50px; font-size: 20px; box-shadow: none;">
+                                        <span class="fa fa-sliders"></span>
                                     </button>
+                            
                                     <button type="submit" class="btn fw-semibold px-4"
-                                        style="background: #B54349; color: #fff; border-radius: 4px; height: 44px; font-weight: 600; border: none;">
+                                        style="background: var(--phoenix-blue); color: #fff; border-radius: 4px; height: 50px; font-weight: 600; border: none;">
                                         <i class="fa fa-search me-2"></i> Rechercher
                                     </button>
                                 </div>
                             </div>
+
+
                             <!-- Filtres avancés -->
                             <div class="collapse mt-4" id="advancedFields">
-                                <div class="pt-4" style="border-top: 1px solid #e0e0e0;">
+                                <div class="pt-2" style="border-top: 1px solid #e0e0e0;">
                                     <div class="row g-3">
-                                        <div class="col-12 col-md-4">
-                                            <label class="form-label fw-semibold text-secondary mb-2">Nombre de
-                                                pièces</label>
-                                            <input type="number" class="form-control" placeholder="Ex: 3"
-                                                style="border: 1px solid #c7c7c7; border-radius: 4px; background: #fff; padding: 10px 12px;">
+                                        <!-- Surface min -->
+                                        <div class="col-12 col-md-6 col-lg">
+                                            <label class="form-label fw-semibold text-secondary mb-1">
+                                                <i class="uil uil-expand-arrows"></i> Surface min
+                                            </label>
+                                            <input class="form-control" type="number" placeholder="en m²" />
                                         </div>
+                                        <!-- Parking -->
                                         <div class="col-12 col-md-4">
-                                            <label class="form-label fw-semibold text-secondary mb-2">Meublé</label>
-                                            <select class="form-select"
-                                                style="border: 1px solid #c7c7c7; border-radius: 4px; background: #fff; padding: 10px 12px;">
-                                                <option selected>Indifférent</option>
+                                            <label class="form-label fw-semibold text-secondary mb-1">
+                                                <i class="uil uil-parking-circle"></i> Parking
+                                            </label>
+                                            <select class="form-select mb-1" aria-label="category">
+                                                <option></option>
+                                                <option>Indifférent</option>
                                                 <option>Oui</option>
                                                 <option>Non</option>
                                             </select>
                                         </div>
+                                        <!-- Meuble -->
                                         <div class="col-12 col-md-4">
-                                            <label class="form-label fw-semibold text-secondary mb-2">Ascenseur</label>
-                                            <select class="form-select"
-                                                style="border: 1px solid #c7c7c7; border-radius: 4px; background: #fff; padding: 10px 12px;">
-                                                <option selected>Indifférent</option>
-                                                <option>Oui</option>
-                                                <option>Non</option>
-                                            </select>
-                                        </div>
-                                        <div class="col-12 col-md-4">
-                                            <label class="form-label fw-semibold text-secondary mb-2">Parking</label>
-                                            <select class="form-select"
-                                                style="border: 1px solid #c7c7c7; border-radius: 4px; background: #fff; padding: 10px 12px;">
-                                                <option selected>Indifférent</option>
-                                                <option>Oui</option>
-                                                <option>Non</option>
-                                            </select>
-                                        </div>
-                                        <div class="col-12 col-md-4">
-                                            <label class="form-label fw-semibold text-secondary mb-2">Piscine</label>
-                                            <select class="form-select"
-                                                style="border: 1px solid #c7c7c7; border-radius: 4px; background: #fff; padding: 10px 12px;">
-                                                <option selected>Indifférent</option>
-                                                <option>Oui</option>
-                                                <option>Non</option>
-                                            </select>
-                                        </div>
-                                        <div class="col-12 col-md-4">
-                                            <label class="form-label fw-semibold text-secondary mb-2">Balcon /
-                                                Terrasse</label>
+                                            <label class="form-label fw-semibold text-secondary mb-1">
+                                                <i class="uil uil-parking-circle"></i> Meublé
+                                            </label>
                                             <select class="form-select"
                                                 style="border: 1px solid #c7c7c7; border-radius: 4px; background: #fff; padding: 10px 12px;">
                                                 <option selected>Indifférent</option>
@@ -133,16 +132,16 @@
         <div class="rounded-4 shadow card-blue text-white d-flex card-custom p-4" style="width: 560px; height: 250px;">
 
             <div class="d-flex flex-column justify-content-center pe-3" style="flex: 1;">
-                <p class="fw-semibold text-uppercase small mb-1 opacity-75">Apporteur d'affaires</p>
-                <h5 class="fw-bold text-white mb-3">Un proche souhaite vendre son bien immobilier ?</h5>
+                <p class="fw-semibold text-uppercase small mb-1 opacity-75">Professionnels de l'immobilier</p>
+                <h5 class="fw-bold text-white mb-3">Boostez votre visibilité et vos ventes en 3 clics</h5>
 
                 <p class="small mb-4 opacity-75">
-                    Mettez-le en relation avec l’un de nos conseillers et recevez 10 % d’apport d’affaires
-                    sur ses honoraires !
+                    Publiez vos biens en masse, bénéficiez d’outils pro (statistiques, leads qualifiés) et touchez une audience ciblée.
+                    <strong>0% de commission</strong> sur les transactions – seulement un abonnement avantageux !
                 </p>
 
                 <a href="#" class="btn btn-orange fw-semibold px-4 py-2 rounded-pill">
-                    Mettre en relation →
+                    Créer un compte pro →
                 </a>
             </div>
 
@@ -155,15 +154,16 @@
         <div class="rounded-4 shadow card-orange-light d-flex card-custom p-4" style="width: 560px; height: 250px;">
 
             <div class="d-flex flex-column justify-content-center pe-3" style="flex: 1;">
-                <p class="fw-semibold text-uppercase small mb-1" style="color:#7D4F40;">Notre réseau immobilier </p>
+                <p class="fw-semibold text-uppercase small mb-1" style="color:#7D4F40;">Particuliers</p>
                 <h5 class="fw-bold mb-3" style="color:#2A1F1B;">La réussite de votre projet ne tient qu'à un clic.</h5>
 
                 <p class="small mb-4" style="color:#6F6F6F;">
-                    Nos 1 800 conseillers OptimHome vous accompagnent sur vos projets immobiliers.
+                    Publiez votre annonce <strong>gratuite</strong> en 2 minutes, touchez des milliers d’acheteurs/locataires vérifiés,
+                    et économisez jusqu’à <strong>5% de frais d’agence</strong>. Photos HD, visite virtuelle et conseils inclus !
                 </p>
 
-                <a href="#" class="btn btn-orange fw-semibold px-4 py-2 rounded-pill">
-                    Trouver un conseiller →
+                <a href="#" style="background-color: #1e2446;" class="btn fw-semibold px-4 text-white py-2 rounded-pill">
+                    Déposer mon annonce →
                 </a>
             </div>
 
@@ -177,9 +177,10 @@
         <div class="container px-xl-0 px-xxl-3">
             <div class="my-4">
                 <div class="d-flex flex-between-center mb-3">
-                    <h3>Recents</h3>
-                    <a class="fw-bold d-none d-md-block" href="#!">Voir plus<span
-                        class="fas fa-chevron-right fs-9 ms-1"></span></a>
+                    <h3>Découvrez nos dernières annonces</h3>
+                    <a class="fw-bold d-none d-md-block" href="#!">
+                        Voir plus<span class="fas fa-chevron-right fs-9 ms-1"></span>
+                    </a>
                 </div>
 
                 <div>
@@ -246,7 +247,7 @@
                                             <span class="price-amount">$1,200</span>
                                             <span class="price-period">/ per Month</span>
                                         </div>
-                                        <button class="btn-details">View Details</button>
+                                        <button class="btn-details">Voir Details</button>
                                     </div>
                                 </div>
                             </div>
@@ -302,7 +303,7 @@
                                             <span class="price-amount">$1,200</span>
                                             <span class="price-period">/ per Month</span>
                                         </div>
-                                        <button class="btn-details">View Details</button>
+                                        <button class="btn-details">Voir Details</button>
                                     </div>
                                 </div>
                             </div>
@@ -358,7 +359,7 @@
                                             <span class="price-amount">$1,200</span>
                                             <span class="price-period">/ per Month</span>
                                         </div>
-                                        <button class="btn-details">View Details</button>
+                                        <button class="btn-details">Voir Details</button>
                                     </div>
                                 </div>
                             </div>
@@ -414,7 +415,7 @@
                                             <span class="price-amount">$1,200</span>
                                             <span class="price-period">/ per Month</span>
                                         </div>
-                                        <button class="btn-details">View Details</button>
+                                        <button class="btn-details">Voir Details</button>
                                     </div>
                                 </div>
                             </div>
@@ -470,7 +471,7 @@
                                             <span class="price-amount">$1,200</span>
                                             <span class="price-period">/ per Month</span>
                                         </div>
-                                        <button class="btn-details">View Details</button>
+                                        <button class="btn-details">Voir Details</button>
                                     </div>
                                 </div>
                             </div>
@@ -526,7 +527,7 @@
                                             <span class="price-amount">$1,200</span>
                                             <span class="price-period">/ per Month</span>
                                         </div>
-                                        <button class="btn-details">View Details</button>
+                                        <button class="btn-details">Voir Details</button>
                                     </div>
                                 </div>
                             </div>
@@ -535,98 +536,40 @@
                     </swiper-container>
                 </div>
 
-                <a class="fw-bold d-md-none" href="#!">Explore more<span
-                        class="fas fa-chevron-right fs-9 ms-1"></span></a>
+                <a class="fw-bold d-md-none" href="#!">Voir plus
+                    <span class="fas fa-chevron-right fs-9 ms-1"></span>
+                </a>
             </div>
         </div>
     </section>
 
-    <section class="container-fluid main-mockup">
-        <div class="row g-3 g-lg-4">
-            <!-- Left Column - Phone Mockup -->
-            <div class="col-lg-5 col-md-6">
-                <div class="phone-mockup">
-                    <div class="phone-content">
-                        <h2 class="phone-title">
-                            Рассчитайте размер<br>
-                            регулярного платежа<br>
-                            по рассрочке<br>
-                            самостоятельно
-                        </h2>
-                        <p class="phone-subtitle">
-                            Сверхкратки срокам и уделите все информацию о рассмотрел застройщиков с помощью нашего
-                            калькулятора
-                        </p>
+    <section class="mt-5" style="background-color: #fcede6;">
+        <!-- <div class="bg-holder d-none d-xl-block"
+            style="background-image:url(../../assets/img/bg/bg-left-32.png);background-size:26%;background-position:left 115px;">
+        </div> -->
     
-                        <div class="cityscape"></div>
+        <!-- <div class="bg-holder d-none d-xl-block"
+            style="background-image:url(../../assets/img/bg/bg-right-32.png);background-size:28%;background-position:right -25px;">
+        </div> -->
     
-                        <div class="button-wrapper mt-3">
-                            <button class="calc-button" aria-label="Открыть калькулятор">
-                                <i class="uil uil-calculator-alt"></i>
-                            </button>
-                            <span class="button-text">Рассчитать размер платежа</span>
+        <div class="container-medium position-relative">
+            <div class="row g-0 justify-content-center">
+                <div class="col-lg-10 col-xl-7">
+                    <div class="d-md-flex align-items-center gap-7 text-center text-md-start">
+                        <img class="mb-4 mb-md-0 d-dark-none" src="assets/img/bg/40.png" width="260" alt="">
+                        <img class="mb-4 mb-md-0 d-light-none" src="assets/img/bg/dark_40.png" width="260" alt="">
+                        <div class="flex-1">
+                            <h3 class="mb-0">Recevez les nouvelles offres</h3>
+                            <p class="mb-4 text-body-tertiary">Inscrivez-vous pour recevoir les dernières propriétés disponibles dans votre secteur.</p>
+                            <form class="d-flex justify-content-center">
+                                <input class="form-control me-3" id="ctaEmail1" type="email" placeholder="Email">
+                                <button style="background-color: #1e2446;" class="btn btn-primary d-flex align-items-center" type="submit">
+                                    S'abonner <span class="fa-solid fa-chevron-right ms-2 fs-9"></span>
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </div>
-            </div>
-    
-            <!-- Right Column - Features -->
-            <div class="col-lg-7 col-md-6">
-                <div class="section-header">
-                    <h1 class="section-title">
-                        Поможем с рассрочкой<br>
-                        от застройщиков
-                    </h1>
-                </div>
-    
-                <div class="row g-3">
-                    <!-- Feature 1 - Застройщики -->
-                    <div class="col-sm-6">
-                        <div class="feature-card">
-                            <div class="feature-icon icon-blue">
-                                <i class="uil uil-building"></i>
-                            </div>
-                            <h3 class="feature-title">
-                                <span class="feature-value">99+</span> застройщиков
-                            </h3>
-                            <p class="feature-description">в 6 партнёрских странах с проверенной репутацией</p>
-                        </div>
-                    </div>
-    
-                    <!-- Feature 2 - Первый взнос -->
-                    <div class="col-sm-6">
-                        <div class="feature-card">
-                            <div class="feature-icon icon-cyan">
-                                <i class="uil uil-percentage"></i>
-                            </div>
-                            <h3 class="feature-title">Первый взнос</h3>
-                            <p class="feature-description">от 10% стоимости недвижимости без скрытых комиссий</p>
-                        </div>
-                    </div>
-    
-                    <!-- Feature 3 - Безопасные сделки -->
-                    <div class="col-sm-6">
-                        <div class="feature-card">
-                            <div class="feature-icon icon-teal">
-                                <i class="uil uil-shield-check"></i>
-                            </div>
-                            <h3 class="feature-title">Безопасные сделки</h3>
-                            <p class="feature-description">с гарантией покупки и юридическим сопровождением</p>
-                        </div>
-                    </div>
-    
-                    <!-- Feature 4 - Сопровождение -->
-                    <div class="col-sm-6">
-                        <div class="feature-card">
-                            <div class="feature-icon icon-indigo">
-                                <i class="uil uil-headphones-alt"></i>
-                            </div>
-                            <h3 class="feature-title">Сопровождение</h3>
-                            <p class="feature-description">на всех этапах покупки от выбора до получения ключей</p>
-                        </div>
-                    </div>
-                </div>
-    
             </div>
         </div>
     </section>

@@ -7,7 +7,7 @@
 /* -------------------------------------------------------------------------- */
 :root,
 [data-bs-theme=light] {
-  --phoenix-blue: #3874ff;
+  --phoenix-blue: #1E2446;  /* #3874ff */
   --phoenix-indigo: #6610f2;
   --phoenix-purple: #6f42c1;
   --phoenix-pink: #d63384;
@@ -27661,7 +27661,7 @@ h3,
 }
 
 .form-label {
-  padding-left: 1rem;
+  // padding-left: 1rem;
   line-height: 1.2;
   text-transform: uppercase;
   margin-bottom: 0;
@@ -31501,7 +31501,8 @@ html:not(.navbar-vertical-collapsed) .navbar-vertical.navbar-expand-xs .navbar-v
   color: var(--phoenix-tertiary-color);
   font-size: 0.8rem;
   font-weight: 600;
-  padding: 0 15px;
+  // padding: 0 15px;
+  margin-right: 15px;
 }
 .ecommerce-navbar .nav-item .nav-link.active, .ecommerce-navbar .nav-item .nav-link:hover {
   color: var(--phoenix-emphasis-color);

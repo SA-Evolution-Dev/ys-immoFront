@@ -1,1 +1,265 @@
-<p>contact works!</p>
+<!-- Hero Section -->
+<section class="bg-body-emphasis py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <span class="badge badge-phoenix badge-phoenix-primary mb-3">
+                <i class="fas fa-headset me-1"></i>
+                Support & Partenariat
+            </span>
+            <h1 class="display-4 fw-bold mb-3">Contactez-nous</h1>
+            <p class="text-body-secondary fs-5 mb-0 mx-auto" style="max-width: 600px;">
+                Une question sur un bien ? Un projet de partenariat ? 
+                Notre équipe est là pour vous répondre rapidement.
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- Main Contact Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="row g-4">
+            
+            <!-- COLONNE GAUCHE : Formulaire -->
+            <div class="col-lg-8">
+                <div class="card h-100">
+                    <div class="card-body p-4 p-lg-5">
+                        <h2 class="fw-bold mb-4">Envoyez-nous un message</h2>
+                        <form id="contactForm" class="needs-validation" novalidate>
+                            
+                            <!-- Type de demande -->
+                            <div class="mb-4">
+                                <label class="form-label fw-semibold">Type de demande *</label>
+                                <div class="row g-3">
+                                    <div class="col-sm-6">
+                                        <div class="form-check form-check-card">
+                                            <input class="form-check-input" type="radio" name="requestType" id="typeQuestion" value="question" checked required>
+                                            <label class="form-check-label card p-3" for="typeQuestion">
+                                                <div class="d-flex align-items-center">
+                                                    <i class="fas fa-question-circle text-primary fs-3 me-3"></i>
+                                                    <div>
+                                                        <div class="fw-semibold">Question générale</div>
+                                                        <small class="text-body-tertiary">Information sur un bien, visite, etc.</small>
+                                                    </div>
+                                                </div>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-check form-check-card">
+                                            <input class="form-check-input" type="radio" name="requestType" id="typePartnership" value="partnership" required>
+                                            <label class="form-check-label card p-3" for="typePartnership">
+                                                <div class="d-flex align-items-center">
+                                                    <i class="fas fa-handshake text-success fs-3 me-3"></i>
+                                                    <div>
+                                                        <div class="fw-semibold">Partenariat</div>
+                                                        <small class="text-body-tertiary">Collaboration professionnelle</small>
+                                                    </div>
+                                                </div>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Informations personnelles -->
+                            <div class="row g-3 mb-3">
+                                <div class="col-md-6">
+                                    <label for="firstName" class="form-label">Prénom *</label>
+                                    <input type="text" class="form-control" id="firstName" placeholder="Jean" required>
+                                    <div class="invalid-feedback">
+                                        Veuillez entrer votre prénom.
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="lastName" class="form-label">Nom *</label>
+                                    <input type="text" class="form-control" id="lastName" placeholder="Dupont" required>
+                                    <div class="invalid-feedback">
+                                        Veuillez entrer votre nom.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row g-3 mb-3">
+                                <div class="col-md-6">
+                                    <label for="email" class="form-label">Email *</label>
+                                    <input type="email" class="form-control" id="email" placeholder="jean.dupont@email.com" required>
+                                    <div class="invalid-feedback">
+                                        Veuillez entrer une adresse email valide.
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="phone" class="form-label">Téléphone</label>
+                                    <input type="tel" class="form-control" id="phone" placeholder="06 12 34 56 78">
+                                    <small class="text-body-tertiary">Optionnel - pour un contact rapide</small>
+                                </div>
+                            </div>
+
+                            <!-- Champ conditionnel pour Partenariat -->
+                            <div id="companyField" class="mb-3" style="display: none;">
+                                <label for="company" class="form-label">Entreprise / Organisation</label>
+                                <input type="text" class="form-control" id="company" placeholder="Nom de votre entreprise">
+                            </div>
+
+                            <!-- Sujet -->
+                            <div class="mb-3">
+                                <label for="subject" class="form-label">Sujet *</label>
+                                <input type="text" class="form-control" id="subject" placeholder="Ex: Informations sur la maison à Montpellier" required>
+                                <div class="invalid-feedback">
+                                    Veuillez préciser le sujet de votre message.
+                                </div>
+                            </div>
+
+                            <!-- Message -->
+                            <div class="mb-4">
+                                <label for="message" class="form-label">Message *</label>
+                                <textarea class="form-control" id="message" rows="6" placeholder="Décrivez votre demande en détail..." required></textarea>
+                                <div class="invalid-feedback">
+                                    Veuillez saisir votre message.
+                                </div>
+                                <div class="form-text">
+                                    <span id="charCount">0</span>/1000 caractères
+                                </div>
+                            </div>
+
+                            <!-- RGPD -->
+                            <div class="form-check mb-4">
+                                <input class="form-check-input" type="checkbox" id="gdprConsent" required>
+                                <label class="form-check-label text-body-secondary" for="gdprConsent">
+                                    J'accepte que mes données personnelles soient utilisées pour traiter ma demande. 
+                                    <a href="#" class="text-primary">Politique de confidentialité</a>
+                                </label>
+                                <div class="invalid-feedback">
+                                    Vous devez accepter avant de soumettre.
+                                </div>
+                            </div>
+
+                            <!-- Bouton Submit -->
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-between align-items-center">
+                                <button type="submit" class="btn btn-primary btn-lg px-5">
+                                    <i class="fas fa-paper-plane me-2"></i>
+                                    Envoyer le message
+                                </button>
+                                <small class="text-body-tertiary">
+                                    <i class="fas fa-clock me-1"></i>
+                                    Réponse sous 24-48h
+                                </small>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- COLONNE DROITE : Infos Contact -->
+            <div class="col-lg-4">
+                <!-- Réseaux Sociaux -->
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="fw-bold mb-3">Suivez-nous</h5>
+                        <div class="d-flex gap-2">
+                            <a href="#" class="btn btn-phoenix-secondary btn-icon">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                            <a href="#" class="btn btn-phoenix-secondary btn-icon">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                            <a href="#" class="btn btn-phoenix-secondary btn-icon">
+                                <i class="fab fa-linkedin-in"></i>
+                            </a>
+                            <a href="#" class="btn btn-phoenix-secondary btn-icon">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            <a href="#" class="btn btn-phoenix-secondary btn-icon">
+                                <i class="fab fa-youtube"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- FAQ Rapide (Optionnel) -->
+<section class="py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h3 class="fw-bold">Questions fréquentes</h3>
+            <p class="text-body-secondary">Trouvez rapidement une réponse à vos questions</p>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="accordion" id="faqAccordion">
+                    
+                    <!-- FAQ 1 -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                                <i class="fas fa-clock text-primary me-2"></i>
+                                Quel est le délai de réponse ?
+                            </button>
+                        </h2>
+                        <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Nous nous engageons à répondre à toutes les demandes sous 24 à 48 heures ouvrées. 
+                                Pour les demandes urgentes, n'hésitez pas à nous contacter directement par téléphone.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- FAQ 2 -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                                <i class="fas fa-handshake text-success me-2"></i>
+                                Comment proposer un partenariat ?
+                            </button>
+                        </h2>
+                        <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Sélectionnez "Partenariat" dans le formulaire ci-dessus et détaillez votre proposition. 
+                                Notre équipe commerciale étudiera votre demande et vous contactera pour un échange approfondi.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- FAQ 3 -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                                <i class="fas fa-home text-warning me-2"></i>
+                                Puis-je visiter un bien sans rendez-vous ?
+                            </button>
+                        </h2>
+                        <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Les visites se font uniquement sur rendez-vous pour garantir un accompagnement personnalisé. 
+                                Contactez-nous via ce formulaire ou par téléphone pour planifier votre visite.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- FAQ 4 -->
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+                                <i class="fas fa-shield-alt text-info me-2"></i>
+                                Mes données sont-elles sécurisées ?
+                            </button>
+                        </h2>
+                        <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Absolument. Nous respectons le RGPD et ne partageons jamais vos données avec des tiers. 
+                                Vos informations sont uniquement utilisées pour traiter votre demande.
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

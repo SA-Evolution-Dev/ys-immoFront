@@ -1,0 +1,72 @@
+/* Hero Section */
+.hero-section {
+    min-height: 400px;
+    background-color: #1a1a2e;
+}
+
+.hero-background {
+    z-index: 0;
+}
+
+.hero-background img {
+    object-fit: cover;
+    filter: brightness(0.6);
+}
+
+.bg-gradient-phoenix {
+    background: linear-gradient(135deg,
+            rgba(255, 107, 53, 0.85) 0%,
+            rgba(124, 58, 237, 0.75) 100%);
+    mix-blend-mode: multiply;
+}
+
+.z-2 {
+    z-index: 2;
+}
+
+/* Custom radio buttons */
+.request-type-card {
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid #dee2e6;
+}
+
+.request-type-card:hover {
+    border-color: var(--phoenix-primary);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.request-type-radio:checked+.request-type-card {
+    border-color: var(--phoenix-primary);
+    background-color: rgba(255, 107, 53, 0.05);
+}
+
+.request-type-radio {
+    position: absolute;
+    opacity: 0;
+}
+
+/* FAQ Styles */
+.faq-item {
+    transition: all 0.3s ease;
+}
+
+.faq-item:hover {
+    background-color: #f8f9fa;
+}
+
+.accordion-button:not(.collapsed) {
+    background-color: rgba(255, 107, 53, 0.1);
+    color: var(--phoenix-primary);
+}
+
+/* Info Cards */
+.info-card {
+    transition: all 0.3s ease;
+}
+
+.info-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}

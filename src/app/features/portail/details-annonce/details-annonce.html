@@ -4,34 +4,68 @@
             
             <!-- COLONNE GAUCHE : Galerie + Agent -->
             <div class="col-lg-7">
-                
-                <!-- Galerie Principale -->
+                <!-- Galerie Principale avec Swiper -->
                 <div class="position-relative mb-3">
-                    <div class="property-badges position-absolute top-0 start-0 p-3 z-index-2">
+                    <div class="property-badges position-absolute top-0 start-0 p-3 z-3">
                         <span class="badge bg-primary me-2">Maison à vendre</span>
                         <span class="badge bg-purple">Disponible</span>
                     </div>
                     
-                    <div class="property-main-image rounded-3 overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=800" 
-                             alt="Salon moderne" 
-                             class="w-100" 
-                             style="height: 450px; object-fit: cover;">
+                    <!-- Swiper Principal -->
+                    <swiper-container 
+                        class="property-swiper-main rounded-3"
+                        thumbs-swiper=".property-swiper-thumbs"
+                        space-between="10"
+                        navigation="true"
+                        pagination="true"
+                        pagination-clickable="true"
+                        loop="true"
+                        keyboard="true"
+                        grab-cursor="true"
+                        style="--swiper-navigation-color: #FF6B35; --swiper-pagination-color: #FF6B35;">
                         
-                        <!-- Navigation arrows -->
-                        <button class="carousel-control carousel-control-prev" type="button">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        </button>
-                        <button class="carousel-control carousel-control-next" type="button">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        </button>
-                    </div>
+                        <swiper-slide>
+                            <img src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=800" 
+                                 alt="Salon moderne avec canapé beige" 
+                                 class="w-100" 
+                                 style="height: 450px; object-fit: cover;">
+                        </swiper-slide>
+                        
+                        <swiper-slide>
+                            <img src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=800" 
+                                 alt="Chambre lumineuse" 
+                                 class="w-100" 
+                                 style="height: 450px; object-fit: cover;">
+                        </swiper-slide>
+                        
+                        <swiper-slide>
+                            <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800" 
+                                 alt="Cuisine moderne équipée" 
+                                 class="w-100" 
+                                 style="height: 450px; object-fit: cover;">
+                        </swiper-slide>
+                        
+                        <swiper-slide>
+                            <img src="https://images.unsplash.com/photo-1600566753151-384129cf4e3e?w=800" 
+                                 alt="Salle de bain contemporaine" 
+                                 class="w-100" 
+                                 style="height: 450px; object-fit: cover;">
+                        </swiper-slide>
+                        
+                        <swiper-slide>
+                            <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800" 
+                                 alt="Extérieur et jardin" 
+                                 class="w-100" 
+                                 style="height: 450px; object-fit: cover;">
+                        </swiper-slide>
+                        
+                    </swiper-container>
                 </div>
 
                 <!-- Card Agent -->
                 <div class="card mb-3">
                     <div class="card-body">
-                        <div class="d-flex align-items-center justify-content-between">
+                        <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
                             <div class="d-flex align-items-center">
                                 <img src="https://i.pravatar.cc/80?img=12" 
                                      alt="Sacha Montserrat" 
@@ -69,33 +103,48 @@
                     </div>
                 </div>
 
-                <!-- Miniatures galerie -->
-                <div class="row g-2">
-                    <div class="col-4">
+                <!-- Swiper Miniatures (Thumbs) -->
+                <swiper-container 
+                    class="property-swiper-thumbs"
+                    space-between="10"
+                    slides-per-view="3"
+                    free-mode="true"
+                    watch-slides-progress="true"
+                    breakpoints='{
+                        "576": {"slidesPerView": 4},
+                        "768": {"slidesPerView": 5}
+                    }'>
+                    
+                    <swiper-slide>
                         <div class="property-thumbnail rounded-2 overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=300" 
-                                 alt="Chambre" 
+                            <img src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=300" 
+                                 alt="Salon" 
                                  class="w-100" 
                                  style="height: 120px; object-fit: cover; cursor: pointer;">
                         </div>
-                    </div>
-                    <div class="col-4">
+                    </swiper-slide>
+                    
+                    <swiper-slide>
                         <div class="property-thumbnail rounded-2 overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=300" 
-                                 alt="Cuisine" 
+                            <img src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=300" 
+                                 alt="Salon" 
                                  class="w-100" 
                                  style="height: 120px; object-fit: cover; cursor: pointer;">
                         </div>
-                    </div>
-                    <div class="col-4">
+                    </swiper-slide>
+                    
+                    <swiper-slide>
                         <div class="property-thumbnail rounded-2 overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1600566753151-384129cf4e3e?w=300" 
-                                 alt="Salle de bain" 
+                            <img src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=300" 
+                                 alt="Salon" 
                                  class="w-100" 
                                  style="height: 120px; object-fit: cover; cursor: pointer;">
                         </div>
-                    </div>
-                </div>
+                    </swiper-slide>
+                </swiper-container>
+
+
+
 
             </div>
 
@@ -103,32 +152,14 @@
             <div class="col-lg-5">
                 
                 <div class="card h-100">
-                    <div class="card-body">
-                        
-                        <!-- Tag Agence/Particulier -->
-                        <div class="mb-3">
-                            <!-- Option 1 : Agence -->
-                            <span class="badge badge-phoenix badge-phoenix-info">
-                                <i class="fas fa-building me-1"></i>
-                                Agence immobilière
-                            </span>
-                            
-                            <!-- Option 2 : Particulier (alternative - décommenter pour utiliser) -->
-                            <!-- 
-                            <span class="badge badge-phoenix badge-phoenix-success">
-                                <i class="fas fa-user me-1"></i>
-                                Particulier
-                            </span>
-                            -->
-                        </div>
-                        
+                    <div class="card-body">                        
                         <!-- Titre -->
                         <h2 class="fw-bold mb-2">
                             Magnifique Maison 180m² à deux pas du centre ville de Montpellier
                         </h2>
 
                         <!-- Prix + Date de publication -->
-                        <div class="d-flex align-items-baseline justify-content-between mb-3">
+                        <div class="d-flex align-items-baseline justify-content-between mb-3 flex-wrap gap-2">
                             <h3 class="text-primary fw-bold mb-0" style="color: #FF6B35 !important;">
                                 1 440 000 €
                             </h3>
@@ -200,7 +231,8 @@
                                 height="200" 
                                 style="border:0;" 
                                 allowfullscreen="" 
-                                loading="lazy">
+                                loading="lazy"
+                                referrerpolicy="no-referrer-when-downgrade">
                             </iframe>
                         </div>
 

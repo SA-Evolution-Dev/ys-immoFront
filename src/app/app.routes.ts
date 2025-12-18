@@ -18,6 +18,16 @@ export const routes: Routes = [
             {
                 path: 'details-annonce',
                 loadComponent: () => import('./features/portail/details-annonce/details-annonce').then(m => m.DetailsAnnonce),
+                title: 'Details de annonce'
+            },
+            {
+                path: 'liste-des-annonces',
+                loadComponent: () => import('./features/portail/listing-annonces/listing-annonces').then(m => m.ListingAnnonces),
+                title: 'Accueil'
+            },
+            {
+                path: 'contact',
+                loadComponent: () => import('./features/portail/contact/contact').then(m => m.Contact),
                 title: 'Accueil'
             },
             // {
@@ -43,6 +53,15 @@ export const routes: Routes = [
 
 
 
-
-
+    {
+        path: 'authentification',
+        loadComponent: () => import('./features/portail/login/login').then(m => m.Login),
+        title: 'Authentification'
+    },
+    {
+        path: 'inscription',
+        loadComponent: () => import('./features/portail/registration/registration').then(m => m.Registration),
+        title: 'Inscription'
+    },
+    { path: '**', redirectTo: 'home' }
 ];

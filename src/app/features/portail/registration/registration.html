@@ -1,0 +1,86 @@
+<main class="main" id="top">
+    <div class="row vh-100 g-0">
+        <div class="col-lg-6 position-relative d-none d-lg-block">
+            <div class="bg-holder" style="background-image:url(assets/img/bg/search/3.jpg);">
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="row flex-center h-100 g-0 px-4 px-sm-0">
+                <div class="col col-sm-6 col-lg-7 col-xl-6">
+                    <a class="d-flex flex-center text-decoration-none mb-4" href="../../../index.html">
+                        <div class="d-flex align-items-center fw-bolder fs-3 d-inline-block">
+                            <img src="../../../assets/img/icons/logo.png" alt="phoenix" width="58" />
+                        </div>
+                    </a>
+
+                    <div class="text-center mb-3">
+                        <h3 class="text-body-highlight">Créer un compte</h3>
+                        <p class="text-body-tertiary">Créez votre compte dès aujourd’hui</p>
+                    </div>
+
+                    <button class="btn btn-phoenix-secondary w-100 mb-2">
+                        <span class="fab fa-google text-danger me-2 fs-9"></span>
+                        S’inscrire avec Google
+                    </button>
+
+                    <!-- <button class="btn btn-phoenix-secondary w-100">
+                        <span class="fab fa-facebook text-primary me-2 fs-9"></span>
+                        S’inscrire avec Facebook
+                    </button> -->
+
+                    <div class="position-relative mt-2">
+                        <hr class="bg-body-secondary" />
+                        <div class="divider-content-center">ou utiliser votre email</div>
+                    </div>
+
+                    <form>
+                        <div class="mb-1 text-start">
+                            <label class="form-label" for="name">Nom</label>
+                            <input class="form-control" id="name" type="text" placeholder="Votre nom" />
+                        </div>
+
+                        <div class="mb-1 text-start">
+                            <label class="form-label" for="email">Adresse email</label>
+                            <input class="form-control" id="email" type="email" placeholder="exemple@email.com" />
+                        </div>
+
+                        <div class="row mb-1">
+                            <div class="col-sm-6">
+                                <label class="form-label" for="password">Mot de passe</label>
+                                <div class="position-relative" data-password="data-password">
+                                    <input class="form-control form-icon-input pe-6" id="password" type="password"
+                                        placeholder="Mot de passe" data-password-input="data-password-input" />
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <label class="form-label" for="confirmPassword">Confirmer le mot de passe</label>
+                                <div class="position-relative" data-password="data-password">
+                                    <input class="form-control form-icon-input pe-6" id="confirmPassword" type="password"
+                                        placeholder="Confirmez le mot de passe" data-password-input="data-password-input" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-check my-2">
+                            <input class="form-check-input" id="termsService" type="checkbox" />
+                            <label class="form-label fs-9 text-transform-none" for="termsService">
+                                J’accepte les <a href="#!">conditions</a> et la <a href="#!">politique de confidentialité</a>.
+                            </label>
+                        </div>
+
+                        <button class="btn btn-primary w-100 mb-2">Créer mon compte</button>
+                        <button routerLink="/home" class="btn btn-warning w-100">← Retour à l'accueil</button>
+
+                        <div class="text-center">
+                            <a routerLink="/authentification" class="fs-9 fw-bold" href="">
+                                J’ai déjà un compte
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>

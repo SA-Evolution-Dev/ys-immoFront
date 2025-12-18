@@ -1,4 +1,5 @@
 export const environment = {
   production: false,
-  baseUrl: 'https://dev.api.com'
+  baseUrl: 'http://localhost:3000/api/v1',
+  encryptionKey: 'lIBlRmQAnIV351gxPXm1KIi4zLNvzDvy'
 };

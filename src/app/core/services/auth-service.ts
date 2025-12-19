@@ -58,12 +58,9 @@ export class AuthService {
    * Connexion d'un utilisateur
    */
   login(credentials: any): Observable<any> {
-    console.log('[AUTH SERVICE] Tentative de connexion:', { email: credentials.email });
-
     return this.http.post<any>(`${this.API_URL}/users/login`, credentials).pipe(
       tap((response: any) => {
         if (response.success) {
-          console.log('[AUTH SERVICE] Connexion réussie');
           this.handleAuthSuccess(response);
         }
       }),
@@ -83,12 +80,10 @@ export class AuthService {
    * Déconnexion de l'utilisateur
    */
   logout(): void {
-    console.log('[AUTH SERVICE] Déconnexion de l\'utilisateur');
-
     this.clearStorage();
     this.currentUserSubject.next(null);
     this.isAuthenticated.set(false);
-    this.router.navigate(['/login']);
+    this.router.navigate(['/authentification']);
 
     console.log('[AUTH SERVICE] Déconnexion terminée');
   }
@@ -97,26 +92,20 @@ export class AuthService {
    * Gestion du succès d'authentification
    */
   private handleAuthSuccess(response: any): void {
-    console.log('[AUTH SERVICE] Sauvegarde des données d\'authentification (cryptées)');
-
     if (response.data?.accessToken) {
       this.setToken(response.data.accessToken);
-      console.log('Token crypté et sauvegardé');
     }
 
     if (response.data?.refreshToken) {
       this.setRefreshToken(response.data.refreshToken);
-      console.log('Refresh token crypté et sauvegardé');
     }
 
     if (response.data?.user) {
       this.setUser(response.data.user);
       this.currentUserSubject.next(response.data.user);
-      console.log('Données utilisateur cryptées et sauvegardées');
     }
 
     this.isAuthenticated.set(true);
-    console.log('[AUTH SERVICE] Authentification complète avec succès');
   }
 
    /**

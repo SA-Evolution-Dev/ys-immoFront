@@ -12,15 +12,13 @@ export const roleGuard: CanActivateFn = (route: ActivatedRouteSnapshot) => {
   const requiredRoles = route.data['roles'] as string[];
 
   if (!requiredRoles || requiredRoles.length === 0) {
-    console.warn('[ROLE GUARD] Aucun rôle requis défini');
-    return true;
+    return false;
   }
 
   const user = authService.getCurrentUser();
 
   if (!user) {
-    console.warn('[ROLE GUARD] Utilisateur non trouvé');
-    router.navigate(['/login']);
+    router.navigate(['/authentification']);
     return false;
   }
 

@@ -39,9 +39,8 @@ export class Login {
       next: (response) => {
         // Pour débugger et voir les données cryptées/décryptées
         // this.authService.debugEncryptedData();
-        
         this.isLoading.set(false);
-        this.router.navigate(['/dashboard']);
+        this.router.navigate(['/tableau-de-bord']);
       },
       error: (error) => {
         console.error('Erreur de connexion:', error);

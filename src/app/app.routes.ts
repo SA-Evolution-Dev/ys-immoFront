@@ -35,11 +35,19 @@ export const routes: Routes = [
             }
         ]
     },
-    // {
-    //     path: '404',
-    //     loadComponent: () => import('./pages/errors/not-found/not-found.component').then(m => m.NotFoundComponent),
-    //     title: 'Page non trouvée'
-    // },
+    {
+        path: 'tableau-de-bord',
+        canActivate: [roleGuard],
+        data: { roles: ['user', 'client'] },
+        loadComponent: () => import('./core/layout/dashboard-layout/dashboard-layout').then(m => m.DashboardLayout),
+        children: [
+            {
+                path: '',
+                redirectTo: 'Administration',
+                pathMatch: 'full'
+            }
+        ]
+    },
     {
         path: 'authentification',
         loadComponent: () => import('./features/portail/login/login').then(m => m.Login),

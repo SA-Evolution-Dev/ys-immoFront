@@ -12,8 +12,6 @@ export const authGuard: CanActivateFn = (
   const authService = inject(AuthService);
   const router = inject(Router);
 
-  console.log('[AUTH GUARD] Vérification de l\'accès à:', state.url);
-
   // Vérifier si l'utilisateur a un token valide
   const hasToken = authService.hasToken();
   const isTokenExpired = authService.isTokenExpired();
@@ -25,7 +23,6 @@ export const authGuard: CanActivateFn = (
     if (requiredRoles) {
       const userHasRole = checkUserRoles(authService, requiredRoles);
       if (!userHasRole) {
-        console.warn('[AUTH GUARD] Accès refusé - Rôle insuffisant');
         router.navigate(['/unauthorized']);
         return false;
       }
@@ -33,7 +30,6 @@ export const authGuard: CanActivateFn = (
 
     return true;
   } else {
-    console.warn('[AUTH GUARD] Accès refusé - Non authentifié ou token expiré');
     // Sauvegarder l'URL demandée pour redirection après login
     const returnUrl = state.url;
     
@@ -59,6 +55,5 @@ function checkUserRoles(authService: AuthService, requiredRoles: string[]): bool
   const userRole = user.role.toLowerCase();
   const hasRole = requiredRoles.some(role => role.toLowerCase() === userRole);
 
-  console.log('[AUTH GUARD] Vérification des rôles:');
   return hasRole;
 }

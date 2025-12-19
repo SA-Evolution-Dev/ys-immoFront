@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { AuthService } from '../../../../core/services/auth-service';
 
 @Component({
   selector: 'app-p-header',
@@ -8,5 +9,15 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
   styleUrl: './p-header.scss',
 })
 export class PHeader {
+  private readonly authService = inject(AuthService);
+  public isAuthenticated = signal<boolean>(false);
+
+  constructor() {
+    this.isAuthenticated.set(this.authService.isLoggedIn());
+  }
+
+  deconnexion(): void {
+    this.authService.logout();
+  }
 
 }

@@ -1,6 +1,6 @@
 import { RouterLink } from '@angular/router';
 import { Component, inject, signal } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, AbstractControl, ValidationErrors } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../core/services/auth-service';
 import { CommonModule } from '@angular/common';
@@ -20,14 +20,63 @@ export class Registration {
   public errorMessage = signal('');
 
   public registerForm: FormGroup = this.fb.group({
+    name: ['', [Validators.required, Validators.minLength(3)]],
     email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required, Validators.minLength(6)]],
-    firstName: [''],
-    lastName: ['']
+    password: ['', [
+      Validators.required,
+      Validators.minLength(6),
+      this.passwordStrengthValidator
+    ]],
+    confirmPassword: ['', [
+      Validators.required,
+      Validators.minLength(8)
+    ]],
+    acceptTerms: [false, [Validators.requiredTrue]]
+  }, {
+    validators: this.passwordMatchValidator
   });
+
+
+  // Validateur de force du mot de passe
+  private passwordStrengthValidator(control: AbstractControl): ValidationErrors | null {
+    const password = control.value;
+    
+    if (!password) {
+      return null; // Laisse Validators.required gérer le champ vide
+    }
+
+    const hasUpperCase = /[A-Z]/.test(password);
+    const hasLowerCase = /[a-z]/.test(password);
+    const hasNumeric = /[0-9]/.test(password);
+    const hasSpecialChar = /[@$!%*?&]/.test(password);
+
+    const passwordValid = hasUpperCase && hasLowerCase && hasNumeric && hasSpecialChar;
+
+    return !passwordValid ? { 
+      passwordStrength: {
+        message: 'Le mot de passe doit contenir au moins une majuscule, une minuscule, un chiffre et un caractère spécial (@$!%*?&)'
+      }
+    } : null;
+  }
+
+
+  // Validateur de correspondance des mots de passe
+  private passwordMatchValidator(group: AbstractControl): ValidationErrors | null {
+    const password = group.get('password')?.value;
+    const confirmPassword = group.get('confirmPassword')?.value;
+
+    // Si confirmPassword est vide, laisse Validators.required gérer
+    if (!confirmPassword) {
+      return null;
+    }
+
+    // Vérifie la correspondance
+    return password === confirmPassword ? null : { passwordMismatch: true };
+  }
 
   onSubmit(): void {
     if (this.registerForm.invalid) {
+      this.registerForm.markAllAsTouched()
       return;
     }
 
@@ -50,7 +99,9 @@ export class Registration {
     });
   }
 
-
-
+  // Getter pour accès facile aux contrôles
+  get f() {
+    return this.registerForm.controls;
+  }
 
 }

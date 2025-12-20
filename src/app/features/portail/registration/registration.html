@@ -7,7 +7,7 @@
 
         <div class="col-lg-6">
             <div class="row flex-center h-100 g-0 px-4 px-sm-0">
-                <div class="col col-sm-6 col-lg-7 col-xl-6">
+                <div class="col col-sm-6 col-lg-7 col-xl-8">
                     <a class="d-flex flex-center text-decoration-none mb-4" href="../../../index.html">
                         <div class="d-flex align-items-center fw-bolder fs-3 d-inline-block">
                             <img src="../../../assets/img/icons/logo.png" alt="phoenix" width="58" />
@@ -24,54 +24,93 @@
                         S’inscrire avec Google
                     </button>
 
-                    <!-- <button class="btn btn-phoenix-secondary w-100">
-                        <span class="fab fa-facebook text-primary me-2 fs-9"></span>
-                        S’inscrire avec Facebook
-                    </button> -->
-
                     <div class="position-relative mt-2">
                         <hr class="bg-body-secondary" />
                         <div class="divider-content-center">ou utiliser votre email</div>
                     </div>
 
-                    <form>
+                    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
                         <div class="mb-1 text-start">
-                            <label class="form-label" for="name">Nom</label>
-                            <input class="form-control" id="name" type="text" placeholder="Votre nom" />
+                            <label class="form-label" for="name">Nom et prenom</label>
+                            <input class="form-control" id="name" type="text" formControlName="name"  
+                                [class.error]="f['name'].invalid && (f['name'].dirty || f['name'].touched)" />
+                                @if (f['name'].invalid && (f['name'].dirty || f['name'].touched)) {
+                                    @if (f['name'].errors?.['required']) {
+                                        <span class="error-message">Le nom est requis</span>
+                                    }
+                                    @if (f['name'].errors?.['minlength']) {
+                                        <span class="error-message">Le nom doit contenir au moins 2 caractères</span>
+                                    }
+                                }
                         </div>
 
                         <div class="mb-1 text-start">
                             <label class="form-label" for="email">Adresse email</label>
-                            <input class="form-control" id="email" type="email" placeholder="exemple@email.com" />
+                            <input class="form-control" id="email" type="email" formControlName="email" 
+                                [class.error]="f['email'].invalid && (f['email'].dirty || f['email'].touched)" />
+                                @if (f['email'].invalid && (f['email'].dirty || f['email'].touched)) {
+                                    @if (f['email'].errors?.['required']) {
+                                        <span class="error-message">L'email est requis</span>
+                                    }
+                                    @if (f['email'].errors?.['email']) {
+                                        <span class="error-message">Email invalide</span>
+                                    }
+                                }
                         </div>
 
                         <div class="row mb-1">
                             <div class="col-sm-6">
                                 <label class="form-label" for="password">Mot de passe</label>
                                 <div class="position-relative" data-password="data-password">
-                                    <input class="form-control form-icon-input pe-6" id="password" type="password"
-                                        placeholder="Mot de passe" data-password-input="data-password-input" />
+                                    <input class="form-control form-icon-input pe-6" id="password" type="password" formControlName="password"
+                                        [class.error]="f['password'].invalid && (f['password'].dirty || f['password'].touched)" />
+                                        @if (f['password'].invalid && (f['password'].dirty || f['password'].touched)) {
+                                            @if (f['password'].errors?.['required']) {
+                                                <span class="error-message">Le mot de passe est requis</span>
+                                            }
+                                            @if (f['password'].errors?.['minlength']) {
+                                                <span class="error-message">Le mot de passe doit contenir au moins 8 caractères</span>
+                                            }
+                                            @if (f['password'].errors?.['passwordStrength']) {
+                                                <span class="error-message">{{ f['password'].errors?.['passwordStrength'].message }}</span>
+                                            }
+                                        }
                                 </div>
                             </div>
 
                             <div class="col-sm-6">
-                                <label class="form-label" for="confirmPassword">Confirmer le mot de passe</label>
+                                <label class="form-label" for="confirmPassword">Repeter le mot de passe</label>
                                 <div class="position-relative" data-password="data-password">
-                                    <input class="form-control form-icon-input pe-6" id="confirmPassword" type="password"
-                                        placeholder="Confirmez le mot de passe" data-password-input="data-password-input" />
+                                    <input class="form-control form-icon-input pe-6" id="confirmPassword" type="password" formControlName="confirmPassword"
+                                        [class.error]="(f['confirmPassword'].invalid || registerForm.errors?.['passwordMismatch']) && (f['confirmPassword'].dirty || f['confirmPassword'].touched)" />
+                                        @if ((f['confirmPassword'].invalid || registerForm.errors?.['passwordMismatch']) && (f['confirmPassword'].dirty || f['confirmPassword'].touched)) {
+                                            @if (f['confirmPassword'].errors?.['required']) {
+                                                <span class="error-message">La confirmation du mot de passe est requise</span>
+                                            }
+                                            @if (f['confirmPassword'].errors?.['minlength']) {
+                                                <span class="error-message">La confirmation doit contenir au moins 8 caractères</span>
+                                            }
+                                            @if (registerForm.errors?.['passwordMismatch'] && !f['confirmPassword'].errors?.['required']) {
+                                                <span class="error-message">Les mots de passe ne correspondent pas</span>
+                                            }
+                                        }
                                 </div>
                             </div>
                         </div>
 
                         <div class="form-check my-2">
-                            <input class="form-check-input" id="termsService" type="checkbox" />
+                            <input class="form-check-input" id="termsService" type="checkbox" formControlName="acceptTerms" 
+                                [class.error]="f['acceptTerms'].invalid && (f['acceptTerms'].dirty || f['acceptTerms'].touched)" />
                             <label class="form-label fs-9 text-transform-none" for="termsService">
                                 J’accepte les <a href="#!">conditions</a> et la <a href="#!">politique de confidentialité</a>.
+                                @if (f['acceptTerms'].invalid && (f['acceptTerms'].dirty || f['acceptTerms'].touched)) {
+                                    <br> <span class="error-message">Vous devez accepter les conditions pour continuer</span>
+                                }
                             </label>
                         </div>
-
-                        <button class="btn btn-primary w-100 mb-2">Créer mon compte</button>
-                        <button routerLink="/home" class="btn btn-warning w-100">← Retour à l'accueil</button>
+                        
+                        <button  type="submit" class="btn btn-primary w-100 mb-2">Créer mon compte</button>
+                        <button routerLink="/home" class="btn btn-warning w-100 mt-2">← Retour à l'accueil</button>
 
                         <div class="text-center">
                             <a routerLink="/authentification" class="fs-9 fw-bold" href="">

@@ -33,12 +33,12 @@ export class AuthService {
    * Inscription d'un nouvel utilisateur
    */
   register(data: any): Observable<any> {
-    console.log('[AUTH SERVICE] Tentative d\'inscription:', { email: data.email });
+    console.log('[AUTH SERVICE] Tentative d\'inscription:', data);
 
-    return this.http.post<any>(`${this.API_URL}/register`, data).pipe(
+    return this.http.post<any>(`${this.API_URL}/users/register`, data).pipe(
       tap((response: any) => {
         if (response.success) {
-          console.log('✅ [AUTH SERVICE] Inscription réussie');
+          console.log('[AUTH SERVICE] Inscription réussie');
           this.handleAuthSuccess(response);
         }
       }),

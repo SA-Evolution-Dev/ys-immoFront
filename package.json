@@ -32,6 +32,7 @@
     "@iconscout/unicons": "^4.2.0",
     "crypto-js": "^4.2.0",
     "rxjs": "~7.8.0",
+    "sweetalert2": "^11.26.11",
     "swiper": "^12.0.3",
     "tslib": "^2.3.0"
   },

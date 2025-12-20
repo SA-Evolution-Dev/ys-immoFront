@@ -1,0 +1,33 @@
+.error-message {
+    font-size: x-small;
+    color: red;
+    font-weight: bold;
+    line-height: 1.2; 
+}
+
+.form-control.error {
+  border-color: #dc3545;
+  
+  &:focus {
+    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+  }
+}
+
+.password-input {
+  position: relative;
+  
+  .toggle-password {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #6c757d;
+    
+    &:hover {
+      color: #495057;
+    }
+  }
+}

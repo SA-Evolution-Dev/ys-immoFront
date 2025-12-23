@@ -37103,3 +37103,23 @@ a[href].bg-body-secondary:hover, a[href].bg-body-secondary:focus {
   border: none;
 }
 /*# sourceMappingURL=theme.css.map */
+
+
+.alert {
+  padding: 12px 16px;
+  margin: 10px 0;
+  border-radius: 6px;
+  font-size: 15px;
+  font-family: sans-serif;
+  color: #fff;
+}
+
+.success { background-color: #28a745; }
+.danger  { background-color: #dc3545; }
+.warning { background-color: #ffc107; color: #000; }
+.info    { background-color: #17a2b8; }
+
+/* <div class="alert success">Opération réussie ✔️</div>
+<div class="alert danger">Erreur : quelque chose s'est mal passé ❌</div>
+<div class="alert warning">Attention : vérifiez vos informations ⚠️</div>
+<div class="alert info">Information : mise à jour disponible ℹ️</div> */

@@ -19,9 +19,31 @@ export class Registration {
   public isLoading = signal(false);
   public errorMessage = signal('');
 
+  ngOnInit(): void {
+
+    this.registerForm.get('role')?.valueChanges.subscribe(value => {
+      const corporateControl = this.registerForm.get('corporateName');
+
+      if (!corporateControl) return;
+
+      if (value === 'client') {
+        corporateControl.setValidators([Validators.required]);
+      } else {
+        corporateControl.clearValidators();
+        corporateControl.setErrors(null);
+      }
+
+      corporateControl.updateValueAndValidity({ emitEvent: false });
+      corporateControl.markAsTouched(); // FORCER l’affichage des erreurs
+    });
+  }
+  
   public registerForm: FormGroup = this.fb.group({
+    role: ['', Validators.required],
     name: ['', [Validators.required, Validators.minLength(3)]],
     email: ['', [Validators.required, Validators.email]],
+    corporateName: [''],
+    corporateLogo: [''],
     password: ['', [
       Validators.required,
       Validators.minLength(6),
@@ -97,6 +119,17 @@ export class Registration {
         );
       }
     });
+  }
+
+  onLogoChange(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.registerForm.patchValue({
+        corporateLogo: input.files[0]
+      });
+
+      this.registerForm.get('corporateLogo')?.updateValueAndValidity();
+    }
   }
 
   // Getter pour accès facile aux contrôles

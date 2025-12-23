@@ -35,7 +35,23 @@ export class AuthService {
   register(data: any): Observable<any> {
     console.log('[AUTH SERVICE] Tentative d\'inscription:', data);
 
-    return this.http.post<any>(`${this.API_URL}/users/register`, data).pipe(
+    const formData = new FormData();
+    formData.append('role', data.role);
+    formData.append('name', data.name);
+    formData.append('email', data.email);
+    formData.append('password', data.password);
+    formData.append('confirmPassword', data.confirmPassword);
+    formData.append('acceptTerms', data.acceptTerms);
+
+    if (data.corporateName) {
+      formData.append('corporateName', data.corporateName);
+    }
+
+    if (data.corporateLogo) {
+      formData.append('corporateLogo', data.corporateLogo); // File
+    }
+
+    return this.http.post<any>(`${this.API_URL}/users/register`, formData).pipe(
       tap((response: any) => {
         if (response.success) {
           console.log('[AUTH SERVICE] Inscription réussie');

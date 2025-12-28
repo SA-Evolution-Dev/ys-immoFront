@@ -6,11 +6,8 @@
         </div>
 
         <div class="col-lg-6">
-
-            
                 <div class="row flex-center h-100 g-0 px-4 px-sm-0">
-
-                    <!-- @if (isLoading()) { -->
+                    @if (!isLoading()) {
 
                         @if (isRegisterAccount()) {
 
@@ -32,11 +29,11 @@
                                 </div>
                             
                                 <!-- Alert Message -->
-                                <div class="alert alert-phoenix-info d-flex align-items-center mb-4" role="alert">
-                                    <span class="fas fa-info-circle text-info fs-8 me-3"></span>
+                                <div class="alert alert-phoenix-success d-flex align-items-center mb-4" role="alert">
+                                    <span class="fas fa-info-circle text-success fs-8 me-3"></span>
                                     <div class="flex-1">
                                         <p class="mb-0 fs-9 fw-semi-bold">
-                                            Un email de confirmation a été envoyé à votre adresse
+                                            Un email d'activation vous a été envoyé. Merci de consulter votre adresse Email pour l'activation de votre compte
                                         </p>
                                     </div>
                                 </div>
@@ -72,7 +69,7 @@
                             
                                 <!-- Actions -->
                                 <div class="d-grid gap-2">
-                                    <button class="btn btn-primary w-100 mb-2">
+                                    <button (click)="resendActivationEmail()" class="btn btn-primary w-100 mb-2">
                                         <i class="fas fa-paper-plane me-2"></i>
                                         Renvoyer l'email d'activation
                                     </button>
@@ -226,12 +223,12 @@
 
                                     @if (errorMessage()) {
                                         <!-- Alert Message -->
-                                        <div class="alert alert-phoenix-danger d-flex align-items-start mb-4" role="alert">
+                                        <div class="alert alert-phoenix-danger d-flex align-items-start mb-2" role="alert">
                                             <span class="fas fa-circle-exclamation text-danger fs-8 me-3 mt-1"></span>
                                             <div class="flex-1">
-                                                <h5 class="mb-1 fs-9 fw-bold text-danger">Erreur survenue</h5>
+                                                <h5 class="mb-1 fs-9 fw-bold text-danger">Impossible de créer le compte</h5>
                                                 <p class="mb-0 fs-10">
-                                                    Le réseau est indisponible, Veuillez réessayer ultérieurement.
+                                                    {{ errorMessage() }}
                                                 </p>
                                             </div>
                                         </div>
@@ -246,7 +243,7 @@
                                         <span class="fa-solid fa-user-plus me-2"></span> Créer mon compte
                                     </button>
 
-                                    <button routerLink="/home" class="btn btn-phoenix-primary w-100" type="button">
+                                    <button routerLink="/home" class="btn btn-phoenix-primary w-100 mt-4" type="button">
                                         <span class="fa-solid fa-home me-2"></span> Retour à l'accueil
                                     </button>
                                     <button routerLink="/authentification" class="btn btn-phoenix-warning w-100 mt-1" type="button">
@@ -257,23 +254,13 @@
 
                         }
 
-                    <!-- }  @else {
-
+                    }  @else { 
                         <app-loading-spinner
-                            title="Création en cours..."
-                            message="Veuillez patienter">
+                            [title]="spinnerTitle()"
+                            [message]="spinnerMessage()">
                         </app-loading-spinner>
-                    } -->
-
-
+                    }
                 </div>
-            
-
-            
-
-
-            
-
         </div>
     </div>
 </main>

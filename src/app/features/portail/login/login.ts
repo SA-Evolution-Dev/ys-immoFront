@@ -5,11 +5,12 @@ import { AuthService } from '../../../core/services/auth-service';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { HttpClient } from "@angular/common/http";
+import { LoadingSpinnerComponent } from '../../../shared/components/loading-spinner/loading-spinner';
 
 
 @Component({
   selector: 'app-login',
-  imports: [CommonModule, ReactiveFormsModule, RouterLink],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink, LoadingSpinnerComponent],
   templateUrl: './login.html',
   styleUrl: './login.scss',
 })
@@ -26,6 +27,9 @@ export class Login {
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required, Validators.minLength(6)]]
   });
+
+  public spinnerTitle = signal('Connexion en cours ...');
+  public spinnerMessage = signal('Veuillez patienter');
 
   onSubmit(): void {
     if (this.loginForm.invalid) {

@@ -5,10 +5,12 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../../core/services/auth-service';
 import { CommonModule } from '@angular/common';
 import { LoadingSpinnerComponent } from '../../../shared/components/loading-spinner/loading-spinner';
+import { takeUntil } from 'rxjs/internal/operators/takeUntil';
+import { Subject } from 'rxjs/internal/Subject';
 
 @Component({
   selector: 'app-registration',
-  imports: [RouterLink, ReactiveFormsModule, CommonModule, ], //LoadingSpinnerComponent
+  imports: [RouterLink, ReactiveFormsModule, CommonModule, LoadingSpinnerComponent ],
   templateUrl: './registration.html',
   styleUrl: './registration.scss',
 })
@@ -16,10 +18,16 @@ export class Registration {
   private readonly authService = inject(AuthService);
   private readonly fb = inject(FormBuilder);
   private readonly router = inject(Router);
+  private destroy$ = new Subject<void>();
 
   public isLoading = signal(false);
+  public toto = signal(false);
   public errorMessage = signal('');
   public isRegisterAccount = signal(false);
+  public resendEmail = signal<string>('');
+
+  public spinnerTitle = signal('Création de votre compte...');
+  public spinnerMessage = signal('Nous préparons votre espace personnel');
 
   ngOnInit(): void {
 
@@ -110,6 +118,7 @@ export class Registration {
     this.authService.register(this.registerForm.value).subscribe({
       next: (response) => {
         console.log('✅ Inscription réussie:', response);
+        this.resendEmail.set(response.data.user.email);
         this.isLoading.set(false);
         this.isRegisterAccount.set(true);
       },
@@ -138,6 +147,32 @@ export class Registration {
   // Getter pour accès facile aux contrôles
   get f() {
     return this.registerForm.controls;
+  }
+
+  resendActivationEmail(): void {
+    const email = this.resendEmail();
+
+    if (!email || this.isLoading()) {
+      return;
+    }
+
+    this.spinnerTitle.set("Renvoi du mail d'activation en cours...");
+    this.spinnerMessage.set('Veuillez patienter');
+
+    this.isLoading.set(true);
+
+    this.authService.resendActivation(email)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (response) => {
+          this.isRegisterAccount.set(true);
+          this.isLoading.set(false);
+        },
+        error: (error) => {
+          this.isRegisterAccount.set(true);
+          this.isLoading.set(false);
+        }
+      });
   }
 
 }

@@ -1,92 +1,105 @@
 <main class="main" id="top">
     <div class="container">
         <div class="row flex-center min-vh-100 py-5">
-            <div class="col-sm-10 col-md-8 col-lg-5 col-xl-5 col-xxl-3">
-                <a class="d-flex flex-center text-decoration-none mb-4">
-                    <div class="d-flex align-items-center fw-bolder fs-3 d-inline-block">
-                        <img src="../../../assets/img/icons/logo.png" alt="phoenix" width="58" />
-                    </div>
-                </a>
 
-                <div class="text-center mb-7">
-                    <h3 class="text-body-highlight">Connexion</h3>
-                    <p class="text-body-tertiary">Accédez à votre compte</p>
-                </div>
+            @if (!isLoading()) {
 
-                <button class="btn btn-phoenix-secondary w-100 mb-3">
-                    <span class="fab fa-google text-danger me-2 fs-9"></span>Se connecter avec Google
-                </button>
-
-                <!-- <button class="btn btn-phoenix-secondary w-100">
-                    <span class="fab fa-facebook text-primary me-2 fs-9"></span>Se connecter avec Facebook
-                </button> -->
-
-                <div class="position-relative">
-                    <hr class="bg-body-secondary mt-5 mb-4" />
-                    <div class="divider-content-center">ou utiliser votre email</div>
-                </div>
-
-                <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-                    <div class="mb-1 text-start">
-                        <label class="form-label" for="email">Adresse email</label>
-                        <div class="form-icon-container">
-                            <input class="form-control form-icon-input" id="email" type="email" formControlName="email" 
-                                [class.error]="loginForm.get('email')?.invalid && loginForm.get('email')?.touched" />
-                                @if (loginForm.get('email')?.invalid && loginForm.get('email')?.touched) {
-                                    <span class="error-message">Email invalide</span>
-                                }
-                            <span class="fas fa-user text-body fs-9 form-icon"></span>
+                <div class="col-sm-10 col-md-8 col-lg-5 col-xl-5 col-xxl-3">
+                    <a class="d-flex flex-center text-decoration-none mb-4">
+                        <div class="d-flex align-items-center fw-bolder fs-3 d-inline-block">
+                            <img src="../../../assets/img/icons/logo.png" alt="phoenix" width="58" />
                         </div>
-                    </div>
-                    <div class="mb-3 text-start">
-                        <label class="form-label" for="password">Mot de passe</label>
-                        <div class="form-icon-container" data-password="data-password">
-                            <input class="form-control form-icon-input pe-6" id="password" type="password" formControlName="password"
-                                [class.error]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" />
-                                @if (loginForm.get('password')?.invalid && loginForm.get('password')?.touched) {
-                                    <span class="error-message">Le mot de passe est incorrect</span>
-                                }
+                    </a>
 
-                                @if (errorMessage()) {
-                                    <div class="error-message">
-                                        {{ errorMessage() }}
-                                    </div>
-                                }
-                            <span class="fas fa-key text-body fs-9 form-icon"></span>
-                        </div>
-                    </div>
-                    
-                    <div class="row flex-between-center mb-1">
-                        <div class="col-auto">
-                            <!-- <div class="form-check mb-0">
-                                <input class="form-check-input" id="basic-checkbox" type="checkbox" checked="checked" />
-                                <label class="form-check-label mb-0" for="basic-checkbox">Se souvenir de moi</label>
-                            </div> -->
-                        </div>
-                        <div class="col-auto">
-                            <a class="fs-9 fw-semibold" href="">
-                                Mot de passe oublié ?
-                            </a>
-                        </div>
+                    <div class="text-center mb-7">
+                        <h3 class="text-body-highlight">Connexion</h3>
+                        <p class="text-body-tertiary">Accédez à votre compte</p>
                     </div>
 
-                    <!-- [disabled]="loginForm.invalid || isLoading()" -->
-                    <button type="submit" class="btn btn-primary w-100 mb-3">
-                        @if (isLoading()) {
-                            Connexion en cours...
-                        } @else {
-                            <span class="fa-solid fa-sign-in-alt me-2"></span> Se connecter
-                        }
+                    <button class="btn btn-phoenix-secondary w-100 mb-3">
+                        <span class="fab fa-google text-danger me-2 fs-9"></span>Se connecter avec Google
                     </button>
-                </form>
 
-                <button routerLink="/home" class="btn btn-phoenix-primary w-100" type="button">
-                    <span class="fa-solid fa-home me-2"></span>Retour à l'accueil
-                </button>
-                <button routerLink="/inscription" class="btn btn-phoenix-warning w-100 mt-1" type="button">
-                    <span class="fa-solid fa-user-plus me-2"></span> Je veux créer mon compte
-                </button>
-            </div>
+                    <!-- <button class="btn btn-phoenix-secondary w-100">
+                        <span class="fab fa-facebook text-primary me-2 fs-9"></span>Se connecter avec Facebook
+                    </button> -->
+
+                    <div class="position-relative">
+                        <hr class="bg-body-secondary mt-5 mb-4" />
+                        <div class="divider-content-center">ou utiliser votre email</div>
+                    </div>
+
+                    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                        <div class="mb-1 text-start">
+                            <label class="form-label" for="email">Adresse email</label>
+                            <div class="form-icon-container">
+                                <input class="form-control form-icon-input" id="email" type="email" formControlName="email" 
+                                    [class.error]="loginForm.get('email')?.invalid && loginForm.get('email')?.touched" />
+                                    @if (loginForm.get('email')?.invalid && loginForm.get('email')?.touched) {
+                                        <span class="error-message">Email invalide</span>
+                                    }
+                                <span class="fas fa-user text-body fs-9 form-icon"></span>
+                            </div>
+                        </div>
+                        <div class="mb-3 text-start">
+                            <label class="form-label" for="password">Mot de passe</label>
+                            <div class="form-icon-container" data-password="data-password">
+                                <input class="form-control form-icon-input pe-6" id="password" type="password" formControlName="password"
+                                    [class.error]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" />
+                                    @if (loginForm.get('password')?.invalid && loginForm.get('password')?.touched) {
+                                        <span class="error-message">Le mot de passe est incorrect</span>
+                                    }
+
+                                    @if (errorMessage()) {
+                                        <div class="error-message">
+                                            {{ errorMessage() }}
+                                        </div>
+                                    }
+                                <span class="fas fa-key text-body fs-9 form-icon"></span>
+                            </div>
+                        </div>
+                        
+                        <div class="row flex-between-center mb-1">
+                            <div class="col-auto">
+                                <!-- <div class="form-check mb-0">
+                                    <input class="form-check-input" id="basic-checkbox" type="checkbox" checked="checked" />
+                                    <label class="form-check-label mb-0" for="basic-checkbox">Se souvenir de moi</label>
+                                </div> -->
+                            </div>
+                            <div class="col-auto">
+                                <a class="fs-9 fw-semibold" href="">
+                                    Mot de passe oublié ?
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- [disabled]="loginForm.invalid || isLoading()" -->
+                        <button type="submit" class="btn btn-primary w-100 mb-3">
+                            @if (isLoading()) {
+                                Connexion en cours...
+                            } @else {
+                                <span class="fa-solid fa-sign-in-alt me-2"></span> Se connecter
+                            }
+                        </button>
+                    </form>
+
+                    <button routerLink="/home" class="btn btn-phoenix-primary w-100" type="button">
+                        <span class="fa-solid fa-home me-2"></span>Retour à l'accueil
+                    </button>
+                    <button routerLink="/inscription" class="btn btn-phoenix-warning w-100 mt-1" type="button">
+                        <span class="fa-solid fa-user-plus me-2"></span> Je veux créer mon compte
+                    </button>
+                </div>
+
+            }  @else {
+                <app-loading-spinner
+                    [title]="spinnerTitle()"
+                    [message]="spinnerMessage()">
+                </app-loading-spinner>
+            }
+
+
+
         </div>
     </div>
 </main>

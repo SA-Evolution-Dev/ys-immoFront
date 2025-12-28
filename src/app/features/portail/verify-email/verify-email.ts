@@ -78,10 +78,10 @@ export class VerifyEmail implements OnInit, OnDestroy {
     this.message.set(response.message);
     this.email.set(response.data?.email || '');
         
-    // Redirection automatique après 10 secondes
+    // Redirection automatique après 1min
     this.redirectTimer = window.setTimeout(() => {
       this.goToLogin();
-    }, 10000);
+    }, 60000);
   }
 
   goToLogin(): void {

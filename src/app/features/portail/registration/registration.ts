@@ -18,6 +18,7 @@ export class Registration {
 
   public isLoading = signal(false);
   public errorMessage = signal('');
+  public isRegisterAccount = signal(false);
 
   ngOnInit(): void {
 
@@ -26,7 +27,7 @@ export class Registration {
 
       if (!corporateControl) return;
 
-      if (value === 'client') {
+      if (value === 'entreprise') {
         corporateControl.setValidators([Validators.required]);
       } else {
         corporateControl.clearValidators();
@@ -109,11 +110,12 @@ export class Registration {
       next: (response) => {
         console.log('✅ Inscription réussie:', response);
         this.isLoading.set(false);
-        this.router.navigate(['/dashboard']);
+        this.isRegisterAccount.set(true);
       },
       error: (error) => {
         console.error('❌ Erreur d\'inscription:', error);
         this.isLoading.set(false);
+        this.isRegisterAccount.set(false);
         this.errorMessage.set(
           error.error?.message || 'Une erreur est survenue lors de l\'inscription'
         );

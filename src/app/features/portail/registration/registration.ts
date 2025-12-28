@@ -4,10 +4,11 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, AbstractContro
 import { Router } from '@angular/router';
 import { AuthService } from '../../../core/services/auth-service';
 import { CommonModule } from '@angular/common';
+import { LoadingSpinnerComponent } from '../../../shared/components/loading-spinner/loading-spinner';
 
 @Component({
   selector: 'app-registration',
-  imports: [RouterLink, ReactiveFormsModule, CommonModule],
+  imports: [RouterLink, ReactiveFormsModule, CommonModule, ], //LoadingSpinnerComponent
   templateUrl: './registration.html',
   styleUrl: './registration.scss',
 })

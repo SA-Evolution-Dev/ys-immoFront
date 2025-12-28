@@ -1,0 +1,133 @@
+.loading-spinner-container {
+    position: relative;
+
+    &.with-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+    }
+}
+
+// Overlay semi-transparent
+.spinner-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(2px);
+    z-index: 1;
+}
+
+// Contenu du spinner
+.spinner-content {
+    z-index: 2;
+
+    &.relative-content {
+        position: relative;
+        background-color: var(--phoenix-body-bg);
+        padding: 2rem;
+        border-radius: 0.75rem;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        min-width: 280px;
+    }
+}
+
+// Animation du spinner
+.spinner-border {
+    animation: spinner-rotate 0.75s linear infinite;
+    border-width: 0.25rem;
+}
+
+@keyframes spinner-rotate {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+// Animation de fade-in
+.fade-in {
+    animation: fadeInUp 0.4s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+// Animations des textes
+.spinner-title {
+    animation: fadeIn 0.5s ease-out 0.2s both;
+    font-weight: 600;
+}
+
+.spinner-message {
+    animation: fadeIn 0.5s ease-out 0.3s both;
+    font-size: 0.875rem;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+// Effet de pulsation sur le spinner
+.spinner-border {
+    &.text-primary {
+        filter: drop-shadow(0 0 8px rgba(13, 110, 253, 0.4));
+    }
+
+    &.text-success {
+        filter: drop-shadow(0 0 8px rgba(0, 207, 134, 0.4));
+    }
+
+    &.text-danger {
+        filter: drop-shadow(0 0 8px rgba(239, 83, 80, 0.4));
+    }
+
+    &.text-warning {
+        filter: drop-shadow(0 0 8px rgba(242, 153, 74, 0.4));
+    }
+}
+
+// Responsive
+@media (max-width: 575.98px) {
+    .spinner-content.relative-content {
+        padding: 1.5rem;
+        min-width: 240px;
+    }
+
+    .spinner-title {
+        font-size: 1.125rem;
+    }
+
+    .spinner-message {
+        font-size: 0.8125rem;
+    }
+}
+
+// Dark mode support
+@media (prefers-color-scheme: dark) {
+    .spinner-overlay {
+        background-color: rgba(0, 0, 0, 0.7);
+    }
+}

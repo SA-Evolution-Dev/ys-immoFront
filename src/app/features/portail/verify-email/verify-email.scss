@@ -1,0 +1,272 @@
+// src/app/pages/verify-email/verify-email.component.scss
+
+// Animation d'apparition
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.main {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+// Animation pour les icônes
+@keyframes scaleIn {
+  0% {
+    transform: scale(0) rotate(-180deg);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.1) rotate(10deg);
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-8px); }
+  20%, 40%, 60%, 80% { transform: translateX(8px); }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+.fa-circle-check {
+  animation: scaleIn 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.fa-clock,
+.fa-triangle-exclamation {
+  animation: shake 0.6s ease-out;
+}
+
+// Amélioration des alertes
+.alert {
+  border-radius: 0.5rem;
+  border: none;
+  animation: fadeInUp 0.4s ease-out;
+  
+  &.alert-success {
+    background-color: rgba(0, 207, 134, 0.1);
+    color: #00cf86;
+    border-left: 4px solid #00cf86;
+  }
+  
+  &.alert-warning {
+    background-color: rgba(242, 153, 74, 0.1);
+    color: #f2994a;
+    border-left: 4px solid #f2994a;
+  }
+  
+  &.alert-danger {
+    background-color: rgba(239, 83, 80, 0.1);
+    color: #ef5350;
+    border-left: 4px solid #ef5350;
+  }
+}
+
+// Amélioration des boutons
+.btn {
+  font-weight: 600;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+  }
+  
+  &:active::before {
+    width: 300px;
+    height: 300px;
+  }
+  
+  &:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+  
+  &:active:not(:disabled) {
+    transform: translateY(0);
+  }
+  
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+}
+
+// Style pour les inputs
+.form-control {
+  transition: all 0.3s ease;
+  
+  &:focus {
+    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.15);
+    transform: translateY(-1px);
+  }
+}
+
+.border-translucent {
+  transition: border-color 0.3s ease;
+  
+  &:focus-within {
+    border-color: var(--phoenix-primary) !important;
+    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.1);
+  }
+}
+
+// Animation du spinner
+.spinner-border {
+  animation: spinner-border 0.75s linear infinite;
+}
+
+@keyframes spinner-border {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// Style pour le logo
+.d-flex.align-items-center.fw-bolder {
+  transition: transform 0.3s ease;
+  
+  &:hover {
+    transform: scale(1.05);
+  }
+  
+  img {
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+  }
+}
+
+// Toast animations
+.toast {
+  min-width: 300px;
+  animation: slideInRight 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  
+  &.bg-success {
+    background-color: #00cf86 !important;
+  }
+  
+  &.bg-danger {
+    background-color: #ef5350 !important;
+  }
+  
+  &.bg-warning {
+    background-color: #f2994a !important;
+  }
+  
+  &.bg-info {
+    background-color: #3b7ddd !important;
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+// Effet hover sur les liens
+a {
+  transition: all 0.3s ease;
+  
+  &:hover {
+    transform: translateX(2px);
+  }
+}
+
+// Message d'erreur de validation
+.text-danger {
+  animation: fadeInUp 0.3s ease-out;
+}
+
+// Responsive
+@media (max-width: 575.98px) {
+  .col-sm-10 {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  .btn {
+    font-size: 0.875rem;
+    padding: 0.625rem 1rem;
+  }
+  
+  h4 {
+    font-size: 1.25rem;
+  }
+  
+  .fa-circle-check,
+  .fa-clock,
+  .fa-triangle-exclamation {
+    font-size: 3.5rem !important;
+  }
+}
+
+// Loading state effect
+.spinner-border {
+  &.text-primary {
+    border-color: rgba(13, 110, 253, 0.2);
+    border-top-color: #0d6efd;
+  }
+}
+
+// Amélioration de l'accessibilité
+button:focus-visible,
+input:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--phoenix-primary);
+  outline-offset: 2px;
+}
+
+// Animation pour le footer
+.text-center.mt-4 {
+  animation: fadeInUp 0.6s ease-out 0.3s both;
+}
+
+// État disabled pour les inputs
+input:disabled {
+  background-color: #f8f9fa;
+  cursor: not-allowed;
+}
+
+// Style pour les badges (si utilisés)
+.badge {
+  font-weight: 600;
+  padding: 0.35em 0.65em;
+  border-radius: 0.375rem;
+}
+
+// Transition douce pour tous les éléments
+* {
+  transition: color 0.15s ease-in-out, 
+              background-color 0.15s ease-in-out, 
+              border-color 0.15s ease-in-out;
+}

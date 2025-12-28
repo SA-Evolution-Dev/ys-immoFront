@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { authGuard } from './core/guards/auth-guard';
 import { guestGuard } from './core/guards/guest.guard';
 import { roleGuard } from './core/guards/role.guard';
+import { VerifyEmail } from './features/portail/verify-email/verify-email';
 
 export const routes: Routes = [
     {
@@ -59,6 +60,11 @@ export const routes: Routes = [
         loadComponent: () => import('./features/portail/registration/registration').then(m => m.Registration),
         canActivate: [guestGuard],
         title: 'Inscription'
+    },
+    {
+        path: 'verify-email/:token',
+        component: VerifyEmail,
+        title: 'Vérification de votre email'
     },
     { path: '**', redirectTo: 'home' }
 ];

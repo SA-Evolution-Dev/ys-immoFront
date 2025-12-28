@@ -1,0 +1,56 @@
+<div *ngIf="show" class="loading-spinner-container" [class.text-center]="centered" [class.mb-6]="centered"
+    [class.fade-in]="fadeIn" [class.with-overlay]="overlay" [ngClass]="customClass">
+
+    <!-- Overlay (si activé) -->
+    <div *ngIf="overlay" class="spinner-overlay"></div>
+
+    <!-- Contenu du spinner -->
+    <div class="spinner-content" [class.relative-content]="overlay">
+        <!-- Spinner -->
+        <div class="mb-4">
+            <div class="spinner-border" [class]="'text-' + color" [style.width]="getSpinnerSize()"
+                [style.height]="getSpinnerSize()" role="status">
+                <span class="visually-hidden">{{ loadingText }}</span>
+            </div>
+        </div>
+
+        <!-- Titre -->
+        <h4 *ngIf="title" class="text-body-highlight mb-2 spinner-title">
+            {{ title }}
+        </h4>
+
+        <!-- Message -->
+        <p *ngIf="message" class="text-body-tertiary mb-0 spinner-message">
+            {{ message }}
+        </p>
+
+        <!-- Slot pour contenu personnalisé -->
+        <ng-content></ng-content>
+    </div>
+</div>
+
+
+
+
+<!--
+<app-loading-spinner
+  size="xl"
+  color="danger"
+  title="Suppression en cours..."
+  message="Cette action peut prendre quelques secondes">
+</app-loading-spinner>
+-->
+
+<!--
+<app-loading-spinner
+  title="Téléchargement en cours"
+  [overlay]="true">
+  <div class="mt-3">
+    <div class="progress" style="height: 8px;">
+      <div class="progress-bar progress-bar-striped progress-bar-animated">
+      </div>
+    </div>
+    <p class="text-body-secondary mt-2 mb-0"> 0% completé </p>
+  </div>
+</app-loading-spinner>
+-->

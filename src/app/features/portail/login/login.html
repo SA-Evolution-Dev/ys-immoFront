@@ -2,7 +2,7 @@
     <div class="container">
         <div class="row flex-center min-vh-100 py-5">
             <div class="col-sm-10 col-md-8 col-lg-5 col-xl-5 col-xxl-3">
-                <a class="d-flex flex-center text-decoration-none mb-4" href="">
+                <a class="d-flex flex-center text-decoration-none mb-4">
                     <div class="d-flex align-items-center fw-bolder fs-3 d-inline-block">
                         <img src="../../../assets/img/icons/logo.png" alt="phoenix" width="58" />
                     </div>
@@ -75,18 +75,17 @@
                         @if (isLoading()) {
                             Connexion en cours...
                         } @else {
-                            Se connecter
+                            <span class="fa-solid fa-sign-in-alt me-2"></span> Se connecter
                         }
                     </button>
                 </form>
 
-                <button routerLink="/home" class="btn btn-warning w-100">← Retour à l'accueil</button>
-
-                <div class="text-center">
-                    <a class="fs-9 fw-bold" routerLink="/inscription">
-                        Créer un compte
-                    </a>
-                </div>
+                <button routerLink="/home" class="btn btn-phoenix-primary w-100" type="button">
+                    <span class="fa-solid fa-home me-2"></span>Retour à l'accueil
+                </button>
+                <button routerLink="/inscription" class="btn btn-phoenix-warning w-100 mt-1" type="button">
+                    <span class="fa-solid fa-user-plus me-2"></span> Je veux créer mon compte
+                </button>
             </div>
         </div>
     </div>

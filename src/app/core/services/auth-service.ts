@@ -29,9 +29,7 @@ export class AuthService {
     console.log('[AUTH SERVICE] Service initialisé avec cryptage activé');
   }
 
-  /**
-   * Inscription d'un nouvel utilisateur
-   */
+
   register(data: any): Observable<any> {
     console.log('[AUTH SERVICE] Tentative d\'inscription:', data);
 
@@ -70,9 +68,7 @@ export class AuthService {
     );
   }
 
-  /**
-   * Connexion d'un utilisateur
-   */
+
   login(credentials: any): Observable<any> {
     return this.http.post<any>(`${this.API_URL}/users/login`, credentials).pipe(
       tap((response: any) => {
@@ -92,9 +88,7 @@ export class AuthService {
     );
   }
 
-  /**
-   * Déconnexion de l'utilisateur
-   */
+
   logout(): void {
     this.clearStorage();
     this.currentUserSubject.next(null);
@@ -104,9 +98,7 @@ export class AuthService {
     console.log('[AUTH SERVICE] Déconnexion terminée');
   }
 
-  /**
-   * Gestion du succès d'authentification
-   */
+
   private handleAuthSuccess(response: any): void {
     if (response.data?.accessToken) {
       this.setToken(response.data.accessToken);
@@ -124,16 +116,12 @@ export class AuthService {
     this.isAuthenticated.set(true);
   }
 
-   /**
-   * Vérifier si l'utilisateur est authentifié
-   */
+
   public isLoggedIn(): boolean {
     return this.hasToken() && !this.isTokenExpired();
   }
 
-  /**
-   * Obtenir le token actuel (décrypté)
-   */
+
   public getToken(): string | null {
     try {
       const encryptedToken = localStorage.getItem(this.TOKEN_KEY);
@@ -148,16 +136,12 @@ export class AuthService {
     }
   }
 
-   /**
-   * Obtenir l'utilisateur actuel
-   */
+
   public getCurrentUser(): any | null {
     return this.currentUserSubject.value;
   }
 
-  /**
-   * Vérifier l'état d'authentification
-   */
+
   private checkAuthStatus(): void {
     console.log('[AUTH SERVICE] Vérification de l\'état d\'authentification');
 
@@ -175,9 +159,7 @@ export class AuthService {
     }
   }
 
-   /**
-   * Vérifier si le token est expiré
-   */
+
   public isTokenExpired(): boolean {
     const token = this.getToken();
     if (!token) return true;
@@ -195,9 +177,7 @@ export class AuthService {
     }
   }
 
-  /**
-   * Sauvegarder le token (crypté)
-   */
+
   private setToken(token: string): void {
     try {
       const encryptedToken = this.encryptionService.encrypt(token);
@@ -207,9 +187,7 @@ export class AuthService {
     }
   }
 
-  /**
-   * Sauvegarder le refresh token (crypté)
-   */
+
   private setRefreshToken(refreshToken: string): void {
     try {
       const encryptedRefreshToken = this.encryptionService.encrypt(refreshToken);
@@ -220,9 +198,7 @@ export class AuthService {
     }
   }
 
-  /**
-   * Sauvegarder l'utilisateur (crypté)
-   */
+
   private setUser(user: any): void {
     try {
       const encryptedUser = this.encryptionService.encryptObject(user);
@@ -232,9 +208,7 @@ export class AuthService {
     }
   }
 
-  /**
-   * Récupérer l'utilisateur du storage (décrypté)
-   */
+
   private getUserFromStorage(): any | null {
     try {
       const encryptedUser = localStorage.getItem(this.USER_KEY);
@@ -248,9 +222,7 @@ export class AuthService {
     }
   }
 
-  /**
-   * Obtenir le refresh token (décrypté)
-   */
+
   private getRefreshToken(): string | null {
     try {
       const encryptedRefreshToken = localStorage.getItem(this.REFRESH_TOKEN_KEY);
@@ -263,9 +235,7 @@ export class AuthService {
     }
   }
 
-  /**
-   * Nettoyer le storage
-   */
+
   private clearStorage(): void {
     console.log('[AUTH SERVICE] Nettoyage du storage');
     localStorage.removeItem(this.TOKEN_KEY);
@@ -273,9 +243,7 @@ export class AuthService {
     localStorage.removeItem(this.USER_KEY);
   }
 
-  /**
-   * Rafraîchir le token
-   */
+
   refreshToken(): Observable<any> {
     const refreshToken = this.getRefreshToken();
 
@@ -299,9 +267,7 @@ export class AuthService {
     );
   }
 
-  /**
-   * Méthode de debug pour voir les données cryptées
-   */
+
   public debugEncryptedData(): void {
     console.group('DEBUG - Données cryptées dans localStorage');
     
@@ -325,6 +291,19 @@ export class AuthService {
   public hasToken(): boolean {
     const token = localStorage.getItem(this.TOKEN_KEY);
     return token !== null && token !== undefined && token.length > 0;
+  }
+
+  verifyEmail(token: string): Observable<any> {
+    return this.http.get<any>(
+      `${this.API_URL}/users/verify-email/${token}`
+    );
+  }
+
+  resendActivation(email: string): Observable<any> {
+    return this.http.post<any>(
+      `${this.API_URL}/users/resend-activation`,
+      { email }
+    );
   }
 
   

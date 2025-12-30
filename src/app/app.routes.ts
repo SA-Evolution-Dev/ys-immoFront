@@ -39,7 +39,7 @@ export const routes: Routes = [
     {
         path: 'tableau-de-bord',
         canActivate: [roleGuard],
-        data: { roles: ['user', 'client'] },
+        data: { roles: ['particulier', 'entreprise'] },
         loadComponent: () => import('./core/layout/dashboard-layout/dashboard-layout').then(m => m.DashboardLayout),
         children: [
             {

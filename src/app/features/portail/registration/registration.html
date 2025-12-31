@@ -105,7 +105,7 @@
             
                                 <form class="mt-3" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
                                     <div class="row mb-1">
-                                        <label class="form-label mb-2">Vous vous inscrivez en tant que :</label>
+                                        <label class="form-label mb-2">Vous êtes ? :</label>
                                         <div class="col-sm-6">
                                             <div class="form-check">
                                                 <input class="form-check-input" type="radio" formControlName="role" value="particulier" id="radioParticulier">
@@ -123,27 +123,9 @@
                                             <span class="error-message">Veuillez sélectionner une option.</span>
                                         }
                                     </div>
-            
-                                    @if (registerForm.get('role')?.value === 'client') {
-                                        <div class="mb-1 text-start">
-                                            <label class="form-label" for="name">Nom de l'entreprise</label>
-                                            <input class="form-control" id="corporateName" type="text" formControlName="corporateName"  
-                                                [class.error]="f['corporateName'].invalid && (f['corporateName'].dirty || f['corporateName'].touched)" />
-                                                @if (f['corporateName'].invalid && (f['corporateName'].dirty || f['corporateName'].touched)) {
-                                                    @if (f['corporateName'].errors?.['required']) {
-                                                        <span class="error-message">Le nom de l"entreprise est requis</span>
-                                                    }
-                                                }
-                                        </div>
-            
-                                        <div class="mb-1 text-start">
-                                            <label class="form-label" for="name">Charger le logo de l'entreprise</label>
-                                            <input class="form-control" id="corporateLogo" type="file"   accept="image/*" (change)="onLogoChange($event)" />
-                                        </div>
-                                    }
-            
+                        
                                     <div class="mb-1 text-start">
-                                        <label class="form-label" for="name">Nom et prenom</label>
+                                        <label class="form-label" for="name"> {{ labelEmail() }} </label>
                                         <input class="form-control" id="name" type="text" formControlName="name"  
                                             [class.error]="f['name'].invalid && (f['name'].dirty || f['name'].touched)" />
                                             @if (f['name'].invalid && (f['name'].dirty || f['name'].touched)) {
@@ -169,6 +151,38 @@
                                                 }
                                             }
                                     </div>
+
+                                    @if (registerForm.get('role')?.value === 'entreprise') {
+                                        <div class="mb-1 text-start">
+                                            <label class="form-label" for="name">Nom de l'entreprise</label>
+                                            <input class="form-control" id="corporateName" type="text" formControlName="corporateName"  
+                                                [class.error]="f['corporateName'].invalid && (f['corporateName'].dirty || f['corporateName'].touched)" />
+                                                @if (f['corporateName'].invalid && (f['corporateName'].dirty || f['corporateName'].touched)) {
+                                                    @if (f['corporateName'].errors?.['required']) {
+                                                        <span class="error-message">Le nom de l"entreprise est requis</span>
+                                                    }
+                                                }
+                                        </div>
+            
+                                        <div class="mb-1 text-start">
+                                            <!-- <label class="form-label" for="name">Charger le logo de l'entreprise</label> -->
+                                            <!-- <input class="form-control" id="corporateLogo" type="file"   accept="image/*" (change)="onLogoChange($event)" /> -->
+
+                                            <!-- Logo d'entreprise -->
+                                            <div class="mb-3">
+                                                <app-file-upload
+                                                label="Importer logo de l'entreprise (Pas obligatoire)"
+                                                helperText="Format: PNG, JPG (max 2MB)"
+                                                acceptedTypes="image/png,image/jpeg,image/jpg"
+                                                [maxSize]="2097152"
+                                                [maxFiles]="1"
+                                                (filesSelected)="onFilesSelected($event)"
+                                                (fileRemoved)="onFileRemoved($event)"
+                                                (uploadComplete)="onUploadComplete($event)">
+                                                </app-file-upload>
+                                            </div>
+                                        </div>
+                                    }
             
                                     <div class="row mb-1">
                                         <div class="col-sm-6">

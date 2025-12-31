@@ -1,0 +1,213 @@
+<div class="file-upload-container">
+
+    <!-- Label -->
+    @if (label) {
+    <label class="form-label text-body-highlight fw-bold mb-2">
+        {{ label }}
+        @if (maxFiles > 1) {
+        <span class="text-body-tertiary fw-normal ms-2">
+            ({{ files().length }}/{{ maxFiles }})
+        </span>
+        }
+    </label>
+    }
+
+    <!-- Dropzone -->
+    <div class="dropzone" [class.dropzone-dragging]="isDragging()" [class.dropzone-disabled]="!canAddMore()" *ngIf="canAddMore()"
+        (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)" (drop)="onDrop($event)"
+        (click)="fileInput.click()">
+
+        <input #fileInput type="file" [accept]="acceptedTypes" [multiple]="maxFiles > 1" [disabled]="!canAddMore()"
+            (change)="onFileSelect($event)" style="display: none;">
+
+        <div class="dropzone-content">
+            @if (isUploading()) {
+                <!-- État de chargement -->
+                <div class="text-center">
+                    <div class="spinner-border text-primary mb-3" role="status">
+                        <span class="visually-hidden">Chargement...</span>
+                    </div>
+                    <p class="fs-9 text-body-emphasis mb-1">
+                        Upload en cours... {{ uploadProgress() }}%
+                    </p>
+                    <div class="progress" style="height: 4px; max-width: 200px; margin: 0 auto;">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
+                            [style.width.%]="uploadProgress()" [attr.aria-valuenow]="uploadProgress()" aria-valuemin="0"
+                            aria-valuemax="100">
+                        </div>
+                    </div>
+                </div>
+            } @else if (!hasFiles()) {
+                <!-- État vide -->
+                <div class="text-center">
+                    <span class="fa-solid fa-cloud-arrow-up fs-3 text-body-tertiary mb-3 d-block mx-auto" 
+                        style="width: fit-content;"></span>
+                    <p class="fs-9 text-body-emphasis mb-1">
+                        <span class="d-none d-sm-inline">Glissez-déposez vos fichiers ici ou </span>
+                        <span class="text-primary fw-semibold cursor-pointer">parcourir</span>
+                    </p>
+                    @if (helperText) {
+                        <p class="fs-10 text-body-tertiary mb-0">{{ helperText }}</p>
+                    }
+                </div>
+            } @else if (canAddMore()) {
+                <!-- État avec fichiers + possibilité d'ajouter -->
+                <div class="text-center">
+                    <span class="fa-solid fa-plus fs-4 text-primary mb-2 d-block mx-auto" 
+                        style="width: fit-content;"></span>
+                    <p class="fs-9 text-body-emphasis mb-0">
+                        Ajouter plus de fichiers
+                        <span class="text-body-tertiary">({{ maxFiles - files().length }} restant{{ maxFiles -
+                            files().length > 1 ? 's' : '' }})</span>
+                    </p>
+                </div>
+            }
+        </div>
+    </div>
+
+    <!-- Message d'erreur -->
+    @if (errorMessage()) {
+        <div class="alert alert-soft-danger d-flex align-items-center mt-3 py-2" role="alert">
+            <span class="fa-solid fa-circle-exclamation me-2 text-danger"></span>
+            <p class="mb-0 flex-1 fs-10 text-danger">{{ errorMessage() }}</p>
+            <button 
+                type="button" 
+                class="btn-close btn-close-sm text-danger" 
+                (click)="errorMessage.set('')" 
+                aria-label="Close"
+                style="filter: brightness(0) saturate(100%) invert(20%) sepia(95%) saturate(4500%) hue-rotate(355deg) brightness(95%) contrast(110%);">
+            </button>
+        </div>
+    }
+
+    <!-- Liste des fichiers -->
+    @if (hasFiles()) {
+        <div class="files-list mt-1">
+
+            <!-- Header avec action de suppression globale -->
+            <div class="d-flex align-items-center justify-content-between mb-2 flex-wrap gap-2">
+                <!-- <span class="fs-10 text-body-tertiary fw-semibold text-uppercase">
+                    Fichiers sélectionnés ({{ files().length }})
+                </span> -->
+                @if (files().length > 1) {
+                    <button 
+                        type="button" 
+                        class="btn btn-link btn-sm text-danger p-0 fs-10 text-nowrap" 
+                        (click)="clearAll()">
+                        <span class="fa-solid fa-trash-can me-1"></span>
+                        <span class="d-none d-sm-inline">Tout supprimer</span>
+                        <span class="d-inline d-sm-none">Supprimer tout</span>
+                    </button>
+                }
+            </div>
+
+            <!-- Liste -->
+            @if (hasFiles()) {
+                <div class="files-list-minimal mt-1">
+                    @for (fileUpload of files(); track fileUpload.file.name) {
+                        <div 
+                            class="file-minimal-item" 
+                            [class.file-minimal-uploading]="fileUpload.status === 'uploading'"
+                            [class.file-minimal-success]="fileUpload.status === 'success'"
+                            [class.file-minimal-error]="fileUpload.status === 'error'">
+                            
+                            <!-- Icône/Prévisualisation -->
+                            <div class="file-minimal-icon">
+                                @if (fileUpload.preview) {
+                                    <img 
+                                        [src]="fileUpload.preview" 
+                                        [alt]="fileUpload.file.name" 
+                                        class="file-minimal-preview-img">
+                                } @else {
+                                    <span class="fa-solid {{ getFileIcon(fileUpload.file) }} text-body-tertiary"></span>
+                                }
+                            </div>
+
+                            <!-- Informations -->
+                            <div class="file-minimal-info">
+                                <div class="file-minimal-header">
+                                    <span class="file-minimal-name" [title]="fileUpload.file.name">
+                                        {{ fileUpload.file.name }}
+                                    </span>
+                                    <span class="file-minimal-size">
+                                        • {{ formatBytes(fileUpload.file.size) }}
+                                    </span>
+                                </div>
+
+                                <!-- Statut -->
+                                <div class="file-minimal-status">
+                                    @switch (fileUpload.status) {
+                                        @case ('uploading') {
+                                            <div class="status-uploading-minimal">
+                                                <div class="spinner-border spinner-border-sm me-1"></div>
+                                                <span>Upload en cours... {{ fileUpload.progress }}%</span>
+                                            </div>
+                                        }
+                                        @case ('success') {
+                                            <div class="status-success-minimal">
+                                                <span class="fa-solid fa-check me-1"></span>
+                                                <span>Terminé</span>
+                                            </div>
+                                        }
+                                        @case ('error') {
+                                            <div class="status-error-minimal">
+                                                <span class="fa-solid fa-xmark me-1"></span>
+                                                <span>{{ fileUpload.error || 'Erreur' }}</span>
+                                            </div>
+                                        }
+                                    }
+                                </div>
+
+                                <!-- Barre de progression -->
+                                @if (fileUpload.status === 'uploading') {
+                                    <div class="file-minimal-progress">
+                                        <div 
+                                            class="file-minimal-progress-bar" 
+                                            [style.width.%]="fileUpload.progress">
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+
+                            <!-- Bouton supprimer -->
+                            <button 
+                                type="button" 
+                                class="file-minimal-delete"
+                                [disabled]="fileUpload.status === 'uploading'" 
+                                (click)="removeFile(fileUpload)"
+                                [attr.aria-label]="'Supprimer ' + fileUpload.file.name">
+                                <span class="fa-solid fa-trash-can"></span>
+                            </button>
+                        </div>
+                    }
+                </div>
+            }
+
+            <!-- Progression globale (optionnel) -->
+            <!-- @if (isUploading()) {
+                <div class="mt-3 p-3 bg-body-highlight rounded-2">
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                        <span class="fs-10 fw-semibold text-body-emphasis">
+                            Upload en cours...
+                        </span>
+                        <span class="fs-10 text-body-tertiary">
+                            {{ uploadProgress() }}%
+                        </span>
+                    </div>
+                    <div class="progress" style="height: 6px;">
+                        <div 
+                            class="progress-bar bg-primary progress-bar-striped progress-bar-animated" 
+                            role="progressbar"
+                            [style.width.%]="uploadProgress()"
+                            [attr.aria-valuenow]="uploadProgress()"
+                            aria-valuemin="0" 
+                            aria-valuemax="100">
+                        </div>
+                    </div>
+                </div>
+            } -->
+        </div>
+    }
+
+
+</div>

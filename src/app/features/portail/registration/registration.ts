@@ -7,10 +7,11 @@ import { CommonModule } from '@angular/common';
 import { LoadingSpinnerComponent } from '../../../shared/components/loading-spinner/loading-spinner';
 import { takeUntil } from 'rxjs/internal/operators/takeUntil';
 import { Subject } from 'rxjs/internal/Subject';
+import { FileUpload } from '../../../shared/components/file-upload/file-upload';
 
 @Component({
   selector: 'app-registration',
-  imports: [RouterLink, ReactiveFormsModule, CommonModule, LoadingSpinnerComponent ],
+  imports: [RouterLink, ReactiveFormsModule, CommonModule, LoadingSpinnerComponent, FileUpload],
   templateUrl: './registration.html',
   styleUrl: './registration.scss',
 })
@@ -25,6 +26,8 @@ export class Registration {
   public errorMessage = signal('');
   public isRegisterAccount = signal(false);
   public resendEmail = signal<string>('');
+  public labelEmail = signal<string>('Nom et prenom');
+  public uploadedFiles = signal<File[]>([]);
 
   public spinnerTitle = signal('Création de votre compte...');
   public spinnerMessage = signal('Nous préparons votre espace personnel');
@@ -38,7 +41,9 @@ export class Registration {
 
       if (value === 'entreprise') {
         corporateControl.setValidators([Validators.required]);
+        this.labelEmail.set('Nom complet de responsable');
       } else {
+        this.labelEmail.set('Nom et prenom');
         corporateControl.clearValidators();
         corporateControl.setErrors(null);
       }
@@ -53,7 +58,7 @@ export class Registration {
     name: ['', [Validators.required, Validators.minLength(3)]],
     email: ['', [Validators.required, Validators.email]],
     corporateName: [''],
-    corporateLogo: [''],
+    corporateLogo: [null],
     password: ['', [
       Validators.required,
       Validators.minLength(6),
@@ -173,6 +178,27 @@ export class Registration {
           this.isLoading.set(false);
         }
       });
+  }
+
+  onFilesSelected(files: File[]): void {
+    console.log('Fichiers sélectionnés:', files);
+    this.uploadedFiles.set(files);
+    
+    // Si un seul fichier (logo)
+    if (files.length > 0) {
+      this.registerForm.patchValue({
+        corporateLogo: files[0]
+      });
+    }
+  }
+
+  onFileRemoved(file: File): void {
+    console.log('Fichier supprimé:', file);
+    this.uploadedFiles.update(files => files.filter(f => f !== file));
+  }
+
+  onUploadComplete(uploads: any[]): void {
+    console.log('Upload terminé:', uploads);
   }
 
 }

@@ -1,128 +1,241 @@
-<nav class="navbar navbar-expand-lg bg-white border-bottom py-2">
+<!-- Top Bar -->
+<div class="bg-primary text-white py-1">
     <div class="container">
-        
-        <!-- Logo compact -->
-        <a class="navbar-brand fw-bold text-dark d-flex align-items-center" routerLink="/home">
-            <span class="fs-5">🏠 ImmoHub</span>
+        <div class="d-flex justify-content-between align-items-center">
+            <div class="d-flex gap-3 fs-9">
+                <span>📞 +33 1 23 45 67 89</span>
+                <span class="d-none d-md-inline">📧 contact@immohub.fr</span>
+            </div>
+            <div class="d-flex gap-2 fs-9">
+                <a href="#" class="text-white text-decoration-none">Aide</a>
+                <span>|</span>
+                <a href="#" class="text-white text-decoration-none">Blog</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Main Navigation (Sticky) -->
+<nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom sticky-top">
+    <div class="container">
+        <a class="navbar-brand" routerLink="/home">
+            <span class="fs-4 fw-bold text-primary">🏠 ImmoHub</span>
         </a>
-
-        <!-- Hamburger -->
-        <button class="navbar-toggler border-0 p-1" 
-                type="button" 
-                data-bs-toggle="collapse" 
-                data-bs-target="#navbarMain"
-                aria-controls="navbarMain" 
-                aria-expanded="false" 
-                aria-label="Menu">
-            <span class="navbar-toggler-icon" style="width: 1.2em; height: 1.2em;"></span>
+        <button class="navbar-toggler border-0" (click)="toggleMenu()">
+            <span class="navbar-toggler-icon"></span>
         </button>
-
-        <!-- Menu -->
-        <div class="collapse navbar-collapse" id="navbarMain">
-            
-            <ul class="navbar-nav ms-auto mb-0 align-items-lg-center gap-lg-1">
-                
+        <div class="collapse navbar-collapse" [class.show]="isMenuOpen()">
+            <ul class="navbar-nav mx-auto gap-1">
                 <li class="nav-item">
-                    <a class="nav-link px-2 py-1" 
-                       routerLink="/home" 
-                       routerLinkActive="active text-primary"
-                       [routerLinkActiveOptions]="{ exact: true }">
-                        Accueil
+                    <a class="nav-link px-3" routerLink="/home" routerLinkActive="text-primary fw-semibold">
+                    Accueil
                     </a>
                 </li>
-                
                 <li class="nav-item">
-                    <a class="nav-link px-2 py-1" 
-                       routerLink="/liste-des-annonces" 
-                       routerLinkActive="active text-primary">
-                        Voir les annonces
+                    <a class="nav-link px-3" routerLink="/liste-des-annonces" routerLinkActive="text-primary fw-semibold">
+                    Voir les annonces
                     </a>
                 </li>
-                
                 <li class="nav-item">
-                    <a class="nav-link px-2 py-1" 
-                       routerLink="/contact" 
-                       routerLinkActive="active text-primary">
-                        Contact
+                    <a class="nav-link px-3" routerLink="/contact" routerLinkActive="text-primary fw-semibold">
+                    Contact
                     </a>
                 </li>
-
-                <li class="nav-item d-none d-lg-block">
-                    <span class="vr mx-1 opacity-25" style="height: 20px;"></span>
-                </li>
-
+                <!-- <li class="nav-item">
+                    <a class="nav-link px-3" routerLink="/agents" routerLinkActive="text-primary fw-semibold">
+                    Trouver un agent
+                    </a>
+                </li> -->
+            </ul>
+            <ul class="navbar-nav gap-2 align-items-lg-center">
                 @if (!isAuthenticated()) {
                     <li class="nav-item">
-                        <a class="nav-link px-2 py-1" routerLink="/authentification">
-                            Connexion
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="btn btn-primary btn-sm px-3 py-1" 
-                           routerLink="/inscription">
-                            Inscription
+                        <a class="btn btn-outline-primary btn-sm px-4" routerLink="/connexion">
+                        Se connecter
                         </a>
                     </li>
                 } @else {
                     <li class="nav-item">
-                        <a class="btn btn-primary btn-sm px-3 py-1" 
-                           routerLink="/publier">
-                            ➕ Publier
+                        <a class="btn btn-primary btn-sm px-4" routerLink="/publier">
+                        ➕ Publier une annonce
                         </a>
                     </li>
                     
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle p-1 d-flex align-items-center" 
-                           href="#" 
-                           id="userMenu" 
-                           role="button" 
-                           data-bs-toggle="dropdown" 
-                           aria-expanded="false">
-                            <span class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center" 
-                                  style="width: 28px; height: 28px; font-size: 0.75rem;">
-                                J
+                    <li class="nav-item">
+                        <a class="btn btn-phoenix-secondary btn-sm position-relative" routerLink="/favoris">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/>
+                            </svg>
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.65rem;">
+                            5
                             </span>
                         </a>
-                        <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0 mt-2 py-1" 
-                            style="min-width: 180px;"
-                            aria-labelledby="userMenu">
-                            <li class="px-3 py-1 border-bottom">
-                                <small class="text-muted d-block" style="font-size: 0.75rem;">john@example.com</small>
-                            </li>
-                            <li>
-                                <a class="dropdown-item py-1 px-3" routerLink="/dashboard">
-                                    <small>📊 Dashboard</small>
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item py-1 px-3" routerLink="/mes-annonces">
-                                    <small>🏘️ Mes annonces</small>
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item py-1 px-3" routerLink="/favoris">
-                                    <small>❤️ Favoris</small>
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item py-1 px-3" routerLink="/parametres">
-                                    <small>⚙️ Paramètres</small>
-                                </a>
-                            </li>
-                            <li><hr class="dropdown-divider my-1"></li>
-                            <li>
-                                <a class="dropdown-item py-1 px-3 text-danger" 
-                                   (click)="deconnexion()"
-                                   style="cursor: pointer;">
-                                    <small class="fw-semibold">🚪 Déconnexion</small>
-                                </a>
-                            </li>
-                        </ul>
+                    </li>
+
+                    <!-- BOUTON DASHBOARD VISIBLE UNIQUEMENT SUR MOBILE -->
+                    <li class="nav-item d-lg-none">
+                        <a class="btn btn-outline-primary btn-sm px-4" routerLink="/dashboard">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="me-2">
+                                <path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path>
+                                <path d="M22 12A10 10 0 0 0 12 2v10z"></path>
+                            </svg>
+                            Tableau de bord
+                        </a>
+                    </li>
+
+                    <!-- DROPDOWN VISIBLE UNIQUEMENT SUR DESKTOP -->
+                    <li class="nav-item dropdown position-relative d-none d-lg-block">
+                        <a class="nav-link p-0 d-flex align-items-center gap-2" 
+                        href="javascript:void(0)" 
+                        (click)="toggleDropdown()"
+                        role="button" 
+                        [attr.aria-expanded]="isDropdownOpen()">
+                        <div class="avatar avatar-m">
+                            <img class="rounded-circle" 
+                                src="https://ui-avatars.com/api/?name=John+Doe&background=0D6EFD&color=fff" 
+                                alt="John Doe">
+                        </div>
+                        <!-- Icône flèche avec rotation -->
+                        <svg class="transition-transform" 
+                            [style.transform]="isDropdownOpen() ? 'rotate(180deg)' : 'rotate(0deg)'"
+                            xmlns="http://www.w3.org/2000/svg" 
+                            width="12" 
+                            height="12" 
+                            fill="currentColor" 
+                            viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+                        </svg>
+                        </a>
+                        <!-- Menu dropdown Phoenix Premium -->
+                        <div class="dropdown-menu dropdown-menu-end navbar-dropdown-caret py-0 dropdown-profile shadow border" 
+                            [class.show]="isDropdownOpen()"
+                            style="right: 0; left: auto; width: 320px;">
+                            <div class="card position-relative border-0">
+                                <!-- En-tête avec avatar et statut -->
+                                <div class="card-body p-0">
+                                    <div class="text-center pt-4 pb-3">
+                                        <div class="avatar avatar-xl">
+                                            <img class="rounded-circle" 
+                                                src="https://ui-avatars.com/api/?name=John+Doe&background=0D6EFD&color=fff&size=72" 
+                                                alt="John Doe">
+                                        </div>
+                                        <h6 class="mt-2 text-body-emphasis">John Doe</h6>
+                                    </div>
+                                    <div class="mb-3 mx-3">
+                                        <input class="form-control form-control-sm" 
+                                            type="text" 
+                                            placeholder="Mettre à jour votre statut">
+                                    </div>
+                                </div>
+                                <!-- Menu scrollable -->
+                                <div class="overflow-auto scrollbar" style="max-height: 15rem;">
+                                    <ul class="nav d-flex flex-column mb-2 pb-1">
+                                        <li class="nav-item">
+                                            <a class="nav-link px-3 d-flex align-items-center" 
+                                                routerLink="/profil"
+                                                (click)="closeDropdown()">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="me-2 text-body">
+                                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                                    <circle cx="12" cy="7" r="4"></circle>
+                                                </svg>
+                                                <span>Profil</span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link px-3 d-flex align-items-center" 
+                                                routerLink="/dashboard"
+                                                (click)="closeDropdown()">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="me-2 text-body">
+                                                    <path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path>
+                                                    <path d="M22 12A10 10 0 0 0 12 2v10z"></path>
+                                                </svg>
+                                                <span>Tableau de bord</span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link px-3 d-flex align-items-center" 
+                                                routerLink="/mes-annonces"
+                                                (click)="closeDropdown()">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="me-2 text-body">
+                                                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                                                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                                                </svg>
+                                                <span>Mes annonces</span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link px-3 d-flex align-items-center" 
+                                                routerLink="/favoris"
+                                                (click)="closeDropdown()">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" class="me-2 text-body">
+                                                    <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748z"/>
+                                                </svg>
+                                                <span>Favoris</span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link px-3 d-flex align-items-center" 
+                                                routerLink="/parametres"
+                                                (click)="closeDropdown()">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="me-2 text-body">
+                                                    <circle cx="12" cy="12" r="3"></circle>
+                                                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                                                </svg>
+                                                <span>Paramètres & Confidentialité</span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link px-3 d-flex align-items-center" 
+                                                routerLink="/aide"
+                                                (click)="closeDropdown()">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="me-2 text-body">
+                                                    <circle cx="12" cy="12" r="10"></circle>
+                                                    <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                                                    <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                                                </svg>
+                                                <span>Centre d'aide</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <!-- Footer -->
+                                <div class="card-footer p-0 border-top border-translucent">
+                                    <ul class="nav d-flex flex-column my-3">
+                                        <li class="nav-item">
+                                            <a class="nav-link px-3 d-flex align-items-center" href="javascript:void(0)">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="me-2 text-body">
+                                                    <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                                    <circle cx="8.5" cy="7" r="4"></circle>
+                                                    <line x1="20" y1="8" x2="20" y2="14"></line>
+                                                    <line x1="23" y1="11" x2="17" y2="11"></line>
+                                                </svg>
+                                                <span>Ajouter un autre compte</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                    <hr class="my-2">
+                                    <div class="px-3 mb-3">
+                                        <button class="btn btn-phoenix-secondary d-flex align-items-center justify-content-center w-100" 
+                                            (click)="deconnexion()">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="me-2">
+                                                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                                                <polyline points="16 17 21 12 16 7"></polyline>
+                                                <line x1="21" y1="12" x2="9" y2="12"></line>
+                                            </svg>
+                                            <span>Déconnexion</span>
+                                        </button>
+                                    </div>
+                                    <div class="my-2 text-center fw-bold fs-10 text-body-quaternary">
+                                        <a class="text-body-quaternary me-1" href="#!">Politique de confidentialité</a>•
+                                        <a class="text-body-quaternary mx-1" href="#!">Conditions</a>•
+                                        <a class="text-body-quaternary ms-1" href="#!">Cookies</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </li>
                 }
             </ul>
         </div>
     </div>
 </nav>
-
-

@@ -37112,3 +37112,8 @@ a[href].bg-body-secondary:hover, a[href].bg-body-secondary:focus {
   font-size: 15px;
   font-family: sans-serif;
 }
+
+.bg-blue {
+  --phoenix-bg-opacity: 1;
+  background-color: var(--phoenix-blue) !important;
+}

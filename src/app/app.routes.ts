@@ -44,9 +44,9 @@ export const routes: Routes = [
         children: [
             {
                 path: '',
-                redirectTo: 'Administration',
-                pathMatch: 'full'
-            }
+                loadComponent: () => import('./features/dashboard/home/home').then(m => m.Home),
+                title: 'Home'
+            },
         ]
     },
     {

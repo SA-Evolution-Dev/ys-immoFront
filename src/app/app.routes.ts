@@ -47,6 +47,11 @@ export const routes: Routes = [
                 loadComponent: () => import('./features/dashboard/home/home').then(m => m.Home),
                 title: 'Home'
             },
+            {
+                path: 'mes-publications',
+                loadComponent: () => import('./features/dashboard/publication/publication').then(m => m.Publication),
+                title: 'mes-publications'
+            },
         ]
     },
     {

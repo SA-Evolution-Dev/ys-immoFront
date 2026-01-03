@@ -1,4 +1,4 @@
-import { Component, inject, signal, HostListener, ElementRef } from '@angular/core';
+import { Component, inject, signal, HostListener, ElementRef, computed  } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '../../../../core/services/auth-service';
 
@@ -15,6 +15,14 @@ export class PHeader {
   isMenuOpen = signal(false);
   isDropdownOpen = signal(false);
   isMegaMenuOpen = signal(false);
+  currentUser = this.authService.currentUser;
+
+  avatarUrl = computed(() => {
+    const user = this.currentUser();
+    const name = user?.name ?? 'User';
+
+    return `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=0D6EFD&color=fff`;
+  });
 
   constructor(private elementRef: ElementRef) {
     this.isAuthenticated.set(this.authService.isLoggedIn());

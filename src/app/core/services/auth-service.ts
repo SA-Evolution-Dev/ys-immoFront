@@ -5,6 +5,7 @@ import { tap, catchError, map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
 import { EncryptionService } from './encryption.service';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Injectable({
   providedIn: 'root',
@@ -305,6 +306,10 @@ export class AuthService {
       { email }
     );
   }
+
+  public currentUser = toSignal(this.currentUser$, {
+    initialValue: this.getUserFromStorage(),
+  });
 
   
 }

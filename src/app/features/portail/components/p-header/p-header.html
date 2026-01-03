@@ -50,25 +50,14 @@
             <ul class="navbar-nav gap-2 align-items-lg-center">
                 @if (!isAuthenticated()) {
                     <li class="nav-item">
-                        <a class="btn btn-outline-primary btn-sm px-4" routerLink="/connexion">
+                        <a class="btn btn-outline-primary btn-sm px-4" routerLink="/authentification">
                         Se connecter
                         </a>
                     </li>
                 } @else {
                     <li class="nav-item">
-                        <a class="btn btn-primary btn-sm px-4" routerLink="/publier">
-                        ➕ Publier une annonce
-                        </a>
-                    </li>
-                    
-                    <li class="nav-item">
-                        <a class="btn btn-phoenix-secondary btn-sm position-relative" routerLink="/favoris">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                                <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/>
-                            </svg>
-                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.65rem;">
-                            5
-                            </span>
+                        <a class="btn btn-primary btn-sm px-4 " routerLink="/publier">
+                        <span class="fa-solid fa-add me-2"></span> Publier une annonce
                         </a>
                     </li>
 
@@ -86,26 +75,23 @@
                     <!-- DROPDOWN VISIBLE UNIQUEMENT SUR DESKTOP -->
                     <li class="nav-item dropdown position-relative d-none d-lg-block">
                         <a class="nav-link p-0 d-flex align-items-center gap-2" 
-                        href="javascript:void(0)" 
-                        (click)="toggleDropdown()"
-                        role="button" 
-                        [attr.aria-expanded]="isDropdownOpen()">
-                        <div class="avatar avatar-m">
-                            <img class="rounded-circle" 
-                                src="https://ui-avatars.com/api/?name=John+Doe&background=0D6EFD&color=fff" 
-                                alt="John Doe">
-                        </div>
-                        <!-- Icône flèche avec rotation -->
-                        <svg class="transition-transform" 
-                            [style.transform]="isDropdownOpen() ? 'rotate(180deg)' : 'rotate(0deg)'"
-                            xmlns="http://www.w3.org/2000/svg" 
-                            width="12" 
-                            height="12" 
-                            fill="currentColor" 
-                            viewBox="0 0 16 16">
-                            <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
-                        </svg>
+                            href="javascript:void(0)" (click)="toggleDropdown()"
+                            role="button"  [attr.aria-expanded]="isDropdownOpen()">
+                            <div class="avatar avatar-m">
+                                <img class="rounded-circle" 
+                                    [src]="avatarUrl()" 
+                                    alt="John Doe">
+                            </div>
+
+                            <!-- Icône flèche avec rotation -->
+                            <svg class="transition-transform" 
+                                [style.transform]="isDropdownOpen() ? 'rotate(180deg)' : 'rotate(0deg)'"
+                                xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" 
+                                viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+                            </svg>
                         </a>
+                        
                         <!-- Menu dropdown Phoenix Premium -->
                         <div class="dropdown-menu dropdown-menu-end navbar-dropdown-caret py-0 dropdown-profile shadow border" 
                             [class.show]="isDropdownOpen()"
@@ -119,14 +105,10 @@
                                                 src="https://ui-avatars.com/api/?name=John+Doe&background=0D6EFD&color=fff&size=72" 
                                                 alt="John Doe">
                                         </div>
-                                        <h6 class="mt-2 text-body-emphasis">John Doe</h6>
-                                    </div>
-                                    <div class="mb-3 mx-3">
-                                        <input class="form-control form-control-sm" 
-                                            type="text" 
-                                            placeholder="Mettre à jour votre statut">
+                                        <h6 class="mt-2 text-body-emphasis">John poe</h6>
                                     </div>
                                 </div>
+
                                 <!-- Menu scrollable -->
                                 <div class="overflow-auto scrollbar" style="max-height: 15rem;">
                                     <ul class="nav d-flex flex-column mb-2 pb-1">
@@ -143,7 +125,7 @@
                                         </li>
                                         <li class="nav-item">
                                             <a class="nav-link px-3 d-flex align-items-center" 
-                                                routerLink="/dashboard"
+                                                routerLink="/tableau-de-bord"
                                                 (click)="closeDropdown()">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="me-2 text-body">
                                                     <path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path>
@@ -198,6 +180,7 @@
                                         </li>
                                     </ul>
                                 </div>
+
                                 <!-- Footer -->
                                 <div class="card-footer p-0 border-top border-translucent">
                                     <ul class="nav d-flex flex-column my-3">

@@ -147,7 +147,14 @@ export class AuthService {
     console.log('[AUTH SERVICE] Vérification de l\'état d\'authentification');
 
     const token = this.getToken();
+    console.log('this.getToken()', this.getToken());
+
     const user = this.getUserFromStorage();
+    console.log('this.getUserFromStorage()', this.getUserFromStorage());
+
+    console.log('this.isTokenExpired()', this.isTokenExpired());
+
+    this.debugEncryptedData()
 
     if (token && user && !this.isTokenExpired()) {
       this.isAuthenticated.set(true);
@@ -169,6 +176,15 @@ export class AuthService {
       const payload = JSON.parse(atob(token.split('.')[1]));
       const expiry = payload.exp;
       const now = Math.floor(Date.now() / 1000);
+
+      console.log("expiry", expiry);
+      console.log("now", now);
+
+      // Conversion en minutes restantes
+      const currentTimeInSeconds = Math.floor(Date.now() / 1000);
+      const expiryInMinutes = Math.floor((expiry - currentTimeInSeconds) / 60);
+      console.log(`Token expire dans : ${expiryInMinutes} minutes`);
+      
 
       const isExpired = expiry < now;      
       return isExpired;

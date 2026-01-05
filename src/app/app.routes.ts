@@ -45,12 +45,17 @@ export const routes: Routes = [
             {
                 path: '',
                 loadComponent: () => import('./features/dashboard/home/home').then(m => m.Home),
-                title: 'Home'
+                title: 'Accueil'
             },
             {
                 path: 'mes-publications',
                 loadComponent: () => import('./features/dashboard/publication/publication').then(m => m.Publication),
-                title: 'mes-publications'
+                title: 'Mes publications'
+            },
+            {
+                path: 'nouvelle-publication',
+                loadComponent: () => import('./features/dashboard/add-annonce/add-annonce').then(m => m.AddAnnonce),
+                title: 'Nouvelle annonce'
             },
         ]
     },

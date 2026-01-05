@@ -128,6 +128,7 @@
   --phoenix-form-valid-border-color: #25b003;
   --phoenix-form-invalid-color: #fa3b1d;
   --phoenix-form-invalid-border-color: #fa3b1d;
+  --navbar-vertical-mobile-width: 300px;
 }
 
 [data-bs-theme=dark] {
@@ -37116,4 +37117,16 @@ a[href].bg-body-secondary:hover, a[href].bg-body-secondary:focus {
 .bg-blue {
   --phoenix-bg-opacity: 1;
   background-color: var(--phoenix-blue) !important;
+}
+
+
+
+@media (max-width: 991.98px) {
+  .navbar-vertical {
+    width: var(--navbar-vertical-mobile-width) !important;
+  }
+  
+  .navbar-vertical .navbar-collapse {
+    width: var(--navbar-vertical-mobile-width);
+  }
 }

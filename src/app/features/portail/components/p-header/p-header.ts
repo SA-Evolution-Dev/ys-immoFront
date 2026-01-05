@@ -24,6 +24,11 @@ export class PHeader {
     return `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=0D6EFD&color=fff`;
   });
 
+  userCurrent = computed(() => {
+    const user = this.currentUser();
+    return user
+  });
+
   constructor(private elementRef: ElementRef) {
     this.isAuthenticated.set(this.authService.isLoggedIn());
   }

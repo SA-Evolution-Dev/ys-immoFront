@@ -1,15 +1,14 @@
 import { Component, signal } from '@angular/core';
+import { RichTextEditor } from '../../../shared/components/rich-text-editor/rich-text-editor';
 
 
 @Component({
   selector: 'app-add-annonce',
-  imports: [],
+  imports: [RichTextEditor],
   templateUrl: './add-annonce.html',
   styleUrl: './add-annonce.scss',
 })
 export class AddAnnonce {
-
-
   content = signal('<p>Contenu initial</p>');
   advancedContent = signal('');
   isDisabled = signal(false);

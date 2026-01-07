@@ -1,0 +1,23 @@
+<!-- rich-text-editor.html -->
+<div class="editor-container">
+  <editor
+    [init]="editorConfig"
+    [(ngModel)]="content"
+    (ngModelChange)="onContentChange($event)"
+    [disabled]="disabled"
+  ></editor>
+</div>
+
+
+
+<!-- TO USE -->
+<!-- <div class="form-group">
+<label>Description courte</label>
+<app-rich-text-editor
+    formControlName="description"
+    [height]="200"
+    [placeholder]="'Entrez une description...'"
+    [toolbar]="'bold italic | underline  | blocks  | forecolor | backcolor | alignleft | alignright | numlist | bullist'"
+    [plugins]="['lists']"
+></app-rich-text-editor>
+</div> -->

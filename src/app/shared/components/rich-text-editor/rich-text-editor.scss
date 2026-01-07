@@ -1,0 +1,23 @@
+// rich-text-editor.scss
+.editor-container {
+  width: 100%;
+  margin: 10px 0;
+
+  :host ::ng-deep {
+    // Personnalisation de l'éditeur
+    .tox-tinymce {
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+
+    .tox-toolbar {
+      background-color: #f8f9fa;
+    }
+
+    // État désactivé
+    .tox-tinymce.tox-tinymce--disabled {
+      opacity: 0.6;
+      pointer-events: none;
+    }
+  }
+}

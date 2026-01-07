@@ -89,15 +89,56 @@
 
 
             <div class="col-12 mt-2">
-                    <app-rich-text-editor
-                        formControlName="description"
-                        [height]="200"
-                        [placeholder]="'Entrez une description...'"
-                        [toolbar]="'bold italic | underline  | blocks  | forecolor | backcolor | alignleft | alignright | numlist | bullist'"
-                        [plugins]="['lists']"
-                    ></app-rich-text-editor>
-                    
+                <app-rich-text-editor
+                    formControlName="description"
+                    [height]="200"
+                    [placeholder]="'Entrez une description...'"
+                    [toolbar]="'bold italic | underline  | blocks  | forecolor | backcolor | alignleft | alignright | numlist | bullist'"
+                    [plugins]="['lists']"
+                ></app-rich-text-editor>
             </div>
+
+
+
+            <div class="form-group">
+                <label>Date simple</label>
+                <input
+                    type="text"
+                    class="form-control"
+                    appFlatpickr
+                    [config]="dateConfig"
+                    (dateChange)="onDateChange($event)"
+                    placeholder="Sélectionner une date"
+                >
+            </div>
+
+            <div class="form-group">
+            <label>Date et heure</label>
+            <input
+                type="text"
+                class="form-control"
+                appFlatpickr
+                [config]="dateTimeConfig"
+                (dateChange)="onDateTimeChange($event)"
+                placeholder="Date et heure"
+            >
+            </div>
+
+            <div class="form-group">
+            <label>Plage de dates</label>
+            <input
+                type="text"
+                class="form-control"
+                appFlatpickr
+                [config]="rangeConfig"
+                (dateChange)="onRangeChange($event)"
+                placeholder="Du ... au ..."
+            >
+            </div>
+
+            <p>Date sélectionnée: {{ selectedDate | date:'dd/MM/yyyy' }}</p>
+
+
 
             <div class="col-md-6 gy-6">
                 <div class="form-floating">

@@ -41,7 +41,7 @@ export class RichTextEditor implements ControlValueAccessor {
     return {
       height: this.height,
       menubar: false,
-      statusbar: true,
+      statusbar: false,
       branding: false,
       resize: true,
       placeholder: this.placeholder,

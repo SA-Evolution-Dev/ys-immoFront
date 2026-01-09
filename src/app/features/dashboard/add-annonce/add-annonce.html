@@ -8,23 +8,215 @@
 <h2 class="mb-4">Nouvelle annonce</h2>
 <div class="row">
     <div class="col-xl-9">
-        <form class="row g-3 mb-6">
+        <form [formGroup]="bienForm" (ngSubmit)="onSubmitForm()" class="row g-2 mb-6">
             <div class="col-sm-6 col-md-8">
                 <div class="form-floating">
-                    <input class="form-control" id="floatingInputGrid" type="text" placeholder="Project title" />
-                    <label for="floatingInputGrid">Project title</label>
+                    <input id="title" type="text" 
+                        formControlName="title" placeholder="Donner un titre ici" 
+                        class="form-control" [class.is-invalid]="isFieldInvalid('title')" />
+                    <label for="title">Titre de l'annonce *</label>
+                </div>
+                @if (isFieldInvalid('title')) {
+                    <span class="error-message">Veuillez saisir le titre de l'annonce</span>
+                }
+            </div>
+
+            <!-- STATUT -->
+            <div class="col-sm-6 col-md-4">
+                <div class="form-floating">
+                    <select id="statut" formControlName="statut" class="form-select"
+                        class="form-control" [class.is-invalid]="isFieldInvalid('statut')">
+                        <option value="brouillon">Mettre au brouillon</option>
+                        <option value="actif">Mettre en publication</option>
+                    </select>
+                    <label for="statut">Statut</label>
+                </div>
+                @if (isFieldInvalid('statut')) {
+                    <span class="error-message">Veuillez sélectionner le statut</span>
+                }
+            </div>
+
+            <!-- TYPE DE BIEN -->
+            <div class="col-md-6">
+                <div class="form-floating">
+                    <select id="type" formControlName="type"
+                        class="form-select" [class.is-invalid]="isFieldInvalid('type')">
+                        <option value="">-- Sélectionnez --</option>
+                        <option value="appartement">Appartement</option>
+                        <option value="villa">Villa</option>
+                        <option value="studio">Studio</option>
+                        <option value="bureau">Bureau</option>
+                    </select>
+                    <label for="type">Type de bien *</label>
+                </div>
+                @if (isFieldInvalid('type')) {
+                    <span class="error-message">Veuillez sélectionner le type d'annonce</span>
+                }
+            </div>
+
+            <!-- DESCRIPTION -->
+            <div class="col-12">
+                <div>
+                    <app-rich-text-editor formControlName="description" [height]="200" 
+                        [placeholder]="'Entrez votre description...'"
+                        [toolbar]="'bold italic | underline  | blocks  | forecolor | backcolor | alignleft | alignright | numlist | bullist'"
+                        [plugins]="['lists']"
+                    ></app-rich-text-editor>
+                </div>
+                @if (isFieldInvalid('description')) {
+                    <span class="error-message">Veuillez saisir la description</span>
+                }
+            </div>
+
+            <!-- CONTACT GROUP -->
+            <div class="col-12">
+                <h4 class="mt-3 mb-2">
+                    <i class="fas fa-phone text-info"></i>
+                    Informations personnelles
+                </h4>
+                <div class="row g-2" formGroupName="contact">
+                    
+                    <div class="col-md-4">
+                        <div class="form-floating">
+                            <input id="contactNom" type="text" 
+                                formControlName="nom" placeholder="Nom" class="form-control"
+                                [class.is-invalid]="isFieldInvalid('contact.nom')" />
+                            <label for="contactNom">Nom du contact *</label>
+                        </div>
+                        @if (isFieldInvalid('contact.nom')) {
+                            <span class="error-message">Veuillez saisir votre nom</span>
+                        }
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-floating">
+                            <input id="contactTelephone" type="tel" 
+                                formControlName="telephone" placeholder="+225 XX XX XX XX" class="form-control"
+                                [class.is-invalid]="isFieldInvalid('contact.telephone')" />
+                            <label for="contactTelephone">Téléphone *</label>
+                        </div>
+                        @if (isFieldInvalid('contact.telephone')) {
+                            <span class="error-message">Veuillez saisir la Téléphone</span>
+                        }
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-floating">
+                            <input id="contactEmail" type="email" 
+                                formControlName="email" placeholder="email@exemple.com" class="form-control"
+                                [class.is-invalid]="isFieldInvalid('contact.email')" />
+                            <label for="contactEmail">Email </label>
+                        </div>
+                        @if (isFieldInvalid('contact.email')) {
+                            <span class="error-message">Veuillez saisir la Téléphone</span>
+                        }
+                    </div>
                 </div>
             </div>
 
+            <!-- LOCALISATION GROUP -->
+            <div class="col-12">
+                <h4 class="mt-3 mb-2">
+                    <i class="fas fa-location text-info"></i>
+                    Votre bien est situé dans ?
+                </h4>
+                <div class="row g-2" formGroupName="localisation">
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <select id="type" formControlName="ville" class="form-select" [class.is-invalid]="isFieldInvalid('localisation.ville')">
+                                <option value="">-- Sélectionnez --</option>
+                                <option value="appartement">Appartement</option>
+                                <option value="villa">Villa</option>
+                                <option value="studio">Studio</option>
+                                <option value="bureau">Bureau</option>
+                            </select>
+                            <label for="type">Type de bien *</label>
+                        </div>
+                        @if (isFieldInvalid('localisation.ville')) {
+                            <span class="error-message">Veuillez la ville</span>
+                        }
+                    </div>
+
+                    <div class="col-md-6">
+                        <app-search-select
+                            [class.is-invalid]="isFieldInvalid('localisation.ville')"
+                            id="ville"
+                            label="Ville"
+                            [options]="cities"
+                            formControlName="ville"
+                        />
+                    </div>
+
+
+
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <select id="type" formControlName="commune" class="form-select" [class.is-invalid]="isFieldInvalid('localisation.commune')">
+                                <option value="">-- Sélectionnez --</option>
+                                <option value="appartement">Appartement</option>
+                                <option value="villa">Villa</option>
+                                <option value="studio">Studio</option>
+                                <option value="bureau">Bureau</option>
+                            </select>
+                            <label for="type">Type de bien *</label>
+                        </div>
+                        @if (isFieldInvalid('localisation.commune')) {
+                            <span class="error-message">Veuillez la commune</span>
+                        }
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <input id="llatitude" type="number" 
+                                formControlName="latitude" placeholder="latitude" class="form-control"
+                                [class.is-invalid]="isFieldInvalid('localisation.latitude')" />
+                            <label for="llatitude">Latitude *</label>
+                        </div>
+                        @if (isFieldInvalid('localisation.latitude')) {
+                            <span class="error-message">Veuillez la latitude</span>
+                        }
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <input id="llongitude" type="number" 
+                                formControlName="longitude" placeholder="longitude" class="form-control"
+                                [class.is-invalid]="isFieldInvalid('localisation.longitude')" />
+                            <label for="llongitude">Longitude *</label>
+                        </div>
+                        @if (isFieldInvalid('localisation.longitude')) {
+                            <span class="error-message">Veuillez la longitude</span>
+                        }
+                    </div>
+                </div>
+            </div>
+
+
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             <div class="col-sm-6 col-md-4">
                 <div class="form-floating">
-                    <select class="form-select" id="floatingSelectTask">
+                    <select class="form-select" id="statut">
                         <option selected="selected">Select task view</option>
                         <option value="1">technical</option>
                         <option value="2">external</option>
                         <option value="3">organizational</option>
                     </select>
-                    <label for="floatingSelectTask">Defult task view</label>
+                    <label for="statut">Statut</label>
                 </div>
             </div>
 
@@ -192,10 +384,10 @@
             <div class="col-12 gy-6">
                 <div class="row g-3 justify-content-end">
                     <div class="col-auto">
-                        <button class="btn btn-phoenix-primary px-5">Cancel</button>
+                        <button class="btn btn-phoenix-primary px-5">Annuler</button>
                     </div>
                     <div class="col-auto">
-                        <button class="btn btn-primary px-5 px-sm-15">Create Project</button>
+                        <button type="submit" class="btn btn-primary px-5 px-sm-15">Create Project</button>
                     </div>
                 </div>
             </div>

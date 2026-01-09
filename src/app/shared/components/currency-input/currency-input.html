@@ -1,0 +1,55 @@
+<div class="form-floating">
+    <input [id]="id" class="form-control" type="text" [placeholder]="placeholder" [value]="displayValue"
+        (input)="onInput($event)" (blur)="onBlur()" (focus)="onFocus()" [disabled]="disabled" />
+    <label [for]="id">{{ label }}</label>
+    <small class="text-muted" *ngIf="showNumericValue && numericValue">
+        Valeur: {{ numericValue | number:'1.0-0':'fr' }} {{ currency }}
+    </small>
+</div>
+
+
+
+<!-- <div class="col-md-6 gy-6">
+<app-currency-input
+    id="floatingInputBudget"
+    label="Budget"
+    placeholder="Entrez votre budget"
+    [(ngModel)]="annonce.budget"
+    name="budget"
+    [showNumericValue]="true"
+    [minValue]="0"
+    [maxValue]="10000000"
+    required
+></app-currency-input>
+</div> -->
+
+<!-- <div class="col-md-6 gy-6">
+<app-currency-input
+    id="floatingInputFees"
+    label="Frais d'agence"
+    placeholder="Frais"
+    [(ngModel)]="annonce.agencyFees"
+    name="agencyFees"
+></app-currency-input>
+</div> -->
+
+<!-- <div class="col-md-6 gy-6">
+<app-currency-input
+    id="budget"
+    label="Budget"
+    formControlName="budget"
+    [showNumericValue]="true"
+    [maxValue]="5000000"
+></app-currency-input>
+<div class="text-danger" *ngIf="annonceForm.get('budget')?.invalid && annonceForm.get('budget')?.touched">
+    Le budget est requis
+</div>
+</div> -->
+
+<!-- <div class="col-md-6 gy-6">
+<app-currency-input
+    id="rent"
+    label="Loyer mensuel"
+    formControlName="monthlyRent"
+></app-currency-input>
+</div> -->

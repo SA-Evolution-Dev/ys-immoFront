@@ -2,11 +2,12 @@ import { Component, signal } from '@angular/core';
 import { RichTextEditor } from '../../../shared/components/rich-text-editor/rich-text-editor';
 import { Flatpickr } from '../../../shared/directives/flatpickr';
 import { DatePipe } from '@angular/common';
+import { CurrencyInput } from '../../../shared/components/currency-input/currency-input';
 
 
 @Component({
   selector: 'app-add-annonce',
-  imports: [RichTextEditor, Flatpickr, DatePipe],
+  imports: [RichTextEditor, Flatpickr, DatePipe, CurrencyInput],
   templateUrl: './add-annonce.html',
   styleUrl: './add-annonce.scss',
 })
@@ -33,6 +34,22 @@ export class AddAnnonce {
     dateFormat: 'd/m/Y',
     altFormat: 'd/m/Y'
   };
+
+  annonce = {
+    budget: 0,
+    monthlyRent: 0,
+    deposit: 0,
+    agencyFees: 0
+  };
+
+  onSubmit() {
+    console.log('Annonce:', this.annonce);
+  }
+
+  getTotal(): number {
+    return this.annonce.budget + this.annonce.monthlyRent + 
+           this.annonce.deposit + this.annonce.agencyFees;
+  }
 
   onContentChange(data: string) {
     this.content.set(data);

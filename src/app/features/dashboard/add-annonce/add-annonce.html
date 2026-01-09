@@ -154,10 +154,24 @@
 
             <div class="col-md-6 gy-6">
                 <div class="form-floating">
-                    <input class="form-control" id="floatingInputBudget" type="text" placeholder="Budget" />
+                    <input class="form-control" id="floatingInputBudget" type="number" placeholder="Budget" />
                     <label for="floatingInputBudget">Budget</label>
                 </div>
             </div>
+
+
+            <!-- Frais d'agence -->
+          <div class="col-md-6 gy-6">
+            <app-currency-input
+              id="floatingInputFees"
+              label="Frais d'agence"
+              placeholder="Frais"
+              name="agencyFees"
+            ></app-currency-input>
+          </div>
+
+
+
 
             <div class="col-12 gy-6">
                 <div class="form-floating form-floating-advance-select">

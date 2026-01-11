@@ -1,12 +1,26 @@
 <div class="search-select-wrapper">
     <div class="form-floating">
-        <!-- Select visuel -->
-        <div [id]="id" class="form-select search-select-trigger" [class.is-open]="isOpen()"
-            [class.has-value]="selectedValue()" (click)="toggleDropdown($event)" tabindex="0" role="button"
-            [attr.aria-expanded]="isOpen()" [attr.aria-required]="required">
+        <!-- Select visuel avec détection de is-invalid -->
+        <div 
+            [id]="id" 
+            class="form-select search-select-trigger" 
+            [class.is-open]="isOpen()" 
+            [class.has-value]="selectedValue()"
+            [class.is-invalid]="isInvalid"
+            [class.is-valid]="isValid"
+            [class.disabled]="disabled"
+            (click)="toggleDropdown($event)" 
+            tabindex="0" 
+            role="button"
+            [attr.aria-expanded]="isOpen()" 
+            [attr.aria-required]="required"
+            [attr.aria-disabled]="disabled"
+            [attr.aria-invalid]="isInvalid"
+        >
             <span class="selected-text">
                 {{ selectedLabel() || placeholder }}
             </span>
+
             <span class="dropdown-arrow">
                 <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" viewBox="0 0 16 16">
                     <path fill-rule="evenodd"
@@ -15,18 +29,81 @@
             </span>
         </div>
 
+        <!-- 
+          ═══════════════════════════════════════════════════════════════════
+          LABEL FLOTTANT
+          ═══════════════════════════════════════════════════════════════════
+          
+          OBJECTIF :
+          - Affiche le nom du champ (ex: "Ville", "Commune")
+          - Remonte au-dessus du champ quand il est rempli (form-floating)
+          
+          POURQUOI [attr.for] ?
+          - Lie le label au champ via l'ID
+          - Permet de cliquer sur le label pour focus le champ
+          - Améliore l'accessibilité
+        -->
         <label [attr.for]="id">
-            {{ label }}<span *ngIf="required"> *</span>
+            {{ label }}<span *ngIf="required" class="text-danger"> *</span>
         </label>
 
+        <!-- 
+          ═══════════════════════════════════════════════════════════════════
+          CHAMP CACHÉ (Hidden Input)
+          ═══════════════════════════════════════════════════════════════════
+          
+          OBJECTIF :
+          - Stocker la valeur technique pour les formulaires non-réactifs
+          - Permet l'intégration avec des formulaires standards HTML
+          
+          POURQUOI ?
+          - Si vous utilisez un formulaire classique (sans Angular Forms)
+          - Permet de récupérer la valeur via form.submit()
+          
+          EXEMPLE :
+          <form (submit)="onSubmit($event)">
+            <app-search-select name="ville" />
+            → La valeur sera dans : formData.get('ville')
+          </form>
+        -->
         <input type="hidden" [name]="id" [value]="selectedValue()" />
 
-        <!-- Dropdown Panel -->
+        <!-- Message d'erreur -->
+        <div *ngIf="isInvalid && errorMessage" class="invalid-feedback d-block">
+            {{ errorMessage }}
+        </div>
+
+        <!-- 
+          ═══════════════════════════════════════════════════════════════════
+          DROPDOWN PANEL (Liste déroulante)
+          ═══════════════════════════════════════════════════════════════════
+          
+          OBJECTIF :
+          - Afficher la liste des options + barre de recherche
+          - Affiché uniquement quand isOpen() = true
+          
+          POURQUOI *ngIf AU LIEU DE [hidden] ?
+          - *ngIf retire complètement l'élément du DOM → Meilleure performance
+          - [hidden] garde l'élément dans le DOM → Consomme de la mémoire
+          
+          CAS D'USAGE :
+          - Utilisateur clique sur le select
+          - isOpen() passe à true
+          - Ce bloc apparaît avec une animation CSS
+        -->
         <div *ngIf="isOpen()" class="search-select-dropdown">
             <!-- Zone de recherche -->
             <div class="search-input-wrapper">
-                <input type="text" class="form-control search-input" placeholder="Rechercher..." [value]="searchTerm()"
-                    (input)="onSearchInput($event)" autocomplete="off" autofocus />
+                <input 
+                    type="text" 
+                    class="form-control search-input" 
+                    placeholder="Rechercher..." 
+                    [value]="searchTerm()"
+                    (input)="onSearchInput($event)" 
+                    (click)="preventClose($event)"
+                    autocomplete="off" 
+                    autofocus 
+                />
                 <span class="search-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor"
                         viewBox="0 0 16 16">
@@ -38,14 +115,38 @@
 
             <!-- Liste des options -->
             <div class="options-list">
-
-                <div *ngIf="!searchTerm() && placeholder" class="option-item" [class.selected]="!selectedValue()"
-                    (click)="selectOption({value: '', label: placeholder}, $event)">
+                <div 
+                    *ngIf="!searchTerm() && placeholder" 
+                    class="option-item" 
+                    [class.selected]="!selectedValue()"
+                    (click)="selectOption({value: '', label: placeholder}, $event)"
+                >
                     {{ placeholder }}
                 </div>
 
-                <div *ngFor="let option of filteredOptions()" class="option-item"
-                    [class.selected]="option.value === selectedValue()" (click)="selectOption(option, $event)">
+                <!-- 
+                  BOUCLE SUR LES OPTIONS FILTRÉES
+                  --------------------------------
+                  
+                  OBJECTIF :
+                  - Afficher chaque option disponible
+                  - Filtrage automatique via filteredOptions()
+                  
+                  DIRECTIVE *ngFor :
+                  - Itère sur le tableau filteredOptions()
+                  - Crée un <div> pour chaque option
+                  
+                  LOGIQUE DE FILTRAGE :
+                  1. Utilisateur tape "abi" dans la recherche
+                  2. filteredOptions() retourne ["Abidjan", "Abidjan Plateau"]
+                  3. Seules ces 2 options s'affichent
+                -->
+                <div 
+                    *ngFor="let option of filteredOptions()" 
+                    class="option-item"
+                    [class.selected]="option.value === selectedValue()" 
+                    (click)="selectOption(option, $event)"
+                >
                     {{ option.label }}
                     <span *ngIf="option.value === selectedValue()" class="check-mark">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"

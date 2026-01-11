@@ -37,7 +37,7 @@
             </div>
 
             <!-- TYPE DE BIEN -->
-            <div class="col-md-6">
+            <div class="col-md-12">
                 <div class="form-floating">
                     <select id="type" formControlName="type"
                         class="form-select" [class.is-invalid]="isFieldInvalid('type')">
@@ -75,7 +75,6 @@
                     Informations personnelles
                 </h4>
                 <div class="row g-2" formGroupName="contact">
-                    
                     <div class="col-md-4">
                         <div class="form-floating">
                             <input id="contactNom" type="text" 
@@ -122,46 +121,42 @@
                 </h4>
                 <div class="row g-2" formGroupName="localisation">
                     <div class="col-md-6">
-                        <div class="form-floating">
-                            <select id="type" formControlName="ville" class="form-select" [class.is-invalid]="isFieldInvalid('localisation.ville')">
-                                <option value="">-- Sélectionnez --</option>
-                                <option value="appartement">Appartement</option>
-                                <option value="villa">Villa</option>
-                                <option value="studio">Studio</option>
-                                <option value="bureau">Bureau</option>
-                            </select>
-                            <label for="type">Type de bien *</label>
-                        </div>
+                        <app-search-select
+                            [class.is-invalid]="isFieldInvalid('localisation.ville')"
+                            id="ville" label="Ville" formControlName="ville"
+                            [options]="liste_villes" [required]="true"
+                        />
                         @if (isFieldInvalid('localisation.ville')) {
-                            <span class="error-message">Veuillez la ville</span>
+                            <span class="error-message">Veuillez sélectionner la ville</span>
                         }
                     </div>
 
                     <div class="col-md-6">
                         <app-search-select
-                            [class.is-invalid]="isFieldInvalid('localisation.ville')"
-                            id="ville"
-                            label="Ville"
-                            [options]="cities"
-                            formControlName="ville"
+                            [class.is-invalid]="isFieldInvalid('localisation.commune')"
+                            id="commune" label="Commune" formControlName="commune"
+                            [options]="actual_communes()" [required]="true" [disabled]="actual_communes().length === 0"
+                            [placeholder]="actual_communes().length === 0 ? '-- Aucune commune disponible --' : '-- Sélectionnez --'"
                         />
+                        @if (isFieldInvalid('localisation.commune')) {
+                            <span class="error-message">Veuillez sélectionner la commune</span>
+                        }
+                        <!-- @if (actual_communes().length === 0 && bienForm.get('localisation.ville')?.value) {
+                            <small class="text-muted d-block mt-1">
+                                <i class="fas fa-info-circle"></i> Aucune commune disponible pour cette ville
+                            </small>
+                        } -->
                     </div>
-
-
 
                     <div class="col-md-6">
                         <div class="form-floating">
-                            <select id="type" formControlName="commune" class="form-select" [class.is-invalid]="isFieldInvalid('localisation.commune')">
-                                <option value="">-- Sélectionnez --</option>
-                                <option value="appartement">Appartement</option>
-                                <option value="villa">Villa</option>
-                                <option value="studio">Studio</option>
-                                <option value="bureau">Bureau</option>
-                            </select>
-                            <label for="type">Type de bien *</label>
+                            <input id="llongitude" type="number" 
+                                formControlName="longitude" placeholder="longitude" class="form-control"
+                                [class.is-invalid]="isFieldInvalid('localisation.longitude')" />
+                            <label for="llongitude">Longitude </label>
                         </div>
-                        @if (isFieldInvalid('localisation.commune')) {
-                            <span class="error-message">Veuillez la commune</span>
+                        @if (isFieldInvalid('localisation.longitude')) {
+                            <span class="error-message">Veuillez saisir la longitude</span>
                         }
                     </div>
 
@@ -170,26 +165,160 @@
                             <input id="llatitude" type="number" 
                                 formControlName="latitude" placeholder="latitude" class="form-control"
                                 [class.is-invalid]="isFieldInvalid('localisation.latitude')" />
-                            <label for="llatitude">Latitude *</label>
+                            <label for="llatitude">Latitude </label>
                         </div>
                         @if (isFieldInvalid('localisation.latitude')) {
-                            <span class="error-message">Veuillez la latitude</span>
+                            <span class="error-message">Veuillez saisir la latitude</span>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <!-- COMPOSITION GROUP -->
+            <div class="col-12">
+                <h4 class="mt-3 mb-2">
+                    <i class="fas fa-location text-info"></i>
+                    Composition du bien
+                </h4>
+                <div class="row g-2" formGroupName="composition">
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <input id="lnombreChambres" type="number" 
+                                formControlName="nombreChambres" placeholder="" class="form-control"
+                                [class.is-invalid]="isFieldInvalid('composition.nombreChambres')" />
+                            <label for="lnombreChambres">Nombre de chambres </label>
+                        </div>
+                        @if (getFieldError('composition.nombreChambres', 'min')) {
+                            <span class="error-message">La valeur saisie est incorrecte</span>
+                        }
+                        @else if (isFieldInvalid('composition.nombreChambres')) {
+                            <span class="error-message">Veuillez saisir une valeur</span>
                         }
                     </div>
 
                     <div class="col-md-6">
                         <div class="form-floating">
-                            <input id="llongitude" type="number" 
-                                formControlName="longitude" placeholder="longitude" class="form-control"
-                                [class.is-invalid]="isFieldInvalid('localisation.longitude')" />
-                            <label for="llongitude">Longitude *</label>
+                            <input id="lnombreSalons" type="number" 
+                                formControlName="nombreSalons" placeholder="" class="form-control"
+                                [class.is-invalid]="isFieldInvalid('composition.nombreSalons')" />
+                            <label for="lnombreSalons">Nombre de salons </label>
                         </div>
-                        @if (isFieldInvalid('localisation.longitude')) {
-                            <span class="error-message">Veuillez la longitude</span>
+                        @if (getFieldError('composition.nombreSalons', 'min')) {
+                            <span class="error-message">La valeur saisie est incorrecte</span>
+                        }
+                        @else if (isFieldInvalid('composition.nombreSalons')) {
+                            <span class="error-message">Veuillez saisir une valeur</span>
+                        }
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <input id="lnombreSallesBain" type="number" 
+                                formControlName="nombreSallesBain" placeholder="" class="form-control"
+                                [class.is-invalid]="isFieldInvalid('composition.nombreSallesBain')" />
+                            <label for="lnombreSallesBain">Nombre de douche </label>
+                        </div>
+                        @if (getFieldError('composition.nombreSallesBain', 'min')) {
+                            <span class="error-message">La valeur saisie est incorrecte</span>
+                        }
+                        @else if (isFieldInvalid('composition.nombreSallesBain')) {
+                            <span class="error-message">Veuillez saisir une valeur</span>
+                        }
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <input id="lnombreCuisine" type="number" 
+                                formControlName="nombreCuisine" placeholder="" class="form-control"
+                                [class.is-invalid]="isFieldInvalid('composition.nombreCuisine')" />
+                            <label for="lnombreCuisine">Nombre de cuisine </label>
+                        </div>
+                        @if (getFieldError('composition.nombreCuisine', 'min')) {
+                            <span class="error-message">La valeur saisie est incorrecte</span>
+                        }
+                        @else if (isFieldInvalid('composition.nombreCuisine')) {
+                            <span class="error-message">Veuillez saisir une valeur</span>
+                        }
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="form-floating">
+                            <select id="toilettesVisiteurs" formControlName="toilettesVisiteurs" class="form-select" 
+                                [class.is-invalid]="isFieldInvalid('composition.toilettesVisiteurs')">
+                                <option [value]="null">-- Sélectionnez --</option>
+                                <option [value]="false">Non</option>
+                                <option [value]="true">Oui</option>
+                            </select>
+                            <label for="douche">Est ce quil possede une douche visiteur ?</label>
+                        </div>
+                        @if (isFieldInvalid('composition.toilettesVisiteurs')) {
+                            <span class="error-message">Veuillez sélectionner si ya toulette visiteur</span>
                         }
                     </div>
                 </div>
             </div>
+
+            
+            <div class="accordion" id="accordionExample">
+                <div class="accordion-item border-top">
+                    <h2 class="accordion-header" id="headingOne">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                        Ajouter des inforùations sur l'equipeùent interieurs
+                    </button>
+                    </h2>
+                    <div class="accordion-collapse collapse" id="collapseOne" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                        <div class="accordion-body pt-0">
+                            <!-- EQUIPMENTS INTERIEURS GROUP -->
+                            <div class="col-12">
+                                <h4 class="mt-3 mb-2">
+                                    <i class="fas fa-location text-info"></i>
+                                    Vos equipements interieurs
+                                </h4>
+                                <div class="row g-2" formGroupName="equipementsInterieurs">
+                                    <!-- <div class="col-md-6">
+                                        <div class="form-floating">
+                                            <input id="lnombreChambres" type="number" formControlName="nombreChambres" placeholder=""
+                                                class="form-control" [class.is-invalid]="isFieldInvalid('equipementsInterieurs.nombreChambres')" />
+                                            <label for="lnombreChambres">Nombre de chambres </label>
+                                        </div>
+                                        @if (getFieldError('equipementsInterieurs.nombreChambres', 'min')) {
+                                        <span class="error-message">La valeur saisie est incorrecte</span>
+                                        }
+                                        @else if (isFieldInvalid('equipementsInterieurs.nombreChambres')) {
+                                        <span class="error-message">Veuillez saisir une valeur</span>
+                                        }
+                                    </div> -->
+                                </div>
+                            </div>
+
+
+
+
+
+
+
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingTwo">
+
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        How long does it take to ship my order?
+
+                    </button>
+                    </h2>
+                    <div class="accordion-collapse collapse" id="collapseTwo" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                    <div class="accordion-body pt-0">
+                        <strong>This is the second item's accordion body.</strong>
+                        It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+                    </div>
+                    </div>
+                </div>
+            </div>
+                    
 
 
             
@@ -220,41 +349,8 @@
                 </div>
             </div>
 
-            <div class="col-sm-6 col-md-4">
-                <div class="form-floating">
-                    <select class="form-select" id="floatingSelectPrivacy">
-                        <option selected="selected">Select privacy</option>
-                        <option value="1">Data Privacy One</option>
-                        <option value="2">Data Privacy Two</option>
-                        <option value="3">Data Privacy Three</option>
-                    </select>
-                    <label for="floatingSelectPrivacy">Project privacy</label>
-                </div>
-            </div>
+            
 
-            <div class="col-sm-6 col-md-4">
-                <div class="form-floating">
-                    <select class="form-select" id="floatingSelectTeam">
-                        <option selected="selected">Select team</option>
-                        <option value="1">Team One</option>
-                        <option value="2">Team Two</option>
-                        <option value="3">Team Three</option>
-                    </select>
-                    <label for="floatingSelectTeam">Team </label>
-                </div>
-            </div>
-
-            <div class="col-sm-6 col-md-4">
-                <div class="form-floating">
-                    <select class="form-select" id="floatingSelectAssignees">
-                        <option selected="selected">Select assignees </option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
-                    </select>
-                    <label for="floatingSelectAssignees">People </label>
-                </div>
-            </div>
 
             <div class="col-sm-6 col-md-4">
                 <div class="form-floating">

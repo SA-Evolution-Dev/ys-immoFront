@@ -1,117 +1,536 @@
+// multi-select.component.scss
+
+/**
+ * ╔════════════════════════════════════════════════════════════════════════════╗
+ * ║  STYLES : Multi-Select Component - VARIANTE CLAIRE                        ║
+ * ║  OBJECTIF : Meilleure lisibilité, contrastes optimisés                    ║
+ * ╚════════════════════════════════════════════════════════════════════════════╝
+ */
+
+// ══════════════════════════════════════════════════════════════════════════════
+// VARIABLES CSS PERSONNALISÉES
+// ══════════════════════════════════════════════════════════════════════════════
+:host {
+  // Couleurs principales
+  --ms-primary: #3874ff;
+  --ms-primary-hover: #2563eb;
+  --ms-primary-light: #eff6ff;
+  
+  // Couleurs de texte (CONTRASTES FORTS)
+  --ms-text-dark: #1e293b;
+  --ms-text-medium: #475569;
+  --ms-text-light: #64748b;
+  --ms-text-placeholder: #94a3b8;
+  
+  // Fonds
+  --ms-bg-white: #ffffff;
+  --ms-bg-hover: #f1f5f9;
+  --ms-bg-selected: #e0f2fe;
+  --ms-bg-disabled: #f8fafc;
+  
+  // Bordures
+  --ms-border: #cbd5e1;
+  --ms-border-focus: #cbd5e1;
+  --ms-border-hover: #94a3b8;
+  
+  // Tags/Badges
+  --ms-tag-bg: #3874ff;
+  --ms-tag-text: #ffffff;
+  --ms-tag-hover: #2563eb;
+  
+  // Succès/Erreur
+  --ms-success: #10b981;
+  --ms-success-bg: #d1fae5;
+  --ms-danger: #ef4444;
+  --ms-danger-bg: #fee2e2;
+}
+
 .multi-select-wrapper {
   position: relative;
+  font-family: inherit;
 
-  // ════════════════════════════════════════════════════════════════════════════
-  // TRIGGER (Zone cliquable)
-  // ════════════════════════════════════════════════════════════════════════════
+  // ══════════════════════════════════════════════════════════════════════════
+  // LABEL
+  // ══════════════════════════════════════════════════════════════════════════
+  .ms-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--ms-text-dark);
+  }
+
+  // ══════════════════════════════════════════════════════════════════════════
+  // TRIGGER (Zone cliquable principale)
+  // ══════════════════════════════════════════════════════════════════════════
   .multi-select-trigger {
-    min-height: 2.5rem;
-    padding: 0.375rem 2.5rem 0.375rem 0.75rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.375rem;
+    min-height: 2.75rem;
+    padding: 0.5rem 2.5rem 0.5rem 0.75rem;
+    background-color: var(--ms-bg-white);
+    border: 2px solid var(--ms-border);
+    border-radius: 0.5rem;
     cursor: pointer;
-    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    transition: all 0.2s ease;
     position: relative;
 
+    // Hover
+    &:hover:not(.disabled) {
+      border-color: var(--ms-border-hover);
+      background-color: var(--ms-bg-white);
+    }
+
+    // Focus
     &:focus {
       outline: none;
-      border-color: var(--phoenix-primary);
-      box-shadow: 0 0 0 0.25rem rgba(var(--phoenix-primary-rgb), 0.25);
+      border-color: var(--ms-border-focus);
+      box-shadow: 0 0 0 3px rgba(56, 116, 255, 0.15);
     }
 
+    // Ouvert
     &.is-open {
-      border-color: var(--phoenix-primary);
-      box-shadow: 0 0 0 0.25rem rgba(var(--phoenix-primary-rgb), 0.25);
+      border-color: var(--ms-border-focus);
+      box-shadow: 0 0 0 3px rgba(56, 116, 255, 0.15);
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
     }
 
+    // États de validation
+    &.is-invalid {
+      border-color: var(--ms-danger);
+      
+      &:focus, &.is-open {
+        box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15);
+      }
+    }
+
+    &.is-valid {
+      border-color: var(--ms-success);
+      
+      &:focus, &.is-open {
+        box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
+      }
+    }
+
+    // Désactivé
     &.disabled {
-      background-color: var(--phoenix-body-highlight-bg);
+      background-color: var(--ms-bg-disabled);
       cursor: not-allowed;
-      opacity: 0.65;
+      opacity: 0.7;
+      border-color: var(--ms-border);
+    }
+
+    // Placeholder
+    .ms-placeholder {
+      color: var(--ms-text-placeholder);
+      font-size: 0.9375rem;
     }
 
     // Flèche dropdown
     .dropdown-arrow {
       position: absolute;
-      right: 0.75rem;
+      right: 0.875rem;
       top: 50%;
       transform: translateY(-50%);
+      color: var(--ms-text-medium);
       transition: transform 0.2s ease;
+      font-size: 0.75rem;
 
       &.rotate-180 {
         transform: translateY(-50%) rotate(180deg);
       }
     }
+
+    // Bouton Clear All
+    .ms-clear-btn {
+      background: none;
+      border: none;
+      padding: 0.25rem;
+      color: var(--ms-text-light);
+      cursor: pointer;
+      border-radius: 0.25rem;
+      transition: all 0.15s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      &:hover {
+        color: var(--ms-danger);
+        background-color: var(--ms-danger-bg);
+      }
+    }
   }
 
-  // ════════════════════════════════════════════════════════════════════════════
-  // BADGES/TAGS
-  // ════════════════════════════════════════════════════════════════════════════
-  .badge {
+  // ══════════════════════════════════════════════════════════════════════════
+  // TAGS / BADGES (Options sélectionnées)
+  // ══════════════════════════════════════════════════════════════════════════
+  .ms-tag {
     display: inline-flex;
     align-items: center;
-    max-width: 150px;
+    gap: 0.375rem;
+    padding: 0.25rem 0.5rem;
+    background-color: var(--ms-tag-bg);
+    color: var(--ms-tag-text);
+    border-radius: 0.375rem;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    max-width: 180px;
+    transition: background-color 0.15s ease;
 
-    .badge-label {
+    &:hover {
+      background-color: var(--ms-tag-hover);
+    }
+
+    .ms-tag-label {
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
     }
 
-    .btn-close {
-      filter: brightness(0) invert(1);
-      opacity: 0.8;
+    .ms-tag-icon {
+      font-size: 0.75rem;
+    }
+
+    .ms-tag-remove {
+      background: none;
+      border: none;
       padding: 0;
-      margin-left: 0.25rem;
+      color: rgba(255, 255, 255, 0.8);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 1rem;
+      height: 1rem;
+      border-radius: 50%;
+      transition: all 0.15s ease;
+      font-size: 0.625rem;
 
       &:hover {
-        opacity: 1;
+        color: #ffffff;
+        background-color: rgba(255, 255, 255, 0.2);
       }
+    }
+
+    // Variantes de couleurs pour les tags
+    &.tag-primary {
+      background-color: #3874ff;
+      &:hover { background-color: #2563eb; }
+    }
+
+    &.tag-success {
+      background-color: #10b981;
+      &:hover { background-color: #059669; }
+    }
+
+    &.tag-warning {
+      background-color: #f59e0b;
+      color: #1e293b;
+      &:hover { background-color: #d97706; }
+      .ms-tag-remove {
+        color: rgba(30, 41, 59, 0.7);
+        &:hover {
+          color: #1e293b;
+          background-color: rgba(30, 41, 59, 0.1);
+        }
+      }
+    }
+
+    &.tag-danger {
+      background-color: #ef4444;
+      &:hover { background-color: #dc2626; }
+    }
+
+    &.tag-info {
+      background-color: #0ea5e9;
+      &:hover { background-color: #0284c7; }
+    }
+
+    &.tag-secondary {
+      background-color: #64748b;
+      &:hover { background-color: #475569; }
+    }
+
+    &.tag-dark {
+      background-color: #1e293b;
+      &:hover { background-color: #0f172a; }
     }
   }
 
-  // ════════════════════════════════════════════════════════════════════════════
-  // DROPDOWN
-  // ════════════════════════════════════════════════════════════════════════════
+  // ══════════════════════════════════════════════════════════════════════════
+  // DROPDOWN (Liste déroulante)
+  // ══════════════════════════════════════════════════════════════════════════
   .multi-select-dropdown {
     position: absolute;
     top: 100%;
     left: 0;
+    right: 0;
     z-index: 1050;
-    margin-top: 0.125rem;
-    border-radius: var(--phoenix-border-radius);
-    box-shadow: var(--phoenix-box-shadow);
-    max-height: 300px;
+    background-color: var(--ms-bg-white);
+    border: 2px solid var(--ms-border-focus);
+    border-top: none;
+    border-bottom-left-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1),
+                0 8px 10px -6px rgba(0, 0, 0, 0.1);
     overflow: hidden;
 
-    // Liste des options avec scroll
-    .multi-select-options {
-      max-height: 200px;
-      overflow-y: auto;
-    }
+    // Champ de recherche
+    .ms-search-wrapper {
+      padding: 0.75rem;
+      background-color: var(--ms-bg-hover);
+      border-bottom: 1px solid var(--ms-border);
 
-    // Style des options
-    .dropdown-item {
-      cursor: pointer;
-      transition: background-color 0.15s ease;
+      .ms-search-input {
+        width: 100%;
+        padding: 0.5rem 0.75rem 0.5rem 2.25rem;
+        border: 1px solid var(--ms-border);
+        border-radius: 0.375rem;
+        font-size: 0.875rem;
+        color: var(--ms-text-dark);
+        background-color: var(--ms-bg-white);
+        transition: all 0.15s ease;
 
-      &:hover:not(.disabled),
-      &.active:not(.disabled) {
-        background-color: var(--phoenix-body-highlight-bg);
+        &::placeholder {
+          color: var(--ms-text-placeholder);
+        }
+
+        &:focus {
+          outline: none;
+          border-color: var(--ms-border-focus);
+          box-shadow: 0 0 0 2px rgba(56, 116, 255, 0.1);
+        }
       }
 
+      .ms-search-icon {
+        position: absolute;
+        left: 1.5rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--ms-text-light);
+        font-size: 0.875rem;
+      }
+
+      .ms-search-clear {
+        position: absolute;
+        right: 1.5rem;
+        top: 50%;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        color: var(--ms-text-light);
+        cursor: pointer;
+        padding: 0.25rem;
+        border-radius: 0.25rem;
+
+        &:hover {
+          color: var(--ms-text-dark);
+          background-color: var(--ms-bg-hover);
+        }
+      }
+    }
+
+    // Compteur de sélection
+    .ms-selection-counter {
+      padding: 0.5rem 0.75rem;
+      background-color: var(--ms-primary-light);
+      border-bottom: 1px solid var(--ms-border);
+      font-size: 0.8125rem;
+      color: var(--ms-primary);
+      font-weight: 500;
+
+      i {
+        margin-right: 0.375rem;
+      }
+    }
+
+    // Liste des options
+    .ms-options-list {
+      max-height: 220px;
+      overflow-y: auto;
+
+      // Scrollbar personnalisée
+      &::-webkit-scrollbar {
+        width: 6px;
+      }
+
+      &::-webkit-scrollbar-track {
+        background: var(--ms-bg-hover);
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background: var(--ms-border);
+        border-radius: 3px;
+
+        &:hover {
+          background: var(--ms-text-light);
+        }
+      }
+    }
+
+    // Option individuelle
+    .ms-option {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.75rem 1rem;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      color: var(--ms-text-dark);
+      font-size: 0.9375rem;
+      border-bottom: 1px solid transparent;
+
+      // Hover - TRÈS VISIBLE
+      &:hover:not(.disabled):not(.selected) {
+        background-color: var(--ms-bg-hover);
+        color: var(--ms-text-dark);
+      }
+
+      // Active/Highlighted (navigation clavier)
+      &.highlighted:not(.disabled):not(.selected) {
+        background-color: var(--ms-primary-light);
+        color: var(--ms-primary);
+        border-bottom-color: rgba(56, 116, 255, 0.1);
+      }
+
+      // Option sélectionnée
+      &.selected {
+        background-color: var(--ms-bg-selected);
+        color: var(--ms-primary);
+        font-weight: 500;
+
+        .ms-option-check {
+          color: var(--ms-primary);
+        }
+      }
+
+      // Option désactivée
       &.disabled {
+        opacity: 0.5;
         cursor: not-allowed;
-        opacity: 0.65;
+        background-color: var(--ms-bg-disabled);
+        color: var(--ms-text-light);
+      }
+
+      // Icône de l'option
+      .ms-option-icon {
+        margin-right: 0.75rem;
+        color: var(--ms-text-medium);
+        width: 1.25rem;
+        text-align: center;
+      }
+
+      // Contenu principal
+      .ms-option-content {
+        flex: 1;
+        display: flex;
+        align-items: center;
+      }
+
+      // Indicateur d'action
+      .ms-option-action {
+        color: var(--ms-text-placeholder);
+        font-size: 0.75rem;
+        transition: all 0.15s ease;
+      }
+
+      &:hover:not(.disabled) .ms-option-action {
+        color: var(--ms-primary);
+      }
+
+      // Check icon pour les sélectionnés
+      .ms-option-check {
+        color: var(--ms-success);
+        font-size: 0.875rem;
+      }
+    }
+
+    // Section des options sélectionnées
+    .ms-selected-section {
+      border-top: 2px solid var(--ms-border);
+
+      .ms-selected-header {
+        padding: 0.5rem 1rem;
+        background-color: var(--ms-bg-hover);
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: var(--ms-text-medium);
+        text-transform: uppercase;
+        letter-spacing: 0.025em;
+      }
+
+      .ms-selected-option {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0.625rem 1rem;
+        background-color: var(--ms-bg-selected);
+        color: var(--ms-text-dark);
+        font-size: 0.875rem;
+        border-bottom: 1px solid rgba(56, 116, 255, 0.1);
+
+        &:last-child {
+          border-bottom: none;
+        }
+
+        .ms-selected-remove {
+          background: none;
+          border: none;
+          color: var(--ms-danger);
+          cursor: pointer;
+          padding: 0.25rem 0.5rem;
+          border-radius: 0.25rem;
+          font-size: 0.75rem;
+          transition: all 0.15s ease;
+
+          &:hover {
+            background-color: var(--ms-danger-bg);
+          }
+        }
+      }
+    }
+
+    // Message "Aucun résultat"
+    .ms-no-results {
+      padding: 1.5rem 1rem;
+      text-align: center;
+      color: var(--ms-text-light);
+      font-size: 0.875rem;
+
+      i {
+        display: block;
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+        color: var(--ms-text-placeholder);
       }
     }
   }
 
-  // ════════════════════════════════════════════════════════════════════════════
-  // ÉTAT DÉSACTIVÉ
-  // ════════════════════════════════════════════════════════════════════════════
+  // ══════════════════════════════════════════════════════════════════════════
+  // MESSAGE D'ERREUR
+  // ══════════════════════════════════════════════════════════════════════════
+  .ms-error-message {
+    display: flex;
+    align-items: center;
+    margin-top: 0.375rem;
+    font-size: 0.8125rem;
+    color: var(--ms-danger);
+
+    i {
+      margin-right: 0.375rem;
+    }
+  }
+
+  // ══════════════════════════════════════════════════════════════════════════
+  // ÉTAT DÉSACTIVÉ GLOBAL
+  // ══════════════════════════════════════════════════════════════════════════
   &.is-disabled {
     pointer-events: none;
-
-    .badge .btn-close {
+    
+    .ms-tag-remove {
       display: none;
     }
   }

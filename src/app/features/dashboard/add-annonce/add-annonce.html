@@ -275,6 +275,25 @@
                                     Vos equipements interieurs
                                 </h4>
                                 <div class="row g-2" formGroupName="equipementsInterieurs">
+                                
+                                    <div class="mb-3">
+                                        <!-- formControlName="tags" -->
+                                        <app-multi-select
+                                            id="tags"
+                                            label="Ajouter des tags"
+                                            placeholder="Choisir des tags..."
+                                            [options]="tagOptions"
+                                            [removeItemButton]="true"
+                                            [searchable]="true"
+                                            [isInvalid]="isFieldInvalid('tags')"
+                                        >
+                                            <span error-message>
+                                            <i class="fas fa-exclamation-circle me-1"></i>
+                                            Veuillez sélectionner au moins un tag
+                                            </span>
+                                        </app-multi-select>
+                                    </div>
+
                                     <!-- <div class="col-md-6">
                                         <div class="form-floating">
                                             <input id="lnombreChambres" type="number" formControlName="nombreChambres" placeholder=""

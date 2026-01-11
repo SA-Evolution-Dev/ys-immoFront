@@ -6,6 +6,8 @@ import { CurrencyInput } from '../../../shared/components/currency-input/currenc
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormArray } from '@angular/forms';
 import { SearchSelect } from '../../../shared/components/search-select/search-select';
+import { MultiSelect } from '../../../shared/components/multi-select/multi-select';
+import { MultiSelectOption } from '../../../shared/components/multi-select/multi-select.model';
 
 interface Commune {
   value: string;
@@ -14,7 +16,8 @@ interface Commune {
 
 @Component({
   selector: 'app-add-annonce',
-  imports: [RichTextEditor, Flatpickr, DatePipe, CurrencyInput, CommonModule, ReactiveFormsModule, SearchSelect],
+  imports: [RichTextEditor, Flatpickr, DatePipe, CurrencyInput, 
+    CommonModule, ReactiveFormsModule, SearchSelect, MultiSelect],
   templateUrl: './add-annonce.html',
   styleUrl: './add-annonce.scss',
 })
@@ -160,6 +163,17 @@ export class AddAnnonce implements OnInit {
       enVedette: [false]
     })
   });
+
+  // Options pour le multi-select "Tags"
+  tagOptions: MultiSelectOption[] = [
+    { value: 'stupidity', label: 'Stupidity', badgeColor: 'primary' },
+    { value: 'jerry', label: 'Jerry', badgeColor: 'info' },
+    { value: 'not_the_mouse', label: 'Not_the_mouse', badgeColor: 'warning' },
+    { value: 'rick', label: 'Rick', badgeColor: 'success' },
+    { value: 'biology', label: 'Biology', badgeColor: 'danger' },
+    { value: 'neurology', label: 'Neurology', icon: 'fas fa-brain' },
+    { value: 'brainlessness', label: 'Brainlessness', disabled: true }
+  ];
 
   // Validation
   isFieldInvalid(fieldPath: string): boolean {

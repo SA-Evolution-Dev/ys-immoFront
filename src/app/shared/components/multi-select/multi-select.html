@@ -1,0 +1,264 @@
+<div 
+  class="multi-select-wrapper form-floating-advance-select"
+  [class.is-disabled]="disabled"
+>
+  <!-- 
+    ═══════════════════════════════════════════════════════════════════════════
+    SECTION 1 : LABEL (au-dessus du champ)
+    ═══════════════════════════════════════════════════════════════════════════
+  -->
+  @if (label) {
+    <label [for]="id" class="form-label text-body-tertiary mb-1">
+      {{ label }}
+    </label>
+  }
+
+  <!-- 
+    ═══════════════════════════════════════════════════════════════════════════
+    SECTION 2 : ZONE DE SÉLECTION (Trigger + Tags)
+    ═══════════════════════════════════════════════════════════════════════════
+    OBJECTIF : Zone cliquable affichant les tags sélectionnés
+  -->
+  <div
+    class="form-select multi-select-trigger d-flex flex-wrap align-items-center gap-1"
+    [class.is-open]="isOpen()"
+    [class.is-invalid]="isInvalid"
+    [class.is-valid]="isValid"
+    [class.disabled]="disabled"
+    [class.has-value]="selectedOptions().length > 0"
+    (click)="toggleDropdown($event)"
+    (keydown)="onKeyDown($event)"
+    [attr.tabindex]="disabled ? -1 : 0"
+    role="combobox"
+    [attr.aria-expanded]="isOpen()"
+    [attr.aria-haspopup]="'listbox'"
+    [attr.aria-disabled]="disabled"
+  >
+    <!-- 
+      TAGS SÉLECTIONNÉS
+      -----------------
+      Affiche les badges des options sélectionnées
+    -->
+    @if (selectedOptions().length > 0) {
+      @for (option of selectedOptions(); track trackByValue($index, option)) {
+        <span 
+          class="badge badge-phoenix badge-phoenix-{{ getBadgeColor(option) }} fs-10 me-1"
+          [class.pe-1]="removeItemButton"
+        >
+          <!-- Icône optionnelle -->
+          @if (option.icon) {
+            <i [class]="option.icon + ' me-1'"></i>
+          }
+          
+          <!-- Texte du tag -->
+          <span class="badge-label">{{ option.label }}</span>
+          
+          <!-- Bouton de suppression -->
+          @if (removeItemButton && !disabled) {
+            <button
+              type="button"
+              class="btn-close btn-close-white ms-1"
+              style="font-size: 0.5rem;"
+              (click)="removeOption(option, $event)"
+              [attr.aria-label]="'Supprimer ' + option.label"
+            >
+            </button>
+          }
+        </span>
+      }
+    } @else {
+      <!-- Placeholder quand aucune sélection -->
+      <span class="text-body-tertiary">
+        {{ placeholder }}
+      </span>
+    }
+
+    <!-- Spacer pour pousser la flèche à droite -->
+    <span class="flex-grow-1"></span>
+
+    <!-- 
+      BOUTON CLEAR ALL
+      ----------------
+      Visible uniquement si des options sont sélectionnées
+    -->
+    @if (selectedOptions().length > 0 && !disabled) {
+      <button
+        type="button"
+        class="btn btn-link btn-sm p-0 text-body-tertiary me-2"
+        (click)="clearAll($event)"
+        title="Tout effacer"
+        aria-label="Effacer toutes les sélections"
+      >
+        <i class="fas fa-times-circle"></i>
+      </button>
+    }
+
+    <!-- 
+      FLÈCHE DROPDOWN
+      ---------------
+      Indique l'état ouvert/fermé
+    -->
+    <span 
+      class="dropdown-arrow text-body-tertiary"
+      [class.rotate-180]="isOpen()"
+    >
+      <i class="fas fa-chevron-down"></i>
+    </span>
+  </div>
+
+  <!-- 
+    ═══════════════════════════════════════════════════════════════════════════
+    SECTION 3 : DROPDOWN (Liste des options)
+    ═══════════════════════════════════════════════════════════════════════════
+    OBJECTIF : Panneau déroulant avec recherche et options
+  -->
+  @if (isOpen()) {
+    <div 
+      class="dropdown-menu show w-100 py-0 multi-select-dropdown"
+      role="listbox"
+      [attr.aria-multiselectable]="true"
+    >
+      <!-- 
+        CHAMP DE RECHERCHE
+        ------------------
+        Permet de filtrer les options
+      -->
+      @if (searchable) {
+        <div class="p-2 border-bottom border-translucent">
+          <div class="input-group input-group-sm">
+            <span class="input-group-text bg-body-tertiary border-0">
+              <i class="fas fa-search text-body-tertiary"></i>
+            </span>
+            <input
+              type="text"
+              class="form-control form-control-sm border-0 bg-body-tertiary"
+              [placeholder]="searchPlaceholder"
+              [value]="searchQuery()"
+              (input)="onSearchInput($event)"
+              (keydown)="onKeyDown($event)"
+              autocomplete="off"
+            />
+            @if (searchQuery()) {
+              <button
+                type="button"
+                class="btn btn-sm bg-body-tertiary border-0 text-body-tertiary"
+                (click)="searchQuery.set('')"
+                aria-label="Effacer la recherche"
+              >
+                <i class="fas fa-times"></i>
+              </button>
+            }
+          </div>
+        </div>
+      }
+
+      <!-- 
+        INFO SÉLECTION (compteur)
+        -------------------------
+        Affiche le nombre de sélections / maximum
+      -->
+      @if (maxSelection > 0) {
+        <div class="px-3 py-2 bg-body-tertiary border-bottom border-translucent">
+          <small class="text-body-tertiary">
+            <i class="fas fa-info-circle me-1"></i>
+            {{ selectionCountText() }}
+          </small>
+        </div>
+      }
+
+      <!-- 
+        LISTE DES OPTIONS
+        -----------------
+        Affiche les options filtrées (non sélectionnées)
+      -->
+      <div class="multi-select-options">
+        @if (availableOptions().length > 0) {
+          @for (option of availableOptions(); track trackByValue($index, option); let i = $index) {
+            <div
+              class="dropdown-item d-flex align-items-center justify-content-between py-2 px-3"
+              [class.active]="highlightedIndex() === i"
+              [class.disabled]="option.disabled || isMaxReached()"
+              [class.text-body-tertiary]="option.disabled || isMaxReached()"
+              (click)="selectOption(option, $event)"
+              (mouseenter)="highlightedIndex.set(i)"
+              role="option"
+              [attr.aria-selected]="false"
+              [attr.aria-disabled]="option.disabled || isMaxReached()"
+            >
+              <span class="d-flex align-items-center">
+                <!-- Icône optionnelle -->
+                @if (option.icon) {
+                  <i [class]="option.icon + ' me-2'"></i>
+                }
+                
+                <!-- Label de l'option -->
+                <span>{{ option.label }}</span>
+              </span>
+
+              <!-- Indicateur de sélection possible -->
+              @if (!option.disabled && !isMaxReached()) {
+                <i class="fas fa-plus text-body-quaternary"></i>
+              }
+            </div>
+          }
+        } @else {
+          <!-- Message si aucun résultat -->
+          <div class="dropdown-item text-body-tertiary text-center py-3">
+            <i class="fas fa-search me-2"></i>
+            {{ noResultsText }}
+          </div>
+        }
+      </div>
+
+      <!-- 
+        OPTIONS DÉJÀ SÉLECTIONNÉES
+        --------------------------
+        Section séparée montrant les options actuellement sélectionnées
+      -->
+      @if (selectedOptions().length > 0) {
+        <div class="border-top border-translucent">
+          <div class="px-3 py-2 bg-body-highlight">
+            <small class="text-body-secondary fw-semibold">
+              <i class="fas fa-check-circle me-1"></i>
+              Sélectionnés ({{ selectedOptions().length }})
+            </small>
+          </div>
+          @for (option of selectedOptions(); track trackByValue($index, option)) {
+            <div
+              class="dropdown-item d-flex align-items-center justify-content-between py-2 px-3 bg-primary-subtle"
+            >
+              <span class="d-flex align-items-center">
+                @if (option.icon) {
+                  <i [class]="option.icon + ' me-2'"></i>
+                }
+                <span>{{ option.label }}</span>
+              </span>
+              
+              @if (removeItemButton && !disabled) {
+                <button
+                  type="button"
+                  class="btn btn-link btn-sm p-0 text-danger"
+                  (click)="removeOption(option, $event)"
+                  [attr.aria-label]="'Supprimer ' + option.label"
+                >
+                  <i class="fas fa-times"></i>
+                </button>
+              }
+            </div>
+          }
+        </div>
+      }
+    </div>
+  }
+
+  <!-- 
+    ═══════════════════════════════════════════════════════════════════════════
+    SECTION 4 : MESSAGES DE VALIDATION
+    ═══════════════════════════════════════════════════════════════════════════
+  -->
+  @if (isInvalid) {
+    <div class="invalid-feedback d-block">
+      <ng-content select="[error-message]"></ng-content>
+    </div>
+  }
+</div>

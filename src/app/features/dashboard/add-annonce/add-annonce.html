@@ -313,7 +313,7 @@
                     Configurez les modalités de la transaction : type, prix et conditions
                 </p>
                 <div class="row g-2" formGroupName="transaction">
-                    <div class="col-md-12">
+                    <div [class]="getTransactionType() === 'vente' ? 'col-md-6' : 'col-md-12'">
                         <div class="form-floating">
                             <select id="transactionType" formControlName="transactionType" class="form-select"
                                 [class.is-invalid]="isFieldInvalid('transaction.transactionType')">
@@ -356,7 +356,7 @@
                             ></app-currency-input>
                         </div>
                         
-                        <!-- Période -->
+                        <!-- Périodicité du loyer -->
                         <div class="col-md-6">
                             <div class="form-floating">
                                 <select id="periodeLoyer" class="form-select"
@@ -365,7 +365,7 @@
                                     <option value="mois">/ Mois</option>
                                     <option value="annee">/ Année</option>
                                 </select>
-                                <label for="periodeLoyer">Période</label>
+                                <label for="periodeLoyer">Périodicité du loyer</label>
                             </div>
                         </div>
 
@@ -419,71 +419,8 @@
                             </div>
                         </div>
                     }
-
                 </div>
             </div>
-
-
-
-
-
-
-
-
-
-
-
-
-            
-
-            
-            
-                    
-
-
-            
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            
-            <hr class="mb-5">
-
-            <div class="col-sm-6 col-md-4">
-                <div class="flatpickr-input-container">
-                    <div class="form-floating">
-                        <input class="form-control datetimepicker" id="floatingInputStartDate" type="text"
-                            placeholder="end date" data-options='{"disableMobile":true}' />
-                        <label class="ps-6" for="floatingInputStartDate">Start date</label><span
-                            class="uil uil-calendar-alt flatpickr-icon text-body-tertiary"></span>
-                    </div>
-                </div>
-            </div>
-
-
-
-            <!-- <div class="form-group">
-                <label>Date simple</label>
-                <input
-                    type="text"
-                    class="form-control"
-                    appFlatpickr
-                    [config]="dateConfig"
-                    (dateChange)="onDateChange($event)"
-                    placeholder="Sélectionner une date"
-                >
-            </div> -->
 
             <div class="col-12 gy-6">
                 <div class="row g-3 justify-content-end">

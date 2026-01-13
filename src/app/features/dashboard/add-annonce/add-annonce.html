@@ -9,7 +9,20 @@
 <div class="row">
     <div class="col-xl-9">
         <form [formGroup]="bienForm" (ngSubmit)="onSubmitForm()" class="row g-2 mb-6">
-            <div class="col-sm-6 col-md-8">
+            <!-- SECTION 1 : INFORMATIONS GÉNÉRALES -->
+            <div class="col-12">
+                <div class="section-header">
+                    <label class="section-title">
+                        <i class="fas fa-home text-primary me-2"></i>
+                        Informations générales
+                    </label>
+                    <p class="text-muted small mb-1">
+                        Décrivez votre bien pour attirer les meilleurs clients
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-sm-6 col-md-12">
                 <div class="form-floating">
                     <input id="title" type="text" 
                         formControlName="title" placeholder="Donner un titre ici" 
@@ -21,13 +34,49 @@
                 }
             </div>
 
+            <!-- TYPE DE BIEN -->
+            <div class="col-md-12">
+                <div class="form-floating">
+                    <select id="type" formControlName="type"
+                        class="form-select" [class.is-invalid]="isFieldInvalid('type')">
+                        <option value="">-- Sélectionnez --</option>
+                        <option value="appartement">🏢 Appartement</option>
+                        <option value="villa">🏠 Villa</option>
+                        <option value="studio">🛏️ Studio</option>
+                        <option value="bureau">🏬 Bureau / Local commercial</option>
+                    </select>
+                    <label for="type">Type de bien *</label>
+                </div>
+                @if (isFieldInvalid('type')) {
+                    <span class="error-message">Veuillez sélectionner le type de bien</span>
+                }
+            </div>
+
+            <!-- Surface -->
+            <div class="col-md-6">
+                <div class="form-floating">
+                    <input id="surface" type="number" 
+                        formControlName="surface" placeholder="Ex: 120" 
+                        class="form-control" [class.is-invalid]="isFieldInvalid('surface')" />
+                    <label for="surface">
+                        Surface m² (optionnel)
+                    </label>
+                </div>
+                @if (isFieldInvalid('surface')) {
+                    <span class="error-message">
+                        <i class="fas fa-exclamation-circle me-1"></i>
+                        Veuillez indiquer la surface du bien
+                    </span>
+                }
+            </div>
+
             <!-- STATUT -->
-            <div class="col-sm-6 col-md-4">
+            <div class="col-sm-6 col-md-6">
                 <div class="form-floating">
                     <select id="statut" formControlName="statut" class="form-select"
                         class="form-control" [class.is-invalid]="isFieldInvalid('statut')">
-                        <option value="brouillon">Mettre au brouillon</option>
-                        <option value="actif">Mettre en publication</option>
+                        <option value="brouillon">📝 Brouillon (non visible) </option>
+                        <option value="actif">✅ Publier (visible par tous) </option>
                     </select>
                     <label for="statut">Statut</label>
                 </div>
@@ -36,46 +85,347 @@
                 }
             </div>
 
-            <!-- TYPE DE BIEN -->
-            <div class="col-md-12">
-                <div class="form-floating">
-                    <select id="type" formControlName="type"
-                        class="form-select" [class.is-invalid]="isFieldInvalid('type')">
-                        <option value="">-- Sélectionnez --</option>
-                        <option value="appartement">Appartement</option>
-                        <option value="villa">Villa</option>
-                        <option value="studio">Studio</option>
-                        <option value="bureau">Bureau</option>
-                    </select>
-                    <label for="type">Type de bien *</label>
-                </div>
-                @if (isFieldInvalid('type')) {
-                    <span class="error-message">Veuillez sélectionner le type d'annonce</span>
-                }
-            </div>
-
             <!-- DESCRIPTION -->
             <div class="col-12">
                 <div>
                     <app-rich-text-editor formControlName="description" [height]="200" 
-                        [placeholder]="'Entrez votre description...'"
+                        [placeholder]="'Description détaillée ...'"
                         [toolbar]="'bold italic | underline  | blocks  | forecolor | backcolor | alignleft | alignright | numlist | bullist'"
                         [plugins]="['lists']"
                     ></app-rich-text-editor>
                 </div>
                 @if (isFieldInvalid('description')) {
-                    <span class="error-message">Veuillez saisir la description</span>
+                    <span class="error-message"> Une description complète aide à vendre ou louer plus vite</span>
                 }
+            </div>
+
+            <!-- TRANSACTION GROUP -->
+            <div class="col-md-12">
+                <label class="mt-1 mb-1">
+                    <i class="fas fa-handshake text-info"></i>
+                    Transaction
+                </label>
+                <p class="text-muted small mb-1">
+                    Souhaitez-vous vendre ou mettre en location ce bien ?
+                </p>
+                <div class="row g-2" formGroupName="transaction">
+                    <div [class]="getTransactionType() === 'vente' ? 'col-md-6' : 'col-md-12'">
+                        <div class="form-floating">
+                            <select id="transactionType" formControlName="transactionType" class="form-select"
+                                [class.is-invalid]="isFieldInvalid('transaction.transactionType')">
+                                <option value="">-- Sélectionnez --</option>
+                                <option value="vente">💰 Vendre ce bien</option>
+                                <option value="location">🔑 Mettre en location</option>
+                            </select>
+                            <label for="transactionType">
+                                Type de transaction *
+                            </label>
+                        </div>
+                        @if (isFieldInvalid('transaction.transactionType')) {
+                            <span class="error-message">Choisissez entre vente ou location</span>
+                        }
+                    </div>
+
+                    <!-- PRIX DE VENTE (Affiché uniquement pour VENTE) -->
+                    @if (getTransactionType() === 'vente') {
+                        <div class="col-md-6">
+                            <app-currency-input id="prixVente" label="Montant de vente"
+                                formControlName="prix" 
+                                placeholder="Ex: 25 000 000"
+                                [showNumericValue]="true"
+                                [inputNgClass]="{'is-invalid': isFieldInvalid('transaction.prix')}"
+                            ></app-currency-input>
+                            @if (isFieldInvalid('transaction.prix')) {
+                                <span class="error-message">Indiquez le prix de vente</span>
+                            }
+                        </div>
+                    }
+
+                    <!-- LOYER + PÉRIODE (Affiché uniquement pour LOCATION) -->
+                    @if (getTransactionType() === 'location') {
+                        <!-- Montant du loyer -->
+                        <div class="col-md-6">
+                            <app-currency-input id="loyer" label="Loyer"
+                                formControlName="prix" 
+                                placeholder="Ex: 150 000"
+                                [showNumericValue]="true"
+                                [inputNgClass]="{'is-invalid': isFieldInvalid('transaction.prix')}"
+                            ></app-currency-input>
+                            @if (isFieldInvalid('transaction.prix')) {
+                                <span class="error-message">Indiquez le montant du loyer</span>
+                            }
+                        </div>
+                        
+                        <!-- Périodicité du loyer -->
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <select id="periodeLoyer" class="form-select"
+                                    formControlName="periodeLoyer"
+                                    [class.is-invalid]="isFieldInvalid('transaction.periodeLoyer')">
+                                    <option value="">-- Sélectionnez --</option>
+                                    <option value="mois">/ Mois</option>
+                                    <option value="annee">/ Année</option>
+                                </select>
+                                <label for="periodeLoyer">Périodicité du loyer</label>
+                            </div>
+                            @if (isFieldInvalid('transaction.periodeLoyer')) {
+                                <span class="error-message">Indiquez la périodicité du loyer</span>
+                            }
+                        </div>
+
+                        <!-- OPTIONS SUPPLÉMENTAIRES LOCATION -->
+                        <div class="col-12">
+                            <div class="location-extras">
+                                <div class="row g-3">
+                                    <!-- Caution -->
+                                    <div class="col-6">
+                                        <div class="form-floating">
+                                            <select id="caution" class="form-select"
+                                                formControlName="caution"
+                                                [class.is-invalid]="isFieldInvalid('transaction.caution')">
+                                                <option value="">-- Sélectionnez --</option>
+                                                <option [value]="0">Aucune caution</option>
+                                                <option [value]="1">1 mois de caution</option>
+                                                <option [value]="2">2 mois de caution</option>
+                                                <option [value]="3">3 mois de caution</option>
+                                                <option [value]="4">4 mois de caution</option>
+                                                <option [value]="5">5 mois de caution</option>
+                                                <option [value]="6">6 mois de caution</option>
+                                            </select>
+                                            <label for="caution">
+                                                <i class="fas fa-shield-alt me-1"></i>
+                                                Caution demandée
+                                            </label>
+                                        </div>
+                                        @if (isFieldInvalid('transaction.prix')) {
+                                            <span class="error-message">Indiquez la caution</span>
+                                        }
+                                    </div>
+
+                                    <!-- AVANCE -->
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
+                                            <select id="avance" class="form-select" formControlName="avance"
+                                                [class.is-invalid]="isFieldInvalid('transaction.avance')">
+                                                <option value="">-- Sélectionnez --</option>
+                                                <option [value]="0">Aucune avance</option>
+                                                <option [value]="1">1 mois d'avance</option>
+                                                <option [value]="2">2 mois d'avance</option>
+                                                <option [value]="3">3 mois d'avance</option>
+                                                <option [value]="4">4 mois d'avance</option>
+                                                <option [value]="5">5 mois d'avance</option>
+                                                <option [value]="6">6 mois d'avance</option>
+                                            </select>
+                                            <label for="avance">
+                                                <i class="fas fa-hand-holding-usd me-1"></i>
+                                                Avance demandée
+                                            </label>
+                                        </div>
+                                        @if (isFieldInvalid('transaction.avance')) {
+                                            <span class="error-message">Indiquez une avance</span>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <!-- LOCALISATION GROUP -->
+            <div class="col-12">
+                <label class="mt-1 mb-1">
+                    <i class="fas fa-map-marker-alt text-info"></i>
+                    Localisation du bien
+                </label>
+                <p class="text-muted small mb-1">
+                    Où se trouve votre bien ? Une localisation précise attire plus de visiteurs
+                </p>
+                <div class="row g-2" formGroupName="localisation">
+                    <div class="col-md-6">
+                        <app-search-select
+                            [class.is-invalid]="isFieldInvalid('localisation.ville')"
+                            id="ville" label="Ville" formControlName="ville"
+                            [options]="liste_villes" [required]="true"
+                        />
+                        @if (isFieldInvalid('localisation.ville')) {
+                            <span class="error-message">Veuillez sélectionner la ville</span>
+                        }
+                    </div>
+
+                    <div class="col-md-6">
+                        <app-search-select
+                            [class.is-invalid]="isFieldInvalid('localisation.commune')"
+                            id="commune" label="Commune / Quartier" formControlName="commune"
+                            [options]="actual_communes()" [required]="true" [disabled]="actual_communes().length === 0"
+                            [placeholder]="actual_communes().length === 0 ? '-- Aucune commune disponible --' : '-- Sélectionnez --'"
+                        />
+                        @if (isFieldInvalid('localisation.commune')) {
+                            <span class="error-message">Veuillez sélectionner la commune/Quartier</span>
+                        }
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <input id="llongitude" type="number" formControlName="longitude" 
+                                placeholder="longitude" class="form-control" step="0.000001"
+                                [class.is-invalid]="isFieldInvalid('localisation.longitude')" />
+                            <label for="llongitude">Longitude (optionnel)</label>
+                        </div>
+                        @if (isFieldInvalid('localisation.longitude')) {
+                            <span class="error-message">Veuillez saisir la longitude</span>
+                        }
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <input id="llatitude" type="number" formControlName="latitude" 
+                                placeholder="latitude" class="form-control" step="0.000001"
+                                [class.is-invalid]="isFieldInvalid('localisation.latitude')" />
+                            <label for="llatitude">Latitude (optionnel)</label>
+                        </div>
+                        @if (isFieldInvalid('localisation.latitude')) {
+                            <span class="error-message">Veuillez saisir la latitude</span>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <!-- COMPOSITION GROUP -->
+            <div class="col-12">
+                <label class="mt-1 mb-1">
+                    <i class="fas fa-door-open text-info"></i>
+                    Composition du bien
+                </label>
+                <p class="text-muted small mb-1 text-info">
+                    Détaillez les pièces disponibles dans votre bien
+                </p>
+                <div class="row g-2" formGroupName="composition">
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <input id="lnombreChambres" type="number" min="0"
+                                formControlName="nombreChambres" placeholder="" class="form-control"
+                                [class.is-invalid]="isFieldInvalid('composition.nombreChambres')" />
+                            <label for="lnombreChambres">Nombre de chambres </label>
+                        </div>
+                        @if (getFieldError('composition.nombreChambres', 'min')) {
+                            <span class="error-message">La valeur saisie est incorrecte</span>
+                        }
+                        @else if (isFieldInvalid('composition.nombreChambres')) {
+                            <span class="error-message">Veuillez saisir une valeur</span>
+                        }
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <input id="lnombreSalons" type="number" min="0"
+                                formControlName="nombreSalons" placeholder="" class="form-control"
+                                [class.is-invalid]="isFieldInvalid('composition.nombreSalons')" />
+                            <label for="lnombreSalons">Nombre de salons </label>
+                        </div>
+                        @if (getFieldError('composition.nombreSalons', 'min')) {
+                            <span class="error-message">La valeur saisie est incorrecte</span>
+                        }
+                        @else if (isFieldInvalid('composition.nombreSalons')) {
+                            <span class="error-message">Veuillez saisir une valeur</span>
+                        }
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <input id="lnombreSallesBain" type="number" min="0"
+                                formControlName="nombreSallesBain" placeholder="" class="form-control"
+                                [class.is-invalid]="isFieldInvalid('composition.nombreSallesBain')" />
+                            <label for="lnombreSallesBain">Nombre de douche </label>
+                        </div>
+                        @if (getFieldError('composition.nombreSallesBain', 'min')) {
+                            <span class="error-message">La valeur saisie est incorrecte</span>
+                        }
+                        @else if (isFieldInvalid('composition.nombreSallesBain')) {
+                            <span class="error-message">Veuillez saisir une valeur</span>
+                        }
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <input id="lnombreCuisine" type="number" min="0"
+                                formControlName="nombreCuisine" placeholder="" class="form-control"
+                                [class.is-invalid]="isFieldInvalid('composition.nombreCuisine')" />
+                            <label for="lnombreCuisine">Nombre de cuisine </label>
+                        </div>
+                        @if (getFieldError('composition.nombreCuisine', 'min')) {
+                            <span class="error-message">La valeur saisie est incorrecte</span>
+                        }
+                        @else if (isFieldInvalid('composition.nombreCuisine')) {
+                            <span class="error-message">Veuillez saisir une valeur</span>
+                        }
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="form-floating">
+                            <select id="toilettesVisiteurs" formControlName="toilettesVisiteurs" class="form-select" 
+                                [class.is-invalid]="isFieldInvalid('composition.toilettesVisiteurs')">
+                                <option [value]="null">-- Sélectionnez --</option>
+                                <option [value]="false">Non</option>
+                                <option [value]="true">Oui</option>
+                            </select>
+                            <label for="douche">Toilettes visiteurs disponibles</label>
+                        </div>
+                        @if (isFieldInvalid('composition.toilettesVisiteurs')) {
+                            <span class="error-message">Le bien dispose t-il de toilette visiteur</span>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <!-- ÉQUIPEMENTS -->
+            <div class="col-12">
+                <!-- <label class="mt-1 mb-1">
+                    <i class="fas fa-list-check text-info"></i>
+                    Équipements disponibles
+                </label> -->
+                <p class="text-muted small mb-1 text-info">
+                    Sélectionnez les équipements inclus pour valoriser votre bien
+                </p>
+                <div class="row g-2">
+                    <!-- Équipements intérieurs -->
+                    <div class="col-md-6">
+                        <app-multi-select
+                            id="equipinterior"
+                            formControlName="equipementsInterieurs"
+                            label="Équipements intérieurs (optionnel)"
+                            placeholder="Climatisation, Wi-Fi, Meublé..."
+                            [options]="interiorOptions"
+                            [removeItemButton]="true"
+                            [searchable]="true"
+                            [isInvalid]="isFieldInvalid('equipementsInterieurs')">
+                        </app-multi-select>
+                    </div>
+
+                    <!-- Équipements extérieurs -->
+                    <div class="col-md-6">
+                        <app-multi-select
+                            id="equipexterior"
+                            formControlName="equipementsExterieurs"
+                            label="Équipements extérieurs (optionnel)"
+                            placeholder="Parking, Jardin, Piscine..."
+                            [options]="exteriorOptions"
+                            [removeItemButton]="true"
+                            [searchable]="true"
+                            [isInvalid]="isFieldInvalid('equipementsExterieurs')">
+                        </app-multi-select>
+                    </div>
+                </div>
             </div>
 
             <!-- CONTACT GROUP -->
             <div class="col-12">
                 <label class="mt-1 mb-2">
-                    <i class="fas fa-phone text-info"></i>
-                    Informations personnelles
+                    <i class="fas fa-user-circle text-info"></i>
+                    Vos coordonnées
                 </label>
                 <p class="text-muted small mb-1">
-                    Vos données sont sécurisées et ne seront utilisées que pour la gestion de votre annonce
+                    Ces informations permettront aux intéressés de vous contacter
                 </p>
                 <div class="row g-2" formGroupName="contact">
                     <div class="col-md-4">
@@ -98,7 +448,7 @@
                             <label for="contactTelephone">Téléphone *</label>
                         </div>
                         @if (isFieldInvalid('contact.telephone')) {
-                            <span class="error-message">Veuillez saisir la Téléphone</span>
+                            <span class="error-message">Veuillez saisir le Téléphone</span>
                         }
                     </div>
 
@@ -107,320 +457,19 @@
                             <input id="contactEmail" type="email" 
                                 formControlName="email" placeholder="email@exemple.com" class="form-control"
                                 [class.is-invalid]="isFieldInvalid('contact.email')" />
-                            <label for="contactEmail">Email </label>
+                            <label for="contactEmail">Email (optionnel)</label>
                         </div>
-                        @if (isFieldInvalid('contact.email')) {
-                            <span class="error-message">Veuillez saisir la Téléphone</span>
-                        }
                     </div>
                 </div>
             </div>
 
-            <!-- LOCALISATION GROUP -->
-            <div class="col-12">
-                <label class="mt-1 mb-1">
-                    <i class="fas fa-location text-info"></i>
-                    Où se situe votre bien ?
-                </label>
-                <p class="text-muted small mb-1">
-                    Indiquez l'emplacement précis de votre propriété pour faciliter sa localisation
-                </p>
-                <div class="row g-2" formGroupName="localisation">
-                    <div class="col-md-6">
-                        <app-search-select
-                            [class.is-invalid]="isFieldInvalid('localisation.ville')"
-                            id="ville" label="Ville" formControlName="ville"
-                            [options]="liste_villes" [required]="true"
-                        />
-                        @if (isFieldInvalid('localisation.ville')) {
-                            <span class="error-message">Veuillez sélectionner la ville</span>
-                        }
-                    </div>
+            <!-- IMAGES ASSOCIEES -->
 
-                    <div class="col-md-6">
-                        <app-search-select
-                            [class.is-invalid]="isFieldInvalid('localisation.commune')"
-                            id="commune" label="Commune" formControlName="commune"
-                            [options]="actual_communes()" [required]="true" [disabled]="actual_communes().length === 0"
-                            [placeholder]="actual_communes().length === 0 ? '-- Aucune commune disponible --' : '-- Sélectionnez --'"
-                        />
-                        @if (isFieldInvalid('localisation.commune')) {
-                            <span class="error-message">Veuillez sélectionner la commune</span>
-                        }
-                        <!-- @if (actual_communes().length === 0 && bienForm.get('localisation.ville')?.value) {
-                            <small class="text-muted d-block mt-1">
-                                <i class="fas fa-info-circle"></i> Aucune commune disponible pour cette ville
-                            </small>
-                        } -->
-                    </div>
+            
 
-                    <div class="col-md-6">
-                        <div class="form-floating">
-                            <input id="llongitude" type="number" 
-                                formControlName="longitude" placeholder="longitude" class="form-control"
-                                [class.is-invalid]="isFieldInvalid('localisation.longitude')" />
-                            <label for="llongitude">Longitude </label>
-                        </div>
-                        @if (isFieldInvalid('localisation.longitude')) {
-                            <span class="error-message">Veuillez saisir la longitude</span>
-                        }
-                    </div>
+        
 
-                    <div class="col-md-6">
-                        <div class="form-floating">
-                            <input id="llatitude" type="number" 
-                                formControlName="latitude" placeholder="latitude" class="form-control"
-                                [class.is-invalid]="isFieldInvalid('localisation.latitude')" />
-                            <label for="llatitude">Latitude </label>
-                        </div>
-                        @if (isFieldInvalid('localisation.latitude')) {
-                            <span class="error-message">Veuillez saisir la latitude</span>
-                        }
-                    </div>
-                </div>
-            </div>
-
-            <!-- COMPOSITION GROUP -->
-            <div class="col-12">
-                <label class="mt-1 mb-1">
-                      <i class="fas fa-layer-group text-info"></i>
-                    Composition du bien
-                </label>
-                <p class="text-muted small mb-1 text-info">
-                    Indiquez le nombre de pièces et la superficie
-                </p>
-                <div class="row g-2" formGroupName="composition">
-                    <div class="col-md-6">
-                        <div class="form-floating">
-                            <input id="lnombreChambres" type="number" 
-                                formControlName="nombreChambres" placeholder="" class="form-control"
-                                [class.is-invalid]="isFieldInvalid('composition.nombreChambres')" />
-                            <label for="lnombreChambres">Nombre de chambres </label>
-                        </div>
-                        @if (getFieldError('composition.nombreChambres', 'min')) {
-                            <span class="error-message">La valeur saisie est incorrecte</span>
-                        }
-                        @else if (isFieldInvalid('composition.nombreChambres')) {
-                            <span class="error-message">Veuillez saisir une valeur</span>
-                        }
-                    </div>
-
-                    <div class="col-md-6">
-                        <div class="form-floating">
-                            <input id="lnombreSalons" type="number" 
-                                formControlName="nombreSalons" placeholder="" class="form-control"
-                                [class.is-invalid]="isFieldInvalid('composition.nombreSalons')" />
-                            <label for="lnombreSalons">Nombre de salons </label>
-                        </div>
-                        @if (getFieldError('composition.nombreSalons', 'min')) {
-                            <span class="error-message">La valeur saisie est incorrecte</span>
-                        }
-                        @else if (isFieldInvalid('composition.nombreSalons')) {
-                            <span class="error-message">Veuillez saisir une valeur</span>
-                        }
-                    </div>
-
-                    <div class="col-md-6">
-                        <div class="form-floating">
-                            <input id="lnombreSallesBain" type="number" 
-                                formControlName="nombreSallesBain" placeholder="" class="form-control"
-                                [class.is-invalid]="isFieldInvalid('composition.nombreSallesBain')" />
-                            <label for="lnombreSallesBain">Nombre de douche </label>
-                        </div>
-                        @if (getFieldError('composition.nombreSallesBain', 'min')) {
-                            <span class="error-message">La valeur saisie est incorrecte</span>
-                        }
-                        @else if (isFieldInvalid('composition.nombreSallesBain')) {
-                            <span class="error-message">Veuillez saisir une valeur</span>
-                        }
-                    </div>
-
-                    <div class="col-md-6">
-                        <div class="form-floating">
-                            <input id="lnombreCuisine" type="number" 
-                                formControlName="nombreCuisine" placeholder="" class="form-control"
-                                [class.is-invalid]="isFieldInvalid('composition.nombreCuisine')" />
-                            <label for="lnombreCuisine">Nombre de cuisine </label>
-                        </div>
-                        @if (getFieldError('composition.nombreCuisine', 'min')) {
-                            <span class="error-message">La valeur saisie est incorrecte</span>
-                        }
-                        @else if (isFieldInvalid('composition.nombreCuisine')) {
-                            <span class="error-message">Veuillez saisir une valeur</span>
-                        }
-                    </div>
-
-                    <div class="col-md-12">
-                        <div class="form-floating">
-                            <select id="toilettesVisiteurs" formControlName="toilettesVisiteurs" class="form-select" 
-                                [class.is-invalid]="isFieldInvalid('composition.toilettesVisiteurs')">
-                                <option [value]="null">-- Sélectionnez --</option>
-                                <option [value]="false">Non</option>
-                                <option [value]="true">Oui</option>
-                            </select>
-                            <label for="douche">Est ce quil possede une douche visiteur ?</label>
-                        </div>
-                        @if (isFieldInvalid('composition.toilettesVisiteurs')) {
-                            <span class="error-message">Veuillez sélectionner si ya toulette visiteur</span>
-                        }
-                    </div>
-                </div>
-            </div>
-
-            <!-- EQUIP INTERIOR -->
-            <div class="col-md-12">
-                <app-multi-select
-                    id="equipinterior"
-                    formControlName="equipementsInterieurs"
-                    label="Équipements intérieurs"
-                    placeholder="Équipements disponibles ..."
-                    [options]="interiorOptions"
-                    [removeItemButton]="true"
-                    [searchable]="true"
-                    [isInvalid]="isFieldInvalid('equipementsInterieurs')">
-                    <span error-message>
-                        <i class="fas fa-exclamation-circle me-1"></i>
-                        Veuillez sélectionner au moins un tag
-                    </span>
-                </app-multi-select>
-            </div>
-
-            <!-- EQUIP EXTERIOR -->
-            <div class="col-md-12">
-                <app-multi-select
-                    id="equipexterior"
-                    formControlName="equipementsExterieurs"
-                    label="Équipements extérieurs"
-                    placeholder="Équipements disponibles"
-                    [options]="exteriorOptions"
-                    [removeItemButton]="true"
-                    [searchable]="true"
-                    [isInvalid]="isFieldInvalid('equipementsExterieurs')">
-                    <span error-message>
-                        <i class="fas fa-exclamation-circle me-1"></i>
-                        Veuillez sélectionner au moins un tag
-                    </span>
-                </app-multi-select>
-            </div>
-
-            <!-- TRANSACTION GROUP -->
-            <div class="col-md-12">
-                <label class="mt-1 mb-1">
-                    <i class="fas fa-handshake text-info"></i>
-                    Transaction
-                </label>
-                <p class="text-muted small mb-1">
-                    Configurez les modalités de la transaction : type, prix et conditions
-                </p>
-                <div class="row g-2" formGroupName="transaction">
-                    <div [class]="getTransactionType() === 'vente' ? 'col-md-6' : 'col-md-12'">
-                        <div class="form-floating">
-                            <select id="transactionType" formControlName="transactionType" class="form-select"
-                                [class.is-invalid]="isFieldInvalid('transaction.transactionType')">
-                                <option value="">-- Sélectionnez --</option>
-                                <option value="vente">Vente</option>
-                                <option value="location">Location</option>
-                            </select>
-                            <label for="transactionType">
-                                Type de transaction <span class="text-danger">*</span>
-                            </label>
-                        </div>
-                        @if (isFieldInvalid('transaction.transactionType')) {
-                            <span class="error-message">Veuillez sélectionner le type</span>
-                        }
-                    </div>
-
-                    <!-- PRIX DE VENTE (Affiché uniquement pour VENTE) -->
-                    @if (getTransactionType() === 'vente') {
-                        <div class="col-md-6">
-                            <div class="transaction-card transaction-card--vente">
-                                <div class="transaction-card__body">
-                                    <app-currency-input id="prixVente" label="Montant de vente"
-                                        formControlName="prix" 
-                                        placeholder="Ex: 25 000 000"
-                                        [showNumericValue]="true"
-                                    ></app-currency-input>
-                                </div>
-                            </div>
-                        </div>
-                    }
-
-                    <!-- LOYER + PÉRIODE (Affiché uniquement pour LOCATION) -->
-                    @if (getTransactionType() === 'location') {
-                        <!-- Montant du loyer -->
-                        <div class="col-md-6">
-                            <app-currency-input id="loyer" label="Loyer"
-                                formControlName="prix"
-                                placeholder="Ex: 150 000"
-                                [showNumericValue]="true"
-                            ></app-currency-input>
-                        </div>
-                        
-                        <!-- Périodicité du loyer -->
-                        <div class="col-md-6">
-                            <div class="form-floating">
-                                <select id="periodeLoyer" class="form-select"
-                                    formControlName="periodeLoyer"
-                                    [class.is-invalid]="isFieldInvalid('transaction.periodeLoyer')">
-                                    <option value="mois">/ Mois</option>
-                                    <option value="annee">/ Année</option>
-                                </select>
-                                <label for="periodeLoyer">Périodicité du loyer</label>
-                            </div>
-                        </div>
-
-                        <!-- ───────────────────────────────────────────────────────────────── -->
-                        <!-- OPTIONS SUPPLÉMENTAIRES LOCATION -->
-                        <!-- ───────────────────────────────────────────────────────────────── -->
-                        <div class="col-12">
-                            <div class="location-extras">
-                                <div class="row g-3">
-                                    <!-- Caution -->
-                                    <div class="col-6">
-                                        <div class="form-floating">
-                                            <select id="caution" class="form-select"
-                                                formControlName="caution"
-                                                [class.is-invalid]="isFieldInvalid('transaction.caution')">
-                                                <option value="0">Aucune caution</option>
-                                                <option value="1">1 mois de caution</option>
-                                                <option value="2">2 mois de caution</option>
-                                                <option value="3">3 mois de caution</option>
-                                                <option value="4">4 mois de caution</option>
-                                                <option value="5">5 mois de caution</option>
-                                                <option value="6">6 mois de caution</option>
-                                            </select>
-                                            <label for="caution">
-                                                <i class="fas fa-shield-alt me-1"></i>
-                                                Caution demandée
-                                            </label>
-                                        </div>
-                                    </div>
-
-                                    <!-- AVANCE -->
-                                    <div class="col-md-6">
-                                        <div class="form-floating">
-                                            <select id="avance" class="form-select" formControlName="avance"
-                                                [class.is-invalid]="isFieldInvalid('transaction.avance')">
-                                                <option [value]="1">1 mois d'avance</option>
-                                                <option [value]="2">2 mois d'avance</option>
-                                                <option [value]="3">3 mois d'avance</option>
-                                                <option [value]="4">4 mois d'avance</option>
-                                                <option [value]="5">5 mois d'avance</option>
-                                                <option [value]="6">6 mois d'avance</option>
-                                            </select>
-                                            <label for="avance">
-                                                <i class="fas fa-hand-holding-usd me-1"></i>
-                                                Avance demandée
-                                            </label>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                    }
-                </div>
-            </div>
+            
 
             <div class="col-12 gy-6">
                 <div class="row g-3 justify-content-end">

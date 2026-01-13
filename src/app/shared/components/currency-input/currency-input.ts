@@ -23,6 +23,8 @@ export class CurrencyInput implements ControlValueAccessor, OnInit {
   @Input() showNumericValue: boolean = false;
   @Input() maxValue?: number;
   @Input() minValue: number = 0;
+  @Input() inputClass: string = ''; // Pour les classes statiques simples
+  @Input() inputNgClass: any = {}; // Pour les classes conditionnelles (objet, tableau ou string)
 
   displayValue: string = '';
   numericValue: number = 0;

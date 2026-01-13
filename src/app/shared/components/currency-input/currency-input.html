@@ -1,6 +1,12 @@
 <div class="form-floating">
     <input [id]="id" class="form-control" type="text" [placeholder]="placeholder" [value]="displayValue"
-        (input)="onInput($event)" (blur)="onBlur()" (focus)="onFocus()" [disabled]="disabled" />
+        (input)="onInput($event)" 
+        (blur)="onBlur()" 
+        (focus)="onFocus()" 
+        [disabled]="disabled" 
+        [class]="inputClass"
+        [ngClass]="inputNgClass"
+    />
     <label [for]="id">{{ label }}</label>
     <!-- <small class="text-muted" *ngIf="showNumericValue && numericValue">
         Valeur: {{ numericValue | number:'1.0-0':'fr' }} {{ currency }}

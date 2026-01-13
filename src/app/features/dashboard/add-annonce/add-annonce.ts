@@ -8,6 +8,7 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormArray } fr
 import { SearchSelect } from '../../../shared/components/search-select/search-select';
 import { MultiSelect } from '../../../shared/components/multi-select/multi-select';
 import { MultiSelectOption } from '../../../shared/components/multi-select/multi-select.model';
+import { VILLES_QUARTIERS } from '../../../shared/data/liste-quartiers-by-ville.data';
 
 interface Commune {
   value: string;
@@ -80,21 +81,7 @@ export class AddAnnonce implements OnInit {
   ];
 
   actual_communes = signal<Commune[]>([]);
-  liste_communes_par_ville: Record<string, Commune[]> = {
-    abidjan: [
-      { value: 'cocody', label: 'Cocody' },
-      { value: 'yopougon', label: 'Yopougon' },
-      { value: 'abobo', label: 'Abobo' },
-      { value: 'treichville', label: 'Treichville' },
-      { value: 'marcory', label: 'Marcory' },
-      { value: 'koumassi', label: 'Koumassi' },
-      { value: 'plateau', label: 'Plateau' },
-      { value: 'port_bouet', label: 'Port-Bouët' },
-      { value: 'attecoube', label: 'Attécoubé' },
-      { value: 'adjame', label: 'Adjamé' },
-      { value: 'songon', label: 'Songon' }
-    ]
-  };
+  liste_communes_par_ville = VILLES_QUARTIERS
 
   bienForm: FormGroup = this.fb.group({
     reference: ['', Validators.required],
@@ -102,6 +89,7 @@ export class AddAnnonce implements OnInit {
     description: ['', Validators.required],
     statut: ['actif', Validators.required],
     type: ['', Validators.required],
+    surface: [0],
     contact: this.fb.group({
       nom: ['', Validators.required],
       telephone: ['', Validators.required],
@@ -125,12 +113,12 @@ export class AddAnnonce implements OnInit {
     equipementsExterieurs: [[]],
     transaction: this.fb.group({
       transactionType: ['', Validators.required],
-      prix: [0, [Validators.required, Validators.min(0)]],
+      prix: [0, [Validators.required, Validators.min(5000)]],
       periodeLoyer: [''],
       devise: ['FCFA'],
       prixNegociable: [false],
-      caution: [0, Validators.min(0)],
-      avance: [0, Validators.min(0)]
+      caution: ['', Validators.min(0)],
+      avance: ['', Validators.min(0)]
     }),
     batiment: this.fb.group({
       anneeConstruction: [null, [Validators.min(1900), Validators.max(this.currentYear)]],
@@ -213,6 +201,27 @@ export class AddAnnonce implements OnInit {
 
       // Reset de la commune
       this.bienForm.get('localisation.commune')?.setValue('', { emitEvent: false });
+    });
+
+    // Écouter les changements de transactionType
+    this.bienForm.get('transaction.transactionType')?.valueChanges.subscribe(value => {
+      const periodeLoyer = this.bienForm.get('transaction.periodeLoyer');
+      const caution = this.bienForm.get('transaction.caution');
+      const avance = this.bienForm.get('transaction.avance');
+
+      if (value === 'location') {
+        periodeLoyer?.setValidators([Validators.required]);
+        caution?.setValidators([Validators.required]);
+        avance?.setValidators([Validators.required]);
+      } else {
+        periodeLoyer?.clearValidators();
+        caution?.clearValidators();
+        avance?.clearValidators();
+      }
+      
+      periodeLoyer?.updateValueAndValidity();
+      caution?.updateValueAndValidity();
+      avance?.updateValueAndValidity();
     });
   }
 

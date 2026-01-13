@@ -1,7 +1,7 @@
 import { Component, signal, inject, computed, OnInit } from '@angular/core';
 import { RichTextEditor } from '../../../shared/components/rich-text-editor/rich-text-editor';
-import { Flatpickr } from '../../../shared/directives/flatpickr';
-import { DatePipe } from '@angular/common';
+// import { Flatpickr } from '../../../shared/directives/flatpickr';
+// import { DatePipe } from '@angular/common';
 import { CurrencyInput } from '../../../shared/components/currency-input/currency-input';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormArray } from '@angular/forms';
@@ -16,7 +16,7 @@ interface Commune {
 
 @Component({
   selector: 'app-add-annonce',
-  imports: [RichTextEditor, Flatpickr, DatePipe, CurrencyInput, 
+  imports: [RichTextEditor, CurrencyInput, 
     CommonModule, ReactiveFormsModule, SearchSelect, MultiSelect],
   templateUrl: './add-annonce.html',
   styleUrl: './add-annonce.scss',
@@ -121,29 +121,12 @@ export class AddAnnonce implements OnInit {
       nombreCuisine: [0, [Validators.required, Validators.min(0)]],
       toilettesVisiteurs: [null, Validators.required]
     }),
-    equipementsInterieurs: this.fb.group({
-      cuisineEquipee: [false],
-      baignoire: [false],
-      jacuzzi: [false],
-      climatisation: [false],
-      placard: [false],
-      chauffeEau: [false]
-    }),
-    equipementsExterieurs: this.fb.group({
-      jardin: [false],
-      cour: [false],
-      piscine: [false],
-      parking: [false],
-      garage: [false],
-      balcon: [false],
-      terrasse: [false],
-      groupeElectrogene: [false],
-      gardien: [false]
-    }),
+    equipementsInterieurs: [[]],
+    equipementsExterieurs: [[]],
     transaction: this.fb.group({
-      typeTransaction: ['', Validators.required],
+      transactionType: ['', Validators.required],
       prix: [0, [Validators.required, Validators.min(0)]],
-      periodicite: [''],
+      periodeLoyer: [''],
       devise: ['FCFA'],
       prixNegociable: [false],
       caution: [0, Validators.min(0)],
@@ -164,15 +147,28 @@ export class AddAnnonce implements OnInit {
     })
   });
 
-  // Options pour le multi-select "Tags"
-  tagOptions: MultiSelectOption[] = [
-    { value: 'stupidity', label: 'Stupidity', badgeColor: 'primary' },
-    { value: 'jerry', label: 'Jerry', badgeColor: 'info' },
-    { value: 'not_the_mouse', label: 'Not_the_mouse', badgeColor: 'warning' },
-    { value: 'rick', label: 'Rick', badgeColor: 'success' },
-    { value: 'biology', label: 'Biology', badgeColor: 'danger' },
-    { value: 'neurology', label: 'Neurology', icon: 'fas fa-brain' },
-    { value: 'brainlessness', label: 'Brainlessness', disabled: true }
+  // Options pour le multi-select interior
+  interiorOptions: MultiSelectOption[] = [
+    {value: 'cuisineEquipee', label: 'Cuisine équipée', badgeColor: 'primary', icon: 'fas fa-utensils'},
+    {value: 'baignoire', label: 'Baignoire', badgeColor: 'primary', icon: 'fas fa-bath'},
+    {value: 'jacuzzi', label: 'Jacuzzi / Spa', badgeColor: 'primary', icon: 'fas fa-hot-tub'},
+    {value: 'climatisation', label: 'Climatisation', badgeColor: 'primary', icon: 'fas fa-snowflake'},
+    {value: 'chauffeEau', label: 'Chauffe-eau', badgeColor: 'secondary', icon: 'fas fa-temperature-half'},
+    {value: 'placard', label: 'Placards intégrés', badgeColor: 'primary', icon: 'fas fa-box-open'},
+    {value: 'fibreOptique', label: 'Fibre optique', badgeColor: 'primary', icon: 'fas fa-wifi'}
+  ];
+
+  // Options pour le multi-select exterior
+  exteriorOptions: MultiSelectOption[] = [
+    { value: 'jardin', label: 'Jardin', badgeColor: 'success', icon: 'fas fa-tree' },
+    { value: 'cour', label: 'Cour privée', badgeColor: 'success', icon: 'fas fa-square' },
+    { value: 'piscine', label: 'Piscine', badgeColor: 'info', icon: 'fas fa-swimming-pool' },
+    { value: 'parking', label: 'Parking extérieur', badgeColor: 'primary', icon: 'fas fa-square-parking' },
+    { value: 'garage', label: 'Garage fermé', badgeColor: 'primary', icon: 'fas fa-warehouse' },
+    { value: 'balcon', label: 'Balcon', badgeColor: 'warning', icon: 'fas fa-building' },
+    { value: 'terrasse', label: 'Terrasse', badgeColor: 'warning', icon: 'fas fa-layer-group' },
+    { value: 'groupeElectrogene', label: 'Groupe électrogène', badgeColor: 'danger', icon: 'fas fa-bolt' },
+    { value: 'gardien', label: 'Gardien / Surveillance', badgeColor: 'dark', icon: 'fas fa-shield-halved' }
   ];
 
   // Validation
@@ -185,9 +181,7 @@ export class AddAnnonce implements OnInit {
   onSubmitForm(): void {
     if (this.bienForm.valid) {
       this.isSubmitting.set(true);
-      
-      console.log('📤 Données du formulaire:', this.bienForm.value);
-      
+            
       // Simulation envoi API
       // this.bienForm.reset();
       this.isSubmitting.set(false);
@@ -213,17 +207,17 @@ export class AddAnnonce implements OnInit {
   }
 
   ngOnInit(): void {
-    this.bienForm
-      .get('localisation.ville')
-      ?.valueChanges.subscribe((ville: string) => {
-        console.log('🏙️ Ville changée:', ville);
+    this.bienForm.get('localisation.ville')?.valueChanges.subscribe((ville: string) => {
+      const communes = this.liste_communes_par_ville[ville] ?? [];
+      this.actual_communes.set(communes);
 
-        const communes = this.liste_communes_par_ville[ville] ?? [];
-        this.actual_communes.set(communes);
+      // Reset de la commune
+      this.bienForm.get('localisation.commune')?.setValue('', { emitEvent: false });
+    });
+  }
 
-        // Reset de la commune
-        this.bienForm.get('localisation.commune')?.setValue('', { emitEvent: false });
-      });
+  getTransactionType(): string {
+    return this.bienForm.get('transaction.transactionType')?.value || '';
   }
 
 

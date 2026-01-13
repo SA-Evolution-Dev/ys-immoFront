@@ -5,7 +5,7 @@
     </ol>
 </nav>
 
-<h2 class="mb-4">Nouvelle annonce</h2>
+<h2 class="mb-3">Nouvelle annonce</h2>
 <div class="row">
     <div class="col-xl-9">
         <form [formGroup]="bienForm" (ngSubmit)="onSubmitForm()" class="row g-2 mb-6">
@@ -70,10 +70,13 @@
 
             <!-- CONTACT GROUP -->
             <div class="col-12">
-                <h4 class="mt-3 mb-2">
+                <label class="mt-1 mb-2">
                     <i class="fas fa-phone text-info"></i>
                     Informations personnelles
-                </h4>
+                </label>
+                <p class="text-muted small mb-1">
+                    Vos données sont sécurisées et ne seront utilisées que pour la gestion de votre annonce
+                </p>
                 <div class="row g-2" formGroupName="contact">
                     <div class="col-md-4">
                         <div class="form-floating">
@@ -115,10 +118,13 @@
 
             <!-- LOCALISATION GROUP -->
             <div class="col-12">
-                <h4 class="mt-3 mb-2">
+                <label class="mt-1 mb-1">
                     <i class="fas fa-location text-info"></i>
-                    Votre bien est situé dans ?
-                </h4>
+                    Où se situe votre bien ?
+                </label>
+                <p class="text-muted small mb-1">
+                    Indiquez l'emplacement précis de votre propriété pour faciliter sa localisation
+                </p>
                 <div class="row g-2" formGroupName="localisation">
                     <div class="col-md-6">
                         <app-search-select
@@ -176,10 +182,13 @@
 
             <!-- COMPOSITION GROUP -->
             <div class="col-12">
-                <h4 class="mt-3 mb-2">
-                    <i class="fas fa-location text-info"></i>
+                <label class="mt-1 mb-1">
+                      <i class="fas fa-layer-group text-info"></i>
                     Composition du bien
-                </h4>
+                </label>
+                <p class="text-muted small mb-1 text-info">
+                    Indiquez le nombre de pièces et la superficie
+                </p>
                 <div class="row g-2" formGroupName="composition">
                     <div class="col-md-6">
                         <div class="form-floating">
@@ -258,85 +267,177 @@
                 </div>
             </div>
 
-            
-            <div class="accordion" id="accordionExample">
-                <div class="accordion-item border-top">
-                    <h2 class="accordion-header" id="headingOne">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                        Ajouter des inforùations sur l'equipeùent interieurs
-                    </button>
-                    </h2>
-                    <div class="accordion-collapse collapse" id="collapseOne" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                        <div class="accordion-body pt-0">
-                            <!-- EQUIPMENTS INTERIEURS GROUP -->
-                            <div class="col-12">
-                                <h4 class="mt-3 mb-2">
-                                    <i class="fas fa-location text-info"></i>
-                                    Vos equipements interieurs
-                                </h4>
-                                <div class="row g-2" formGroupName="equipementsInterieurs">
-                                
-                                    <div class="mb-3">
-                                        <!-- formControlName="tags" -->
-                                        <app-multi-select
-                                            id="tags"
-                                            label="Ajouter des tags"
-                                            placeholder="Choisir des tags..."
-                                            [options]="tagOptions"
-                                            [removeItemButton]="true"
-                                            [searchable]="true"
-                                            [isInvalid]="isFieldInvalid('tags')"
-                                        >
-                                            <span error-message>
-                                            <i class="fas fa-exclamation-circle me-1"></i>
-                                            Veuillez sélectionner au moins un tag
-                                            </span>
-                                        </app-multi-select>
-                                    </div>
+            <!-- EQUIP INTERIOR -->
+            <div class="col-md-12">
+                <app-multi-select
+                    id="equipinterior"
+                    formControlName="equipementsInterieurs"
+                    label="Équipements intérieurs"
+                    placeholder="Équipements disponibles ..."
+                    [options]="interiorOptions"
+                    [removeItemButton]="true"
+                    [searchable]="true"
+                    [isInvalid]="isFieldInvalid('equipementsInterieurs')">
+                    <span error-message>
+                        <i class="fas fa-exclamation-circle me-1"></i>
+                        Veuillez sélectionner au moins un tag
+                    </span>
+                </app-multi-select>
+            </div>
 
-                                    <!-- <div class="col-md-6">
-                                        <div class="form-floating">
-                                            <input id="lnombreChambres" type="number" formControlName="nombreChambres" placeholder=""
-                                                class="form-control" [class.is-invalid]="isFieldInvalid('equipementsInterieurs.nombreChambres')" />
-                                            <label for="lnombreChambres">Nombre de chambres </label>
-                                        </div>
-                                        @if (getFieldError('equipementsInterieurs.nombreChambres', 'min')) {
-                                        <span class="error-message">La valeur saisie est incorrecte</span>
-                                        }
-                                        @else if (isFieldInvalid('equipementsInterieurs.nombreChambres')) {
-                                        <span class="error-message">Veuillez saisir une valeur</span>
-                                        }
-                                    </div> -->
+            <!-- EQUIP EXTERIOR -->
+            <div class="col-md-12">
+                <app-multi-select
+                    id="equipexterior"
+                    formControlName="equipementsExterieurs"
+                    label="Équipements extérieurs"
+                    placeholder="Équipements disponibles"
+                    [options]="exteriorOptions"
+                    [removeItemButton]="true"
+                    [searchable]="true"
+                    [isInvalid]="isFieldInvalid('equipementsExterieurs')">
+                    <span error-message>
+                        <i class="fas fa-exclamation-circle me-1"></i>
+                        Veuillez sélectionner au moins un tag
+                    </span>
+                </app-multi-select>
+            </div>
+
+            <!-- TRANSACTION GROUP -->
+            <div class="col-md-12">
+                <label class="mt-1 mb-1">
+                    <i class="fas fa-handshake text-info"></i>
+                    Transaction
+                </label>
+                <p class="text-muted small mb-1">
+                    Configurez les modalités de la transaction : type, prix et conditions
+                </p>
+                <div class="row g-2" formGroupName="transaction">
+                    <div class="col-md-12">
+                        <div class="form-floating">
+                            <select id="transactionType" formControlName="transactionType" class="form-select"
+                                [class.is-invalid]="isFieldInvalid('transaction.transactionType')">
+                                <option value="">-- Sélectionnez --</option>
+                                <option value="vente">Vente</option>
+                                <option value="location">Location</option>
+                            </select>
+                            <label for="transactionType">
+                                Type de transaction <span class="text-danger">*</span>
+                            </label>
+                        </div>
+                        @if (isFieldInvalid('transaction.transactionType')) {
+                            <span class="error-message">Veuillez sélectionner le type</span>
+                        }
+                    </div>
+
+                    <!-- PRIX DE VENTE (Affiché uniquement pour VENTE) -->
+                    @if (getTransactionType() === 'vente') {
+                        <div class="col-md-6">
+                            <div class="transaction-card transaction-card--vente">
+                                <div class="transaction-card__body">
+                                    <app-currency-input id="prixVente" label="Montant de vente"
+                                        formControlName="prix" 
+                                        placeholder="Ex: 25 000 000"
+                                        [showNumericValue]="true"
+                                    ></app-currency-input>
                                 </div>
                             </div>
-
-
-
-
-
-
-
-
                         </div>
-                    </div>
-                </div>
+                    }
 
-                <div class="accordion-item">
-                    <h2 class="accordion-header" id="headingTwo">
+                    <!-- LOYER + PÉRIODE (Affiché uniquement pour LOCATION) -->
+                    @if (getTransactionType() === 'location') {
+                        <!-- Montant du loyer -->
+                        <div class="col-md-6">
+                            <app-currency-input id="loyer" label="Loyer"
+                                formControlName="prix"
+                                placeholder="Ex: 150 000"
+                                [showNumericValue]="true"
+                            ></app-currency-input>
+                        </div>
+                        
+                        <!-- Période -->
+                        <div class="col-md-6">
+                            <div class="form-floating">
+                                <select id="periodeLoyer" class="form-select"
+                                    formControlName="periodeLoyer"
+                                    [class.is-invalid]="isFieldInvalid('transaction.periodeLoyer')">
+                                    <option value="mois">/ Mois</option>
+                                    <option value="annee">/ Année</option>
+                                </select>
+                                <label for="periodeLoyer">Période</label>
+                            </div>
+                        </div>
 
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                        How long does it take to ship my order?
+                        <!-- ───────────────────────────────────────────────────────────────── -->
+                        <!-- OPTIONS SUPPLÉMENTAIRES LOCATION -->
+                        <!-- ───────────────────────────────────────────────────────────────── -->
+                        <div class="col-12">
+                            <div class="location-extras">
+                                <div class="row g-3">
+                                    <!-- Caution -->
+                                    <div class="col-6">
+                                        <div class="form-floating">
+                                            <select id="caution" class="form-select"
+                                                formControlName="caution"
+                                                [class.is-invalid]="isFieldInvalid('transaction.caution')">
+                                                <option value="0">Aucune caution</option>
+                                                <option value="1">1 mois de caution</option>
+                                                <option value="2">2 mois de caution</option>
+                                                <option value="3">3 mois de caution</option>
+                                                <option value="4">4 mois de caution</option>
+                                                <option value="5">5 mois de caution</option>
+                                                <option value="6">6 mois de caution</option>
+                                            </select>
+                                            <label for="caution">
+                                                <i class="fas fa-shield-alt me-1"></i>
+                                                Caution demandée
+                                            </label>
+                                        </div>
+                                    </div>
 
-                    </button>
-                    </h2>
-                    <div class="accordion-collapse collapse" id="collapseTwo" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-                    <div class="accordion-body pt-0">
-                        <strong>This is the second item's accordion body.</strong>
-                        It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
-                    </div>
-                    </div>
+                                    <!-- AVANCE -->
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
+                                            <select id="avance" class="form-select" formControlName="avance"
+                                                [class.is-invalid]="isFieldInvalid('transaction.avance')">
+                                                <option [value]="1">1 mois d'avance</option>
+                                                <option [value]="2">2 mois d'avance</option>
+                                                <option [value]="3">3 mois d'avance</option>
+                                                <option [value]="4">4 mois d'avance</option>
+                                                <option [value]="5">5 mois d'avance</option>
+                                                <option [value]="6">6 mois d'avance</option>
+                                            </select>
+                                            <label for="avance">
+                                                <i class="fas fa-hand-holding-usd me-1"></i>
+                                                Avance demandée
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    }
+
                 </div>
             </div>
+
+
+
+
+
+
+
+
+
+
+
+
+            
+
+            
+            
                     
 
 
@@ -356,32 +457,8 @@
 
 
 
-            <div class="col-sm-6 col-md-4">
-                <div class="form-floating">
-                    <select class="form-select" id="statut">
-                        <option selected="selected">Select task view</option>
-                        <option value="1">technical</option>
-                        <option value="2">external</option>
-                        <option value="3">organizational</option>
-                    </select>
-                    <label for="statut">Statut</label>
-                </div>
-            </div>
-
             
-
-
-            <div class="col-sm-6 col-md-4">
-                <div class="form-floating">
-                    <select class="form-select" id="floatingSelectAdmin">
-                        <option selected="selected">Select admin</option>
-                        <option value="1">Data Privacy One</option>
-                        <option value="2">Data Privacy Two</option>
-                        <option value="3">Data Privacy Three</option>
-                    </select>
-                    <label for="floatingSelectAdmin">Project Lead</label>
-                </div>
-            </div>
+            <hr class="mb-5">
 
             <div class="col-sm-6 col-md-4">
                 <div class="flatpickr-input-container">
@@ -395,19 +472,8 @@
             </div>
 
 
-            <div class="col-12 mt-2">
-                <app-rich-text-editor
-                    formControlName="description"
-                    [height]="200"
-                    [placeholder]="'Entrez une description...'"
-                    [toolbar]="'bold italic | underline  | blocks  | forecolor | backcolor | alignleft | alignright | numlist | bullist'"
-                    [plugins]="['lists']"
-                ></app-rich-text-editor>
-            </div>
 
-
-
-            <div class="form-group">
+            <!-- <div class="form-group">
                 <label>Date simple</label>
                 <input
                     type="text"
@@ -417,84 +483,7 @@
                     (dateChange)="onDateChange($event)"
                     placeholder="Sélectionner une date"
                 >
-            </div>
-
-            <div class="form-group">
-            <label>Date et heure</label>
-            <input
-                type="text"
-                class="form-control"
-                appFlatpickr
-                [config]="dateTimeConfig"
-                (dateChange)="onDateTimeChange($event)"
-                placeholder="Date et heure"
-            >
-            </div>
-
-            <div class="form-group">
-            <label>Plage de dates</label>
-            <input
-                type="text"
-                class="form-control"
-                appFlatpickr
-                [config]="rangeConfig"
-                (dateChange)="onRangeChange($event)"
-                placeholder="Du ... au ..."
-            >
-            </div>
-
-            <p>Date sélectionnée: {{ selectedDate | date:'dd/MM/yyyy' }}</p>
-
-
-
-            <div class="col-md-6 gy-6">
-                <div class="form-floating">
-                    <select class="form-select" id="floatingSelectClient">
-                        <option selected="selected">Select client</option>
-                        <option value="1">Client One</option>
-                        <option value="2">Client Two</option>
-                        <option value="3">Client Three</option>
-                    </select>
-                    <label for="floatingSelectClient">client</label>
-                </div>
-            </div>
-
-            <div class="col-md-6 gy-6">
-                <div class="form-floating">
-                    <input class="form-control" id="floatingInputBudget" type="number" placeholder="Budget" />
-                    <label for="floatingInputBudget">Budget</label>
-                </div>
-            </div>
-
-
-            <!-- Frais d'agence -->
-          <div class="col-md-6 gy-6">
-            <app-currency-input
-              id="floatingInputFees"
-              label="Frais d'agence"
-              placeholder="Frais"
-              name="agencyFees"
-            ></app-currency-input>
-          </div>
-
-
-
-
-            <div class="col-12 gy-6">
-                <div class="form-floating form-floating-advance-select">
-                    <label>Add tags</label>
-                    <select class="form-select" id="organizerMultiple" data-choices="data-choices" multiple="multiple"
-                        data-options='{"removeItemButton":true,"placeholder":true}'>
-                        <option selected="selected">Stupidity</option>
-                        <option>Jerry</option>
-                        <option>Not_the_mouse</option>
-                        <option>Rick</option>
-                        <option>Biology</option>
-                        <option>Neurology</option>
-                        <option>Brainlessness</option>
-                    </select>
-                </div>
-            </div>
+            </div> -->
 
             <div class="col-12 gy-6">
                 <div class="row g-3 justify-content-end">

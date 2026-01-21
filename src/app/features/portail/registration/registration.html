@@ -171,14 +171,14 @@
                                             <!-- Logo d'entreprise -->
                                             <div class="mb-3">
                                                 <app-file-upload
-                                                label="Importer logo de l'entreprise (Pas obligatoire)"
-                                                helperText="Format: PNG, JPG (max 2MB)"
-                                                acceptedTypes="image/png,image/jpeg,image/jpg"
-                                                [maxSize]="2097152"
-                                                [maxFiles]="1"
-                                                (filesSelected)="onFilesSelected($event)"
-                                                (fileRemoved)="onFileRemoved($event)"
-                                                (uploadComplete)="onUploadComplete($event)">
+                                                    label="Importer logo de l'entreprise (Pas obligatoire)"
+                                                    helperText="Format: PNG, JPG (max 2MB)"
+                                                    acceptedTypes="image/png,image/jpeg,image/jpg"
+                                                    [maxSize]="2097152"
+                                                    [maxFiles]="1"
+                                                    (filesSelected)="onFilesSelected($event)"
+                                                    (fileRemoved)="onFileRemoved($event)"
+                                                    (uploadComplete)="onUploadComplete($event)">
                                                 </app-file-upload>
                                             </div>
                                         </div>

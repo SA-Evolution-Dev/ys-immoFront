@@ -37173,3 +37173,26 @@ a[href].bg-body-secondary:hover, a[href].bg-body-secondary:focus {
 .form-floating > .form-control.is-invalid ~ label {
     color: #dc3545;
 }
+
+// btn avec progress
+@keyframes progress-wave {
+  0% {
+    transform: translateX(-100%);
+    width: 30%;
+  }
+
+  50% {
+    transform: translateX(100%);
+    width: 60%;
+  }
+
+  100% {
+    transform: translateX(300%);
+    width: 30%;
+  }
+}
+
+.progress-wave {
+  animation: progress-wave 2s ease-in-out infinite;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}

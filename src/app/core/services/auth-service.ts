@@ -32,8 +32,6 @@ export class AuthService {
 
 
   register(data: any): Observable<any> {
-    console.log('[AUTH SERVICE] Tentative d\'inscription:', data);
-
     const formData = new FormData();
     formData.append('role', data.role);
     formData.append('name', data.name);
@@ -95,10 +93,7 @@ export class AuthService {
     this.currentUserSubject.next(null);
     this.isAuthenticated.set(false);
     this.router.navigate(['/authentification']);
-
-    console.log('[AUTH SERVICE] Déconnexion terminée');
   }
-
 
   private handleAuthSuccess(response: any): void {
     if (response.data?.accessToken) {
@@ -117,11 +112,9 @@ export class AuthService {
     this.isAuthenticated.set(true);
   }
 
-
   public isLoggedIn(): boolean {
     return this.hasToken() && !this.isTokenExpired();
   }
-
 
   public getToken(): string | null {
     try {
@@ -137,24 +130,17 @@ export class AuthService {
     }
   }
 
-
   public getCurrentUser(): any | null {
     return this.currentUserSubject.value;
   }
 
-
   private checkAuthStatus(): void {
-    console.log('[AUTH SERVICE] Vérification de l\'état d\'authentification');
-
     const token = this.getToken();
-    console.log('this.getToken()', this.getToken());
-
     const user = this.getUserFromStorage();
     console.log('this.getUserFromStorage()', this.getUserFromStorage());
 
     console.log('this.isTokenExpired()', this.isTokenExpired());
-
-    this.debugEncryptedData()
+    // this.debugEncryptedData()
 
     if (token && user && !this.isTokenExpired()) {
       this.isAuthenticated.set(true);
@@ -166,7 +152,6 @@ export class AuthService {
       console.log('[AUTH SERVICE] Aucune session valide');
     }
   }
-
 
   public isTokenExpired(): boolean {
     const token = this.getToken();
@@ -203,7 +188,6 @@ export class AuthService {
       console.error('[AUTH SERVICE] Erreur lors du cryptage du token:', error);
     }
   }
-
 
   private setRefreshToken(refreshToken: string): void {
     try {

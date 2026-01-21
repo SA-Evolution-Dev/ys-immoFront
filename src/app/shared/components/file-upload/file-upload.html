@@ -86,9 +86,6 @@
 
             <!-- Header avec action de suppression globale -->
             <div class="d-flex align-items-center justify-content-between mb-2 flex-wrap gap-2">
-                <!-- <span class="fs-10 text-body-tertiary fw-semibold text-uppercase">
-                    Fichiers sélectionnés ({{ files().length }})
-                </span> -->
                 @if (files().length > 1) {
                     <button 
                         type="button" 
@@ -110,10 +107,23 @@
                             [class.file-minimal-uploading]="fileUpload.status === 'uploading'"
                             [class.file-minimal-success]="fileUpload.status === 'success'"
                             [class.file-minimal-error]="fileUpload.status === 'error'">
-                            
+
                             <!-- Icône/Prévisualisation -->
                             <div class="file-minimal-icon">
-                                @if (fileUpload.preview) {
+                                <!-- ✅ NOUVEAU - Gestion des vidéos -->
+                                @if (fileUpload.isVideo && fileUpload.preview) {
+                                    <div class="file-minimal-video-wrapper">
+                                        <video 
+                                            [src]="fileUpload.preview" 
+                                            class="file-minimal-preview-video"
+                                            muted
+                                            preload="metadata">
+                                        </video>
+                                        <div class="video-overlay">
+                                            <span class="fa-solid fa-play"></span>
+                                        </div>
+                                    </div>
+                                } @else if (fileUpload.preview) {
                                     <img 
                                         [src]="fileUpload.preview" 
                                         [alt]="fileUpload.file.name" 
@@ -182,32 +192,7 @@
                     }
                 </div>
             }
-
-            <!-- Progression globale (optionnel) -->
-            <!-- @if (isUploading()) {
-                <div class="mt-3 p-3 bg-body-highlight rounded-2">
-                    <div class="d-flex align-items-center justify-content-between mb-2">
-                        <span class="fs-10 fw-semibold text-body-emphasis">
-                            Upload en cours...
-                        </span>
-                        <span class="fs-10 text-body-tertiary">
-                            {{ uploadProgress() }}%
-                        </span>
-                    </div>
-                    <div class="progress" style="height: 6px;">
-                        <div 
-                            class="progress-bar bg-primary progress-bar-striped progress-bar-animated" 
-                            role="progressbar"
-                            [style.width.%]="uploadProgress()"
-                            [attr.aria-valuenow]="uploadProgress()"
-                            aria-valuemin="0" 
-                            aria-valuemax="100">
-                        </div>
-                    </div>
-                </div>
-            } -->
         </div>
     }
-
 
 </div>

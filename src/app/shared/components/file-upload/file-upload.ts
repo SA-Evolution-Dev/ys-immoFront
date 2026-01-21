@@ -8,6 +8,7 @@ interface FileUploadInterface {
   status: 'pending' | 'uploading' | 'success' | 'error';
   preview?: string;
   error?: string;
+  isVideo?: boolean; // ✅ NOUVEAU
 }
 
 @Component({
@@ -73,11 +74,11 @@ export class FileUpload {
 
   private handleFiles(newFiles: File[]): void {
     this.errorMessage.set('');
-    
+
     // Vérifier le nombre maximum
     const currentCount = this.files().length;
     const availableSlots = this.maxFiles - currentCount;
-    
+
     if (newFiles.length > availableSlots) {
       this.errorMessage.set(`Maximum ${this.maxFiles} fichiers autorisés`);
       newFiles = newFiles.slice(0, availableSlots);
@@ -85,7 +86,7 @@ export class FileUpload {
 
     // Valider et ajouter les fichiers
     const validFiles: FileUploadInterface[] = [];
-    
+
     for (const file of newFiles) {
 
       // Vérifier la taille
@@ -100,16 +101,25 @@ export class FileUpload {
         continue;
       }
 
-
       // Créer l'objet FileUpload
       const fileUpload: FileUploadInterface = {
         file,
         progress: 0,
-        status: 'pending'
+        status: 'pending',
+        isVideo: file.type.startsWith('video/')
       };
 
-      // Créer la prévisualisation pour les images
+      // Créer la prévisualisation pour les images ET vidéos
       if (file.type.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          fileUpload.preview = e.target?.result as string;
+          this.files.update(files => [...files]);
+        };
+        reader.readAsDataURL(file);
+      }
+      // Prévisualisation pour les vidéos
+      else if (file.type.startsWith('video/')) {
         const reader = new FileReader();
         reader.onload = (e) => {
           fileUpload.preview = e.target?.result as string;
@@ -133,7 +143,7 @@ export class FileUpload {
 
     filesToUpload.forEach((fileUpload, index) => {
       fileUpload.status = 'uploading';
-      
+
       const interval = setInterval(() => {
         if (fileUpload.progress < 100) {
           fileUpload.progress += Math.random() * 30;
@@ -143,7 +153,7 @@ export class FileUpload {
           clearInterval(interval);
           fileUpload.status = 'success';
           this.files.update(files => [...files]);
-          
+
           // Vérifier si tous les fichiers sont uploadés
           const allComplete = this.files().every(f => f.status === 'success' || f.status === 'error');
           if (allComplete) {
@@ -167,24 +177,26 @@ export class FileUpload {
 
   getFileIcon(file: File): string {
     const ext = file.name.split('.').pop()?.toLowerCase();
-    
+
     if (file.type.startsWith('image/')) return 'fa-file-image';
+    if (file.type.startsWith('video/')) return 'fa-file-video'; // ✅ NOUVEAU
     if (ext === 'pdf') return 'fa-file-pdf';
     if (['doc', 'docx'].includes(ext || '')) return 'fa-file-word';
     if (['xls', 'xlsx'].includes(ext || '')) return 'fa-file-excel';
     if (['zip', 'rar'].includes(ext || '')) return 'fa-file-zipper';
-    
+
     return 'fa-file';
   }
 
   getFileIconColor(file: File): string {
     const ext = file.name.split('.').pop()?.toLowerCase();
-    
+
     if (file.type.startsWith('image/')) return 'text-info';
+    if (file.type.startsWith('video/')) return 'text-warning'; // ✅ NOUVEAU
     if (ext === 'pdf') return 'text-danger';
     if (['doc', 'docx'].includes(ext || '')) return 'text-primary';
     if (['xls', 'xlsx'].includes(ext || '')) return 'text-success';
-    
+
     return 'text-secondary';
   }
 
@@ -217,6 +229,5 @@ export class FileUpload {
 
     return false;
   }
-
 
 }

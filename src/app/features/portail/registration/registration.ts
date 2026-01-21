@@ -22,7 +22,6 @@ export class Registration {
   private destroy$ = new Subject<void>();
 
   public isLoading = signal(false);
-  public toto = signal(false);
   public errorMessage = signal('');
   public isRegisterAccount = signal(false);
   public resendEmail = signal<string>('');
@@ -181,7 +180,6 @@ export class Registration {
   }
 
   onFilesSelected(files: File[]): void {
-    console.log('Fichiers sélectionnés:', files);
     this.uploadedFiles.set(files);
     
     // Si un seul fichier (logo)

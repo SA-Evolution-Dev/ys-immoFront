@@ -37169,6 +37169,37 @@ a[href].bg-body-secondary:hover, a[href].bg-body-secondary:focus {
     display: block !important;
 }
 
+.phoenix-alert {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 16px;
+  border-radius: 10px;
+  border: 1px solid;
+  background-color: #fff5f5;
+}
+
+.phoenix-alert-danger {
+  border-color: #fca5a5;
+}
+
+.phoenix-alert-icon {
+  color: #dc2626;
+  font-size: 1.3rem;
+  margin-top: 2px;
+}
+
+.phoenix-alert-content h6 {
+  color: #991b1b;
+  font-weight: 600;
+}
+
+.phoenix-alert-content p {
+  color: #7f1d1d;
+  font-size: 0.9rem;
+}
+
+
 /* Style pour floating label en erreur */
 .form-floating > .form-control.is-invalid ~ label {
     color: #dc3545;

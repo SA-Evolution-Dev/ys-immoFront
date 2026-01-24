@@ -1,0 +1,55 @@
+<!-- Loader Normal (comportement actuel) -->
+<div *ngIf="show && !fullPage" class="loading-spinner-container" [class.text-center]="centered" [class.mb-6]="centered"
+    [class.fade-in]="fadeIn" [class.with-overlay]="overlay" [ngClass]="customClass">
+
+    <!-- Overlay local (si activé) -->
+    <div *ngIf="overlay" class="spinner-overlay"></div>
+
+    <!-- Contenu du spinner -->
+    <div class="spinner-content" [class.relative-content]="overlay">
+        <div class="mb-4">
+            <div class="spinner-border" [class]="'text-' + color" [style.width]="getSpinnerSize()"
+                [style.height]="getSpinnerSize()" role="status">
+                <span class="visually-hidden">{{ loadingText }}</span>
+            </div>
+        </div>
+
+        <h4 *ngIf="title" class="text-body-highlight mb-2 spinner-title">
+            {{ title }}
+        </h4>
+
+        <p *ngIf="message" class="text-body-tertiary mb-0 spinner-message">
+            {{ message }}
+        </p>
+
+        <ng-content></ng-content>
+    </div>
+</div>
+
+<!-- ✅ NOUVEAU : Loader Pleine Page -->
+<div *ngIf="show && fullPage" class="fullpage-loader-overlay" [class.fade-in]="fadeIn"
+    [style.background-color]="'rgba(0, 0, 0, ' + overlayOpacity + ')'" [ngClass]="customClass">
+
+    <div class="fullpage-loader-content">
+        <!-- Spinner -->
+        <div class="mb-4">
+            <div class="spinner-border" [class]="'text-' + color" [style.width]="getSpinnerSize()"
+                [style.height]="getSpinnerSize()" role="status">
+                <span class="visually-hidden">{{ loadingText }}</span>
+            </div>
+        </div>
+
+        <!-- Titre -->
+        <h4 *ngIf="title" class="text-white mb-2 spinner-title">
+            {{ title }}
+        </h4>
+
+        <!-- Message -->
+        <p *ngIf="message" class="text-white-50 mb-0 spinner-message">
+            {{ message }}
+        </p>
+
+        <!-- Contenu personnalisé -->
+        <ng-content></ng-content>
+    </div>
+</div>

@@ -80,6 +80,14 @@
         </div>
     }
 
+    @if (minFiles > 0 && files().length < minFiles) {
+        <small class="text-danger">
+            <span class="fa-solid fa-circle-exclamation me-2 text-danger"></span>
+            {{ files().length }} fichier{{ files().length > 1 ? 's' : '' }} uploadé{{ files().length > 1 ? 's' : '' }}.
+            Il manque {{ minFiles - files().length }} fichier{{ minFiles - files().length > 1 ? 's' : '' }}.
+        </small>
+    }
+
     <!-- Liste des fichiers -->
     @if (hasFiles()) {
         <div class="files-list mt-1">

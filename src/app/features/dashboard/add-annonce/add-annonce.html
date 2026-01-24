@@ -5,7 +5,7 @@
     </ol>
 </nav>
 
-<h2 class="mb-3">Nouvelle annonce</h2>
+<h2 class="mb-3">Nouvelle publication</h2>
 <div class="row">
     <div class="col-xl-9">
         <form [formGroup]="bienForm" (ngSubmit)="onSubmitForm()" class="row g-2 mb-6">
@@ -178,9 +178,6 @@
                     Pour un <strong>studio</strong>, la composition est automatiquement définie
                     (pièce unique, sans chambre séparée).
                 </div>
-
-                
-
             }
 
             <!-- DESCRIPTION -->
@@ -477,38 +474,34 @@
             <!-- IMAGES ASSOCIEES -->
             <div class="col-12">
                 <app-file-upload
+                    #fileUpload
                     label="Importer les images ou les vidéos"
                     helperText="Format: PNG, JPG, MP4 (max 10MB)"
                     acceptedTypes="image/*,video/*"
                     [maxSize]="10485760"
                     [maxFiles]="7"
+                    [minFiles]="1"
                     (filesSelected)="onFilesSelected($event)"
                     (fileRemoved)="onFileRemoved($event)"
                     (uploadComplete)="onUploadComplete($event)">
                 </app-file-upload>
             </div>
 
+            <!-- Message erreur lors de requetes -->
             @if (errorMessage()) {
                 <div class="alert alert-danger border-start border-danger border-4 mb-2 py-2" role="alert">
                     <i class="fas fa-times-circle me-1"></i> {{ errorMessage() }}
                 </div>
             }
 
+            <!-- Message d'erreur global pour le formulaire -->
+            @if (bienForm.invalid && (bienForm.touched || bienForm.dirty)) {
+                 <small class="d-inline-block bg-danger-subtle text-danger px-2 py-1 rounded border-start border-3 border-danger">
+                    <i class="fas fa-times-circle me-1"></i> Veuillez corriger les erreurs dans le formulaire avant de soumettre.
+                </small>
+            }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+            <!-- Btn submit -->
             <div class="col-12 gy-6">
                 <div class="row g-3 justify-content-end">
                     <!-- <div class="col-auto">
@@ -538,3 +531,16 @@
         </form>
     </div>
 </div>
+
+
+
+<app-loading-page-spinner
+  [show]="isSubmitting()"
+  [fullPage]="true"
+  title="Publication en cours..."
+  message="Veuillez patienter"
+  color="light"
+  size="lg">
+</app-loading-page-spinner>
+
+

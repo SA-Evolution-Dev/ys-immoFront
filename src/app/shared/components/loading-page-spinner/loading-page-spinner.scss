@@ -1,0 +1,186 @@
+// ===================================
+// Loader Normal (existant)
+// ===================================
+.loading-spinner-container {
+    position: relative;
+
+    &.fade-in {
+        animation: fadeIn 0.3s ease-in;
+    }
+
+    &.with-overlay {
+        position: relative;
+        min-height: 200px;
+    }
+}
+
+.spinner-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(2px);
+    z-index: 10;
+}
+
+.spinner-content {
+    &.relative-content {
+        position: relative;
+        z-index: 11;
+    }
+}
+
+.spinner-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.spinner-message {
+    font-size: 0.9rem;
+}
+
+// ===================================
+// ✅ NOUVEAU : Loader Pleine Page
+// ===================================
+.fullpage-loader-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9999; // Au-dessus de tout
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(4px); // Effet de flou
+
+    // Empêche les clics
+    pointer-events: all;
+    cursor: wait;
+
+    &.fade-in {
+        animation: fadeIn 0.3s ease-in;
+    }
+}
+
+.fullpage-loader-content {
+    text-align: center;
+    padding: 2rem;
+
+    // Animation du contenu
+    animation: slideUp 0.4s ease-out;
+
+    .spinner-border {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .spinner-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .spinner-message {
+        font-size: 1rem;
+        text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    }
+}
+
+// ===================================
+// Animations
+// ===================================
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+// ===================================
+// Variantes de couleur pour le fond
+// ===================================
+.fullpage-loader-overlay {
+    &.bg-dark {
+        background-color: rgba(0, 0, 0, 0.7) !important;
+    }
+
+    &.bg-light {
+        background-color: rgba(255, 255, 255, 0.9) !important;
+
+        .spinner-title,
+        .spinner-message {
+            color: #333 !important;
+            text-shadow: none;
+        }
+    }
+
+    &.bg-primary {
+        background-color: rgba(13, 110, 253, 0.6) !important;
+    }
+
+    &.bg-blur-strong {
+        backdrop-filter: blur(8px);
+    }
+}
+
+// ===================================
+// Responsive
+// ===================================
+@media (max-width: 576px) {
+    .fullpage-loader-content {
+        padding: 1.5rem;
+
+        .spinner-title {
+            font-size: 1.1rem;
+        }
+
+        .spinner-message {
+            font-size: 0.9rem;
+        }
+    }
+}
+
+
+
+// <app-loading-spinner
+//   [show]="isLoading"
+//   [fullPage]="true"
+//   title="Chargement en cours..."
+//   message="Veuillez patienter"
+//   color="light"
+//   size="lg">
+// </app-loading-spinner>
+
+
+// <app-loading-spinner
+//   [show]="isLoading"
+//   [fullPage]="true"
+//   color="light"
+//   size="lg">
+  
+//   <div class="mt-3">
+//     <h5 class="text-white">Traitement en cours...</h5>
+//     <p class="text-white-50 mb-2">{{ uploadProgress }}%</p>
+//     <div class="progress" style="width: 200px; margin: 0 auto;">
+//       <div class="progress-bar" [style.width.%]="uploadProgress"></div>
+//     </div>
+//   </div>
+// </app-loading-spinner>
+

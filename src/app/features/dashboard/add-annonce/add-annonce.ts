@@ -1,4 +1,4 @@
-import { Component, signal, inject, computed, OnInit, effect } from '@angular/core';
+import { Component, signal, inject, computed, OnInit, effect, ViewChild } from '@angular/core';
 import { RichTextEditor } from '../../../shared/components/rich-text-editor/rich-text-editor';
 // import { Flatpickr } from '../../../shared/directives/flatpickr';
 // import { DatePipe } from '@angular/common';
@@ -13,6 +13,9 @@ import { FileUpload } from '../../../shared/components/file-upload/file-upload';
 import { AuthService } from '../../../core/services/auth-service';
 import { AnnonceService } from '../../../core/services/annonce-service';
 import Swal from 'sweetalert2';
+import { minFilesValidator } from '../../../shared/validators/min-files.validator';
+import { LoadingPageSpinner } from '../../../shared/components/loading-page-spinner/loading-page-spinner';
+
 
 interface Commune {
   value: string;
@@ -28,12 +31,14 @@ const TYPE_DEFAULTS: Record<string, { chambres: number; salons: number }> = {
 
 @Component({
   selector: 'app-add-annonce',
-  imports: [RichTextEditor, CurrencyInput, 
-    CommonModule, ReactiveFormsModule, SearchSelect, MultiSelect, FileUpload],
+  imports: [RichTextEditor, CurrencyInput,
+    CommonModule, ReactiveFormsModule, SearchSelect, MultiSelect, FileUpload, LoadingPageSpinner],
   templateUrl: './add-annonce.html',
   styleUrl: './add-annonce.scss',
 })
 export class AddAnnonce implements OnInit {
+  @ViewChild('fileUpload') fileUpload!: FileUpload;
+  
   private readonly authService = inject(AuthService);
   private readonly annonceService = inject(AnnonceService);
   private fb = inject(FormBuilder);
@@ -44,6 +49,8 @@ export class AddAnnonce implements OnInit {
   currentUser = this.authService.currentUser;
   public uploadedFiles = signal<File[]>([]);
   public errorMessage = signal('');
+  
+  isLoading = signal(true);
 
   liste_villes = [
     { value: 'abidjan', label: 'Abidjan' },
@@ -144,7 +151,7 @@ export class AddAnnonce implements OnInit {
       etatConstruction: [''],
       typeConstruction: ['']
     }),
-    medias: [[]],
+     medias: [[], [Validators.required, minFilesValidator(2)]],
     visibilite: this.fb.group({
       niveau: ['normal'],
       enVedette: [false]
@@ -201,10 +208,11 @@ export class AddAnnonce implements OnInit {
           
           this.annonceService.addAnnonce(this.bienForm.value).subscribe({
             next: (response) => {
+              this.isSubmitting.set(false);
               console.log('✅ Annonce réussie:', response);
             },
             error: (error) => {
-              console.error('❌ Erreur annonce:', error);
+              console.error('Erreur annonce:', error);
               this.isSubmitting.set(false);
               this.errorMessage.set(
                 error.error?.message || 'Une erreur est survenue lors de la création'
@@ -213,7 +221,6 @@ export class AddAnnonce implements OnInit {
           })
     
           // this.bienForm.reset();
-          this.isSubmitting.set(false);
         }
       });
 
@@ -332,18 +339,44 @@ export class AddAnnonce implements OnInit {
     return this.bienForm.get('transaction.transactionType')?.value || '';
   }
 
-  onFilesSelected(files: File[]): void {
-    this.uploadedFiles.set(files);
-
-    if (files && files.length > 0) {
-      this.bienForm.patchValue({
-        medias: files
-      });
+  validateForm(): void {
+    // Vérifier si le composant file-upload est valide
+    if (this.fileUpload && !this.fileUpload.isValid()) {
+        this.bienForm.markAsTouched();
+        this.bienForm.markAsDirty();
+    } else {
+        this.bienForm.markAsUntouched();
     }
   }
 
+  onFilesSelected(files: File[]): void {
+    // Mettre à jour les fichiers uploadés
+    this.uploadedFiles.set(files);
+
+    // Mettre à jour le formulaire
+    const mediasControl = this.bienForm.get('medias');
+    if (mediasControl) {
+        mediasControl.setValue(files);
+        mediasControl.updateValueAndValidity(); // Force la validation
+    }
+
+    // Valider le formulaire
+    this.validateForm();
+  }
+
   onFileRemoved(file: File): void {
+    // Mettre à jour les fichiers uploadés
     this.uploadedFiles.update(files => files.filter(f => f !== file));
+
+    // Mettre à jour le formulaire
+    const mediasControl = this.bienForm.get('medias');
+    if (mediasControl) {
+      mediasControl.setValue(this.uploadedFiles());
+      mediasControl.updateValueAndValidity();
+    }
+
+    // Valider le formulaire
+    this.validateForm();
   }
 
   onUploadComplete(uploads: any[]): void {
@@ -384,6 +417,10 @@ export class AddAnnonce implements OnInit {
     //   console.log(`❌ ${invalidControls.length} contrôle(s) invalide(s):`);
     //   console.table(invalidControls);
     // }
+  }
+  
+  isFormValid(): boolean {
+    return this.bienForm.valid && (this.fileUpload ? this.fileUpload.isValid() : true);
   }
 
   

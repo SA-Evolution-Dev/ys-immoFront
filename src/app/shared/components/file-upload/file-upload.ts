@@ -27,11 +27,17 @@ export class FileUpload {
   @Output() filesSelected = new EventEmitter<File[]>();
   @Output() fileRemoved = new EventEmitter<File>();
   @Output() uploadComplete = new EventEmitter<FileUploadInterface[]>();
+  @Input() minFiles: number = 0;
 
   public files = signal<FileUploadInterface[]>([]);
   public isDragging = signal(false);
   public isUploading = signal(false);
   public errorMessage = signal('');
+  public isValid = computed(() => {
+    const hasEnoughFiles = this.files().length >= this.minFiles;
+    const hasNoErrors = this.errorMessage() === '';
+    return hasEnoughFiles && hasNoErrors;
+  });
 
   public hasFiles = computed(() => this.files().length > 0);
   public canAddMore = computed(() => this.files().length < this.maxFiles);

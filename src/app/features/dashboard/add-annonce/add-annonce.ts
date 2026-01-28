@@ -15,6 +15,7 @@ import { AnnonceService } from '../../../core/services/annonce-service';
 import Swal from 'sweetalert2';
 import { minFilesValidator } from '../../../shared/validators/min-files.validator';
 import { LoadingPageSpinner } from '../../../shared/components/loading-page-spinner/loading-page-spinner';
+import { ToastService } from '../../../shared/components/toast/toast.service';
 
 
 interface Commune {
@@ -42,6 +43,7 @@ export class AddAnnonce implements OnInit {
   private readonly authService = inject(AuthService);
   private readonly annonceService = inject(AnnonceService);
   private fb = inject(FormBuilder);
+  private toastService  = inject(ToastService);
 
   currentStep = signal(0);
   isSubmitting = signal(false);
@@ -151,7 +153,7 @@ export class AddAnnonce implements OnInit {
       etatConstruction: [''],
       typeConstruction: ['']
     }),
-     medias: [[], [Validators.required, minFilesValidator(2)]],
+    medias: [[], [Validators.required]],
     visibilite: this.fb.group({
       niveau: ['normal'],
       enVedette: [false]
@@ -190,6 +192,10 @@ export class AddAnnonce implements OnInit {
 
   // Soumission form
   onSubmitForm(): void {
+
+    this.toastService.success('Opération réussie !');
+
+    
     if (this.bienForm.valid) {
 
       Swal.fire({
@@ -225,7 +231,7 @@ export class AddAnnonce implements OnInit {
       });
 
     } else {
-      this.markFormGroupTouched(this.bienForm);
+      this.markFormGroupTouched(this.bienForm);      
     }
   }
 

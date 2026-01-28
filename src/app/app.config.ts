@@ -1,5 +1,5 @@
 import { ApplicationConfig, provideBrowserGlobalErrorListeners, 
-  provideZonelessChangeDetection, LOCALE_ID  } from '@angular/core';
+provideZonelessChangeDetection, LOCALE_ID  } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { authInterceptor } from './core/interceptors/auth.interceptor';
 import { routes } from './app.routes';

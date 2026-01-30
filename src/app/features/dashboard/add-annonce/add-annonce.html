@@ -22,6 +22,19 @@
                 </div>
             </div>
 
+            <!-- Message d'erreur global pour le formulaire -->
+            @if (bienForm.invalid && (bienForm.touched || bienForm.dirty) && errorChecking()) {
+                <div #errorNotification class="bg-danger-subtle text-danger px-2 py-1 rounded border-start border-3 border-danger">
+                    <div class="d-flex align-items-center gap-2">
+                        <i class="fas fa-times-circle" style="font-size: 0.875rem;"></i>
+                        <div class="lh-sm">
+                        <strong class="d-block" style="font-size: 0.875rem;">Impossible de publier</strong>
+                        <small>Vérifiez les champs marqués en rouge.</small>
+                        </div>
+                    </div>
+                </div>
+            }
+
             <div class="col-sm-6 col-md-12">
                 <div class="form-floating">
                     <input id="title" type="text" 
@@ -99,7 +112,7 @@
                         <div class="form-floating">
                             <input id="lnombreChambres" type="number" min="0"
                                 formControlName="nombreChambres" placeholder="" class="form-control"
-                                [class.is-invalid]="isFieldInvalid('composition.nombreChambres')" />
+                                [class.is-invalid]="isFieldInvalid('composition.nombreChambres')" [readonly]="isReadonly()" />
                             <label for="lnombreChambres">Nombre de chambres </label>
                         </div>
                         @if (getFieldError('composition.nombreChambres', 'min')) {
@@ -114,7 +127,7 @@
                         <div class="form-floating">
                             <input id="lnombreSalons" type="number" min="0"
                                 formControlName="nombreSalons" placeholder="" class="form-control"
-                                [class.is-invalid]="isFieldInvalid('composition.nombreSalons')" />
+                                [class.is-invalid]="isFieldInvalid('composition.nombreSalons')" [readonly]="isReadonly()" />
                             <label for="lnombreSalons">Nombre de salons </label>
                         </div>
                         @if (getFieldError('composition.nombreSalons', 'min')) {
@@ -129,7 +142,7 @@
                         <div class="form-floating">
                             <input id="lnombreSallesBain" type="number" min="0"
                                 formControlName="nombreSallesBain" placeholder="" class="form-control"
-                                [class.is-invalid]="isFieldInvalid('composition.nombreSallesBain')" />
+                                [class.is-invalid]="isFieldInvalid('composition.nombreSallesBain')" [readonly]="isReadonly()" />
                             <label for="lnombreSallesBain">Nombre de douche </label>
                         </div>
                         @if (getFieldError('composition.nombreSallesBain', 'min')) {
@@ -144,7 +157,7 @@
                         <div class="form-floating">
                             <input id="lnombreCuisine" type="number" min="0"
                                 formControlName="nombreCuisine" placeholder="" class="form-control"
-                                [class.is-invalid]="isFieldInvalid('composition.nombreCuisine')" />
+                                [class.is-invalid]="isFieldInvalid('composition.nombreCuisine')" [readonly]="isReadonly()" />
                             <label for="lnombreCuisine">Nombre de cuisine </label>
                         </div>
                         @if (getFieldError('composition.nombreCuisine', 'min')) {
@@ -173,11 +186,11 @@
             </div>
 
             @if (bienForm.get('type')?.value === 'studio') {
-                <div class="alert alert-info mt-2 mb-2">
-                    <i class="fas fa-info-circle"></i>
+                <small class="d-inline-block bg-info text-white px-2 py-1 rounded border-start border-3 border-info">
+                    <i class="fas fa-info-circle me-1"></i>
                     Pour un <strong>studio</strong>, la composition est automatiquement définie
                     (pièce unique, sans chambre séparée).
-                </div>
+                </small>
             }
 
             <!-- DESCRIPTION -->
@@ -473,9 +486,12 @@
 
             <!-- IMAGES ASSOCIEES -->
             <div class="col-12">
+                <label class="mt-1 mb-2">
+                    <i class="fas fa-images text-info"></i>
+                    Photos ou vidéos
+                </label>
                 <app-file-upload
                     #fileUpload
-                    label="Importer les images ou les vidéos"
                     helperText="Format: PNG, JPG, MP4 (max 10MB)"
                     acceptedTypes="image/*,video/*"
                     [maxSize]="10485760"
@@ -489,18 +505,17 @@
 
             <!-- Message erreur lors de requetes -->
             @if (errorMessage()) {
-                <div class="alert alert-danger border-start border-danger border-4 mb-2 py-2" role="alert">
-                    <i class="fas fa-times-circle me-1"></i> {{ errorMessage() }}
+                <div class="bg-danger-subtle text-danger px-2 py-1 rounded border-start border-3 border-danger">
+                    <div class="d-flex align-items-center gap-2">
+                        <i class="fas fa-times-circle" style="font-size: 0.875rem;"></i>
+                        <div class="lh-sm">
+                            <strong class="d-block" style="font-size: 0.875rem;">Échec de la création</strong>
+                            <small>{{ errorMessage() }}</small>
+                        </div>
+                    </div>
                 </div>
             }
-
-            <!-- Message d'erreur global pour le formulaire -->
-            @if (bienForm.invalid && (bienForm.touched || bienForm.dirty)) {
-                 <small class="d-inline-block bg-danger-subtle text-danger px-2 py-1 rounded border-start border-3 border-danger">
-                    <i class="fas fa-times-circle me-1"></i> Veuillez corriger les erreurs dans le formulaire avant de publier.
-                </small>
-            }
-
+            
             <!-- Btn submit -->
             <div class="col-12 gy-6">
                 <div class="row g-3 justify-content-end">
@@ -510,22 +525,6 @@
                     <div class="col-auto">
                         <button type="submit" class="btn btn-primary px-5 px-sm-15">Enregistrer</button>
                     </div>
-
-                    <div class="col-auto">
-                        <button type="submit" 
-                            class="btn btn-primary px-5 px-sm-15 position-relative overflow-hidden" disabled>
-                                <div class="position-absolute bottom-0 start-0 w-100" style="height: 3px; background: rgba(255,255,255,0.2);">
-                                    <div class="progress-wave bg-white" style="height: 100%; width: 40%;"></div>
-                                </div>
-                                
-                                <span class="d-flex align-items-center position-relative">
-                                    <span class="spinner-border spinner-border-sm me-2"></span>
-                                    <span>Envoi en cours ...</span>
-                                </span>
-                        </button>
-                    </div>
-
-
                 </div>
             </div>
         </form>

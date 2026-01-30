@@ -8,7 +8,7 @@ interface FileUploadInterface {
   status: 'pending' | 'uploading' | 'success' | 'error';
   preview?: string;
   error?: string;
-  isVideo?: boolean; // ✅ NOUVEAU
+  isVideo?: boolean;
 }
 
 @Component({

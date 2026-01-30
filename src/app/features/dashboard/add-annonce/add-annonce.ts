@@ -1,4 +1,4 @@
-import { Component, signal, inject, computed, OnInit, effect, ViewChild } from '@angular/core';
+import { Component, signal, inject, computed, OnInit, effect, ViewChild, ElementRef } from '@angular/core';
 import { RichTextEditor } from '../../../shared/components/rich-text-editor/rich-text-editor';
 // import { Flatpickr } from '../../../shared/directives/flatpickr';
 // import { DatePipe } from '@angular/common';
@@ -16,7 +16,7 @@ import Swal from 'sweetalert2';
 import { minFilesValidator } from '../../../shared/validators/min-files.validator';
 import { LoadingPageSpinner } from '../../../shared/components/loading-page-spinner/loading-page-spinner';
 import { ToastService } from '../../../shared/components/toast/toast.service';
-
+import { Router } from '@angular/router';
 
 interface Commune {
   value: string;
@@ -39,21 +39,26 @@ const TYPE_DEFAULTS: Record<string, { chambres: number; salons: number }> = {
 })
 export class AddAnnonce implements OnInit {
   @ViewChild('fileUpload') fileUpload!: FileUpload;
+  @ViewChild('errorNotification') errorNotification!: ElementRef;
   
   private readonly authService = inject(AuthService);
   private readonly annonceService = inject(AnnonceService);
   private fb = inject(FormBuilder);
   private toastService  = inject(ToastService);
+  private router = inject(Router);
 
   currentStep = signal(0);
   isSubmitting = signal(false);
+  errorChecking = signal(false);
   currentYear = new Date().getFullYear();
   currentUser = this.authService.currentUser;
   public uploadedFiles = signal<File[]>([]);
   public errorMessage = signal('');
-  
   isLoading = signal(true);
+  isReadonly = signal(false);
+  actual_communes = signal<Commune[]>([]);
 
+  liste_communes_par_ville = VILLES_QUARTIERS
   liste_villes = [
     { value: 'abidjan', label: 'Abidjan' },
     { value: 'yamoussoukro', label: 'Yamoussoukro' },
@@ -105,8 +110,6 @@ export class AddAnnonce implements OnInit {
     { value: 'jacqueville', label: 'Jacqueville' }
   ];
 
-  actual_communes = signal<Commune[]>([]);
-  liste_communes_par_ville = VILLES_QUARTIERS
   userCurrent = computed(() => {
     const user = this.currentUser();
     return user
@@ -192,12 +195,11 @@ export class AddAnnonce implements OnInit {
 
   // Soumission form
   onSubmitForm(): void {
+    this.errorChecking.set(true);
 
-    this.toastService.success('Opération réussie !');
-
-    
     if (this.bienForm.valid) {
-
+      this.errorChecking.set(false);
+      
       Swal.fire({
         title: 'Confirmer la publication ?',
         text: 'Votre annonce sera visible par tous les utilisateurs',
@@ -209,16 +211,18 @@ export class AddAnnonce implements OnInit {
         cancelButtonText: 'Annuler'
       }).then((result) => {
         if (result.isConfirmed) {
-          this.isSubmitting.set(true);
           this.errorMessage.set('');
+          this.isSubmitting.set(true);
           
           this.annonceService.addAnnonce(this.bienForm.value).subscribe({
             next: (response) => {
+              // console.log('✅ Annonce réussie:', response);
               this.isSubmitting.set(false);
-              console.log('✅ Annonce réussie:', response);
+              this.toastService.success('Votre annonce a été publiée avec succès !', 5000);
+              this.router.navigate(['/tableau-de-bord/mes-publications']);
             },
             error: (error) => {
-              console.error('Erreur annonce:', error);
+              // console.error('Erreur annonce:', error);
               this.isSubmitting.set(false);
               this.errorMessage.set(
                 error.error?.message || 'Une erreur est survenue lors de la création'
@@ -231,7 +235,8 @@ export class AddAnnonce implements OnInit {
       });
 
     } else {
-      this.markFormGroupTouched(this.bienForm);      
+      this.markFormGroupTouched(this.bienForm);     
+      setTimeout(() => { this.scrollToError() }, 10);
     }
   }
 
@@ -314,8 +319,10 @@ export class AddAnnonce implements OnInit {
 
         if (isStudio) {
           ctrl.setValue(studioDefaults[field], { emitEvent: false });
-          ctrl.disable({ emitEvent: false });                         
+          // ctrl.disable({ emitEvent: false });
+          this.isReadonly.set(true);                         
         } else {
+          this.isReadonly.set(false);
           ctrl.enable({ emitEvent: false });                          
         }
       });
@@ -427,6 +434,15 @@ export class AddAnnonce implements OnInit {
   
   isFormValid(): boolean {
     return this.bienForm.valid && (this.fileUpload ? this.fileUpload.isValid() : true);
+  }
+
+  scrollToError() {
+    if (this.errorNotification) {
+      this.errorNotification.nativeElement.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center'
+      });
+    }
   }
 
   
